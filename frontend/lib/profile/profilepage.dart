@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/profile/cover.dart';
-import 'package:flutter_app/profile/section-control/sectionControl.dart';
+import 'package:outlook/profile/cover.dart';
+import 'package:outlook/profile/section-control/sectionControl.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}): super(key: key);
@@ -23,10 +23,12 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Color(0),
         ),
         body: Column(
-          children: <Widget>[
-            Cover(name: 'Clayton Chu', username: 'clayton'),
-            SectionControl()
-          ]
+            children: <Widget>[
+              Cover(name: 'Clayton Chu', username: 'clayton'),
+              Flexible(
+                child: SectionControl()
+              )
+            ]
         )
     );
   }

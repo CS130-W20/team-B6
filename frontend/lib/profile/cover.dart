@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Cover extends StatefulWidget {
   Cover({Key key, this.name, this.username}): super(key: key);
@@ -18,7 +19,7 @@ class _CoverState extends State<Cover> {
       width: MediaQuery.of(context).size.width,
       color: Color.fromRGBO(0, 0, 0, 0.2),
       constraints: BoxConstraints(
-        maxHeight: 250
+        maxHeight: min(MediaQuery.of(context).size.height / 3, 200)
       ),
       child: Center(
         child: Column(
@@ -38,14 +39,15 @@ class ProfilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-          maxHeight: 150,
-          maxWidth: 150
+          maxHeight: 100,
+          maxWidth: 100
       ),
       decoration: BoxDecoration(
           border: Border.all(
               color: Colors.white,
               width: 5
           ),
+          borderRadius: BorderRadius.all(Radius.circular(100)),
           color: Colors.white,
           image:  DecorationImage(
               image: AssetImage('assets/defaultprofilepic.jpg')
@@ -70,7 +72,7 @@ class ProfileName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: 10),
         child: Column(
           children: <Widget>[
             Text(name, style: TextStyle(
@@ -78,12 +80,13 @@ class ProfileName extends StatelessWidget {
               color: Colors.white,
             )),
             Padding(
-              padding: EdgeInsets.only(top: 5),
+              padding: EdgeInsets.only(top: 2),
               child: Text('@'+username, style: TextStyle(
                 fontSize: 14,
                 color: Colors.white,
               ))
-            )
+            ),
+            Container()
           ],
         )
     );
