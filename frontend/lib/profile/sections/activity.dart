@@ -4,7 +4,7 @@ class ActivitySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(0, 0, 0, 0.02),
+      color: Color.fromRGBO(0, 0, 0, 0.01),
       child: ListView(
           children: <Widget>[
             Comment(
@@ -60,7 +60,7 @@ class _CommentState extends State<Comment> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 5, bottom: 5),
+      padding: EdgeInsets.only(bottom: 10),
         child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -79,7 +79,7 @@ class _CommentState extends State<Comment> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5),
+                        padding: EdgeInsets.only(bottom: 0),
                         child: Text(widget.articleName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       ),
                       Padding(

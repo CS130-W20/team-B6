@@ -47,17 +47,26 @@ class FollowingProfileIcon extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 7),
+          padding: EdgeInsets.only(top: 10, bottom: 7),
           child: Container(
             width: picLen.toDouble() - 10,
             height: picLen.toDouble() - 10,
             decoration: BoxDecoration(
                 image: DecorationImage(image: AssetImage('assets/defaultprofilepic.jpg')),
-                borderRadius: BorderRadius.all(Radius.circular(100))
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 3,
+                      color: Color.fromRGBO(0, 0, 0, 0.1)
+                  )
+                ]
             ),
           )
         ),
-        Text(name, overflow: TextOverflow.ellipsis)
+        Text(name,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12)
+        )
       ],
     );
   }

@@ -17,9 +17,9 @@ class _CoverState extends State<Cover> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Color.fromRGBO(0, 0, 0, 0.2),
+      color: Colors.white,
       constraints: BoxConstraints(
-        maxHeight: min(MediaQuery.of(context).size.height / 3, 200)
+        maxHeight: min(MediaQuery.of(context).size.height / 3, 250)
       ),
       child: Center(
         child: Column(
@@ -39,23 +39,18 @@ class ProfilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-          maxHeight: 100,
-          maxWidth: 100
+          maxHeight: 120,
+          maxWidth: 120
       ),
       decoration: BoxDecoration(
-          border: Border.all(
-              color: Colors.white,
-              width: 5
-          ),
           borderRadius: BorderRadius.all(Radius.circular(100)),
-          color: Colors.white,
           image:  DecorationImage(
               image: AssetImage('assets/defaultprofilepic.jpg')
           ),
           boxShadow: [
             BoxShadow(
-                color: Colors.black,
-                blurRadius: 20
+                color: Color.fromRGBO(0, 0, 0, 0.2),
+                blurRadius: 8
             )
           ]
       ),
@@ -72,21 +67,18 @@ class ProfileName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 5),
         child: Column(
           children: <Widget>[
             Text(name, style: TextStyle(
               fontSize: 20,
-              color: Colors.white,
+              color: Colors.black,
+              fontWeight: FontWeight.w800
             )),
-            Padding(
-              padding: EdgeInsets.only(top: 2),
-              child: Text('@'+username, style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ))
-            ),
-            Container()
+            Text('@'+username, style: TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+            ))
           ],
         )
     );

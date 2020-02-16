@@ -19,8 +19,17 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: Text(widget.name),
-          backgroundColor: Color(0),
+          title: Text(widget.name,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold
+              )
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
         ),
         body: Column(
             children: <Widget>[
