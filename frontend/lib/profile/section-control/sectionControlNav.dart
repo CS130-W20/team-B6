@@ -56,10 +56,10 @@ class SectionControlButton extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 3,
             height: 40,
             decoration: BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
+                color: Color.fromRGBO(0, 0, 0, 0.05),
                 border: Border(
                   left: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 1),
-                  bottom: BorderSide(color: Color.fromRGBO(0, 0, 0, currentPage == pageIndex ? 0.15 : 0), width: 3)
+                  bottom: BorderSide(color: Color.fromRGBO(92, 179, 250, currentPage == pageIndex ? 0.5 : 0), width: 3)
                 )
             ),
             child: Center(
