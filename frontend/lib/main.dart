@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/profile/profilepage.dart';
+import 'package:outlook/profile/profilepage.dart';
 
 void main() => runApp(MyApp());
 
