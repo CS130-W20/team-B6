@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:outlook/profile/profilepage.dart';
+import 'package:outlook/profile/profile_page.dart';
+import 'package:provider/provider.dart';
+import 'package:outlook/user_state.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => UserState())
+    ],
+    child: MyApp()
+  )
+);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/profile/sections/activity.dart';
 import 'package:outlook/profile/sections/following.dart';
-import 'package:outlook/profile/section-control/sectionControlNav.dart';
+import 'package:outlook/profile/section-control/section_control_nav.dart';
 import 'package:outlook/profile/sections/about.dart';
 
 PageController _controller = PageController(initialPage: 0);
@@ -26,21 +26,6 @@ class _SectionControlState extends State<SectionControl> {
 
   @override
   Widget build(BuildContext context) {
-    Widget section;
-    switch (currentPage) {
-      case 0:
-        section = ActivitySection();
-        break;
-      case 1:
-        section = FollowingSection();
-        break;
-      case 2:
-        section = AboutSection(description: 'hello this is my description and it spans multiple rows just trying it out right now');
-        break;
-      default:
-        section = Text('No information available.');
-    }
-
     return Column(
       children: <Widget>[
         SectionControlNav(changeSection: _changeSection, currentPage: currentPage),
