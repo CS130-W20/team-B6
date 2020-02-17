@@ -4,7 +4,7 @@ class SectionControlNav extends StatelessWidget {
   SectionControlNav({Key key, this.changeSection, this.currentPage}): super(key: key);
 
   final Function changeSection;
-  int currentPage;
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class SectionControlButton extends StatelessWidget {
 
   final Function changeSection;
   final String name;
-  int currentPage;
+  final int currentPage;
   final int pageIndex;
 
   @override
