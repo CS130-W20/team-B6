@@ -20,16 +20,22 @@ class EditProfileForm extends StatelessWidget {
                     key: _fbKey,
                     autovalidate: true,
                     initialValue: {
-                      'name': userState.name,
+                      'firstname': userState.firstname,
+                      'lastname': userState.lastname,
                       'email': userState.email,
                       'description': userState.description
                     },
                     child: Column(
                         children: <Widget>[
                           FormBuilderTextField(
-                            attribute: 'name',
+                            attribute: 'firstname',
                             validators: [FormBuilderValidators.required()],
-                            decoration: InputDecoration(labelText: 'Name'),
+                            decoration: InputDecoration(labelText: 'First Name'),
+                          ),
+                          FormBuilderTextField(
+                            attribute: 'lastname',
+                            validators: [FormBuilderValidators.required()],
+                            decoration: InputDecoration(labelText: 'Last Name'),
                           ),
                           FormBuilderTextField(
                             attribute: 'email',
@@ -77,9 +83,14 @@ class EditProfileForm extends StatelessWidget {
                                       Navigator.pop(context);
                                       _fbKey.currentState.value.forEach((key, val) {
                                         switch(key) {
-                                          case 'name':
-                                            if (userState.name != val) {
-                                              userState.setName(val);
+                                          case 'firstname':
+                                            if (userState.firstname != val) {
+                                              userState.setFirstName(val);
+                                            }
+                                            break;
+                                          case 'lastname':
+                                            if (userState.lastname != val) {
+                                              userState.setLastName(val);
                                             }
                                             break;
                                           case 'email':

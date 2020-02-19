@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class UserState extends ChangeNotifier {
-  UserState({this.name, this.username, this.email, this.id, this.description});
+  UserState({this.firstname, this.lastname, this.username, this.email, this.id, this.description});
 
   int id = 0;
-  String name = "";
+  String firstname = "";
+  String lastname = "";
   String username = "";
   String email = "";
   String description = "";
@@ -14,8 +15,13 @@ class UserState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setName(String name) {
-    this.name = name;
+  void setFirstName(String firstname) {
+    this.firstname = firstname;
+    notifyListeners();
+  }
+
+  void setLastName(String lastname) {
+    this.lastname = lastname;
     notifyListeners();
   }
 
@@ -32,7 +38,8 @@ class UserState extends ChangeNotifier {
   factory UserState.fromJson(Map<String, dynamic> json) {
     return UserState(
       id: json['pk'],
-      name: "${json['fields']['first_name']} ${json['fields']['last_name']}",
+      firstname: json['fields']['first_name'],
+        lastname: json['fields']['last_name'],
       username: json['fields']['user_name'],
       email: json['fields']['email_address'],
       description: json['fields']['description']

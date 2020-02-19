@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class Cover extends StatefulWidget {
-  Cover({Key key, this.name, this.username}): super(key: key);
+  Cover({Key key, this.firstname, this.lastname, this.username}): super(key: key);
 
-  final String name;
+  final String firstname;
+  final String lastname;
   final String username;
 
   @override
@@ -26,7 +27,7 @@ class _CoverState extends State<Cover> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ProfilePicture(),
-            ProfileName(name: widget.name, username: widget.username)
+            ProfileName(name: "${widget.firstname} ${widget.lastname}", username: widget.username)
           ]
         )
       )
