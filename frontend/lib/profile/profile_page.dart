@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, userState, child) {
         return Column(
             children: <Widget>[
-              Cover(name: userState.name, username: userState.username),
+              Cover(firstname: userState.firstname, lastname: userState.lastname, username: userState.username),
               Flexible(
                   child: SectionControl()
               )

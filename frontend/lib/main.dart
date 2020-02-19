@@ -30,7 +30,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   }
 
   void fetchUser() async {
-    final userDataResponse = await http.get('BACKEND API URL HERE');
+    final userDataResponse = await http.get('http://7e7cbecb.ngrok.io/users/1');
     if (userDataResponse.statusCode == 200) {
        setState(() {
          userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);

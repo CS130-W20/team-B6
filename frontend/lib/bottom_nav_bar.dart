@@ -42,7 +42,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.account_circle),
-                        title: Text(userState.name)
+                        title: Text(userState.firstname)
                     ),
                   ]
               );
