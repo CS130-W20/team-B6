@@ -21,7 +21,8 @@ class EditProfileForm extends StatelessWidget {
                     autovalidate: true,
                     initialValue: {
                       'name': userState.name,
-                      'email': userState.email
+                      'email': userState.email,
+                      'description': userState.description
                     },
                     child: Column(
                         children: <Widget>[
@@ -38,6 +39,11 @@ class EditProfileForm extends StatelessWidget {
                             ],
                             decoration: InputDecoration(labelText: 'Email'),
                             keyboardType: TextInputType.emailAddress,
+                          ),
+                          FormBuilderTextField(
+                            attribute: 'description',
+                            validators: [],
+                            decoration: InputDecoration(labelText: 'About Me'),
                           ),
                         ]
                     )
@@ -79,6 +85,11 @@ class EditProfileForm extends StatelessWidget {
                                           case 'email':
                                             if (userState.email != val) {
                                               userState.setEmail(val);
+                                            }
+                                            break;
+                                          case 'description':
+                                            if (userState.description != val) {
+                                              userState.setDescription(val);
                                             }
                                             break;
                                         }

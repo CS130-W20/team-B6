@@ -294,7 +294,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   void closeNewsStory() {
     Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyApp()),
+              MaterialPageRoute(builder: (context) => Outlook()),
             );
   }
 
