@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:outlook/profile/profile_page.dart';
 import 'package:provider/provider.dart';
@@ -5,27 +7,86 @@ import 'package:outlook/user_state.dart';
 import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
-void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => UserState()),
-      ChangeNotifierProvider(create: (context) => PageState())
-    ],
-    child: MyApp()
-  )
-);
+import 'package:http/http.dart' as http;
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+void main() => runApp(Outlook());
+
+class Outlook extends StatefulWidget {
+
+  _OutlookState createState() => _OutlookState();
+}
+
+class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
+
+  bool loaded = false;
+  bool animationStart = false;
+  UserState userState;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  void fetchUser() async {
+    final userDataResponse = await http.get('BACKEND API URL HERE');
+    if (userDataResponse.statusCode == 200) {
+       setState(() {
+         userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
+         loaded = true;
+       });
+       Future.delayed(Duration(milliseconds: 500), () {
+         setState(() {
+           animationStart = true;
+         });
+       });
+    } else {
+      userState = null;
+    }
+  }
+  
+  Widget wrapMaterialApp(Widget widget) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Outlook',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Martel'
       ),
-      home: MainLayout(),
+      home: widget
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget widget = wrapMaterialApp(
+        Scaffold(
+            body: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Outlook', style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900)),
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    )
+                  ],
+                )
+            )
+        )
+    );
+
+    if (loaded) {
+      widget = MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => userState),
+            ChangeNotifierProvider(create: (context) => PageState())
+          ],
+          child: wrapMaterialApp(MainLayout())
+      );
+    }
+
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 750),
+      child: widget
     );
   }
 }
