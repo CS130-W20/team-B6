@@ -5,6 +5,8 @@ import 'package:outlook/user_state.dart';
 import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
+import 'story_main.dart';
+
 void main() => runApp(
   MultiProvider(
     providers: [
@@ -37,9 +39,16 @@ class MainLayout extends StatelessWidget {
   PageResources createPageResources(BuildContext context, int pageIndex) {
     switch (pageIndex) {
       case 0:
-        return PageResources(name: 'Discover', widget: Text('Discover'));
+        return PageResources(
+          name: 'Discover', 
+          widget: Text('Discover')
+          );
       case 1:
-        return PageResources(name: 'Outlook', widget: Text('Home'));
+        return PageResources(
+          name: 'Outlook', 
+          widget: Text('Home'),
+          actions: getNewsStory(context)
+          );
       case 2:
         return PageResources(
             name: 'Your Profile',
