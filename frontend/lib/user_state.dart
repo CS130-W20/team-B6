@@ -24,6 +24,11 @@ class UserState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setDescription(String description) {
+    this.description = description;
+    notifyListeners();
+  }
+
   factory UserState.fromJson(Map<String, dynamic> json) {
     return UserState(
       id: json['pk'],
