@@ -26,20 +26,20 @@ class FeedList extends StatelessWidget {
                         children: <Widget>[
                           new Container(
                             height: 40.0,
-                            width: 40.0,
+                            width: 60.0,
                             decoration: new BoxDecoration(
-                              shape: BoxShape.circle,
+                              shape: BoxShape.rectangle,
                               image: new DecorationImage(
                                   fit: BoxFit.fill,
                                   image: new NetworkImage(
-                                      "https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/11257829_1239118192784577_7927375639577764068_o.jpg?_nc_cat=108&_nc_ohc=MR1JXlt6XkQAX-raO_0&_nc_ht=scontent-lax3-1.xx&oh=4cc1a9d9ae525f347f1b2db04f60bcb4&oe=5EF5E6EE")),
+                                      "https://www.logodesignlove.com/wp-content/uploads/2010/06/cnn-logo-white-on-red.jpg")),
                             ),
                           ),
                           new SizedBox(
                             width: 10.0,
                           ),
                           new Text(
-                            "Shash Goel",
+                            "February 20, 2020",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
                         ],
