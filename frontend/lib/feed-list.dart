@@ -39,7 +39,7 @@ class FeedList extends StatelessWidget {
                             width: 10.0,
                           ),
                           new Text(
-                            "imthpk",
+                            "Shash Goel",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
                         ],
@@ -107,7 +107,7 @@ class FeedList extends StatelessWidget {
                         child: new TextField(
                           decoration: new InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Add a comment...",
+                            hintText: "Start Debating...",
                           ),
                         ),
                       ),
