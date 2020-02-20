@@ -30,10 +30,10 @@ class FeedStories extends StatelessWidget {
                 width: 60.0,
                 height: 60.0,
                 decoration: new BoxDecoration(
-                  shape: BoxShape.rectangle,
+                  shape: BoxShape.circle,
                   image: new DecorationImage(
                       fit: BoxFit.fill,
-                      image: new NetworkImage("https://pbs.twimg.com/profile_images/916384996092448768/PF1TSFOE_400x400.jpg")
+                      image: new NetworkImage("https://yt3.ggpht.com/a/AGF-l7-wuYtDksmLBwlT5PE9LdMlKt0X2762ynpXLg=s900-c-k-c0xffffffff-no-rj-mo")
                   )
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
