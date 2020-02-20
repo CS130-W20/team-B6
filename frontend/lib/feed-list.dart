@@ -1,16 +1,126 @@
 import 'package:flutter/material.dart';
-import 'package:outlook/feed-stories.dart';
+import 'package:outlook/feed-stories.dart' show FeedStories;
 
 class FeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var sizeOfDevice = MediaQuery.of(context).size;
-    return new ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) => index == 0 ? new SizedBox(
-          child: new FeedStories(),
-          height: sizeOfDevice.height * 0.14,
-        ) : Column(),
+    var deviceSize = MediaQuery.of(context).size;
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) => index == 0
+          ? new SizedBox(
+              child: new FeedStories(),
+              height: deviceSize.height * 0.15,
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          new Container(
+                            height: 40.0,
+                            width: 40.0,
+                            decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: new NetworkImage(
+                                      "https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/11257829_1239118192784577_7927375639577764068_o.jpg?_nc_cat=108&_nc_ohc=MR1JXlt6XkQAX-raO_0&_nc_ht=scontent-lax3-1.xx&oh=4cc1a9d9ae525f347f1b2db04f60bcb4&oe=5EF5E6EE")),
+                            ),
+                          ),
+                          new SizedBox(
+                            width: 10.0,
+                          ),
+                          new Text(
+                            "imthpk",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      new IconButton(
+                        icon: Icon(Icons.more_vert),
+                        onPressed: null,
+                      )
+                    ],
+                  ),
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: new Image.network(
+                    "https://cdn.cnn.com/cnnnext/dam/assets/200219225100-07-msnbc-dem-debate-0219-buttigieg-klobuchar-large-tease.jpgr",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new SizedBox(
+                            width: 16.0,
+                          ),
+                          new Icon(Icons.arrow_upward),
+                        ],
+                      ),
+                      new Icon(Icons.announcement)
+                    
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    "Liked by Samar Seth and others",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      new Container(
+                        height: 40.0,
+                        width: 40.0,
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image: new NetworkImage(
+                                  "https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/17854841_1604698002893259_1016495646377963278_o.jpg?_nc_cat=102&_nc_ohc=V-7pYJlLOFcAX8qB2sf&_nc_ht=scontent-lax3-1.xx&oh=b212b6699f6659ae01d32eba87e1e1c7&oe=5EF53710")),
+                        ),
+                      ),
+                      new SizedBox(
+                        width: 10.0,
+                      ),
+                      Expanded(
+                        child: new TextField(
+                          decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Add a comment...",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child:
+                      Text("1 Week Ago", style: TextStyle(color: Colors.grey)),
+                )
+              ],
+            ),
     );
   }
 }

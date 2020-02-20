@@ -6,7 +6,7 @@ class FeedStories extends StatelessWidget {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: <Widget> [
       Text(
-        "Stories",
+        "Latest News",
         style: new TextStyle(fontWeight: FontWeight.bold),
       ),
       new Row(
