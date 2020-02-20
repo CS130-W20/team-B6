@@ -18,27 +18,30 @@ class FeedStories extends StatelessWidget {
     ]
   );
   final stories = Expanded (
-    child: new ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: 5,
-      itemBuilder: (context, index)=> new Stack(
-          alignment: Alignment.bottomRight,
-          children: <Widget>[
-            new Container(
-              width: 60.0,
-              height: 60.0,
-              decoration: new BoxDecoration(
-                shape: BoxShape.rectangle,
-                image: new DecorationImage(
-                    fit: BoxFit.fill,
-                    image: new NetworkImage("https://pbs.twimg.com/profile_images/916384996092448768/PF1TSFOE_400x400.jpg")
-                )
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            )
-          ],
+    child: new Padding(
+      padding: const EdgeInsets.only(top:8.0),
+      child: new ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 5,
+        itemBuilder: (context, index)=> new Stack(
+            alignment: Alignment.bottomRight,
+            children: <Widget>[
+              new Container(
+                width: 60.0,
+                height: 60.0,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  image: new DecorationImage(
+                      fit: BoxFit.fill,
+                      image: new NetworkImage("https://pbs.twimg.com/profile_images/916384996092448768/PF1TSFOE_400x400.jpg")
+                  )
+                ),
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              )
+            ],
+        ),
       ),
-    ) ,
+    )
   );
   @override
   Widget build(BuildContext context) {
@@ -49,8 +52,8 @@ class FeedStories extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          stories,
           topText,
+          stories,
         ],
       )
       
