@@ -5,6 +5,7 @@ import 'package:outlook/user_state.dart';
 import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
+import 'package:outlook/temp-stories.dart';
 import 'story_main.dart';
 
 void main() => runApp(
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Martel'
@@ -46,7 +48,7 @@ class MainLayout extends StatelessWidget {
       case 1:
         return PageResources(
           name: 'Outlook', 
-          widget: Text('Home'),
+          widget: AppHome(),
           actions: getNewsStory(context)
           );
       case 2:
