@@ -18,5 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('backend.urls')),
+    # Add admin docs.
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
 ]
