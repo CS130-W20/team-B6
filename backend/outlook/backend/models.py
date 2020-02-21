@@ -33,3 +33,24 @@ class User(models.Model):
         rep += 'description: ' + str(self.description) + '\n'
         rep += 'profile_picture_url: ' + str(self.profile_picture_url) + '\n'
         return rep
+
+class Article(models.Model):
+    source_name = models.CharField(max_length=20)
+    # author length should be more because sometimes
+    # it includes the source name as well.
+    author = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    article_url = models.URLField(unique=True)
+    article_image_url = models.URLField()
+    publish_date = models.DateTimeField()
+
+    def __str__(self):
+        rep = ''
+        rep += 'id: ' + str(self.id) + '\n'
+        rep += 'source_name: ' + str(self.source_name) + '\n'
+        rep += 'author: ' + str(self.author) + '\n'
+        rep += 'title: ' + str(self.title) + '\n'
+        rep += 'article_url: ' + str(self.article_url) + '\n'
+        rep += 'article_image_url: ' + str(self.article_image_url) + '\n'
+        rep += 'publish_date: ' + str(self.publish_date) + '\n'
+        return rep

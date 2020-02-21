@@ -17,7 +17,11 @@ def retrieve_top_articles():
     return data["articles"]
 
 def save_article_data(article):
-    article["source"] = article["source"]["name"]
+    # Check if article already exists in the DB.
+    # Primary key should be the article URL.
+
+    # If article does not already exist, save it now.
+    article["source_name"] = article["source"]["name"]
     # save article data here
     return 1
 
