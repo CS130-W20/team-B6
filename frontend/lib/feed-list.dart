@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:outlook/comment.dart';
 import 'package:outlook/feed-stories.dart' show FeedStories;
 
 class FeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var deviceSize = MediaQuery.of(context).size;
+    Comment comment = Comment(
+      "Elections are all just made up.",
+      "Politics has just stoppped happening, there's no more politics.",
+        NetworkImage(
+            "https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/17854841_1604698002893259_1016495646377963278_o.jpg?_nc_cat=102&_nc_ohc=V-7pYJlLOFcAX8qB2sf&_nc_ht=scontent-lax3-1.xx&oh=b212b6699f6659ae01d32eba87e1e1c7&oe=5EF53710"),
+      "NoPoliticsGuy"
+    );
     return ListView.builder(
       itemCount: 5,
       itemBuilder: (context, index) => index == 0
@@ -86,6 +94,10 @@ class FeedList extends StatelessWidget {
                     "Upvoted by Samar Seth and 3,642,092 others",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
+                  child: comment.commentPreview(context)
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
