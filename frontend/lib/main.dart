@@ -31,7 +31,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   }
 
   void fetchUser() async {
-    final userDataResponse = await http.get('https://2f283211.ngrok.io/users/212');
+    final userDataResponse = await http.get('http://f53890cf.ngrok.io/users/212'); // BACKEND API URL HERE
     if (userDataResponse.statusCode == 200) {
        setState(() {
          userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
@@ -111,7 +111,8 @@ class MainLayout extends StatelessWidget {
                 "https://www.businessinsider.com/wuhan-coronavirus-mild-pandemic-how-it-could-end-2020-2",
                 NetworkImage(
                     "https://i.insider.com/5e3b296be35bab4f171e181b"),
-                "summary"),
+                "There's a good chance the Wuhan coronavirus will never disappear, experts say. There are only 3 possible endings to this story.",
+                "Are countries doing enough to control the coronavirus?"),
             actions: getNewsStory(context)
         );
       case 2:
