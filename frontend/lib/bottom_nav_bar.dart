@@ -5,6 +5,8 @@ import 'package:outlook/user_state.dart';
 import 'package:outlook/profile/profile_page.dart';
 import 'package:outlook/page_state.dart';
 
+/// Handles the bottom navigation bar present across most pages.
+/// Contains Discover, News Feed, and Profile tabs.
 class BottomNavBar extends StatefulWidget {
   BottomNavBar({Key key}): super(key: key);
 
@@ -42,7 +44,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.account_circle),
-                        title: Text(userState.name)
+                        title: Text(userState.firstname)
                     ),
                   ]
               );

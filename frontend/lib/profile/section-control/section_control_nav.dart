@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// The widget responsible for the Activity/Following/About tabs on the profile page.
 class SectionControlNav extends StatelessWidget {
   SectionControlNav({Key key, this.changeSection, this.currentPage}): super(key: key);
 
@@ -32,6 +33,7 @@ class SectionControlNav extends StatelessWidget {
   }
 }
 
+/// A generic configuration for creating a tab in the profile page section control bar.
 class SectionControlButton extends StatelessWidget {
   SectionControlButton({
     Key key,

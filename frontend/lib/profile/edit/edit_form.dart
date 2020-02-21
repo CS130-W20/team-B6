@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
+/// The actual form layout for the user to edit their profile info.
 class EditProfileForm extends StatelessWidget {
 
   @override
@@ -20,15 +21,22 @@ class EditProfileForm extends StatelessWidget {
                     key: _fbKey,
                     autovalidate: true,
                     initialValue: {
-                      'name': userState.name,
-                      'email': userState.email
+                      'firstname': userState.firstname,
+                      'lastname': userState.lastname,
+                      'email': userState.email,
+                      'description': userState.description
                     },
                     child: Column(
                         children: <Widget>[
                           FormBuilderTextField(
-                            attribute: 'name',
+                            attribute: 'firstname',
                             validators: [FormBuilderValidators.required()],
-                            decoration: InputDecoration(labelText: 'Name'),
+                            decoration: InputDecoration(labelText: 'First Name'),
+                          ),
+                          FormBuilderTextField(
+                            attribute: 'lastname',
+                            validators: [FormBuilderValidators.required()],
+                            decoration: InputDecoration(labelText: 'Last Name'),
                           ),
                           FormBuilderTextField(
                             attribute: 'email',
@@ -38,6 +46,11 @@ class EditProfileForm extends StatelessWidget {
                             ],
                             decoration: InputDecoration(labelText: 'Email'),
                             keyboardType: TextInputType.emailAddress,
+                          ),
+                          FormBuilderTextField(
+                            attribute: 'description',
+                            validators: [],
+                            decoration: InputDecoration(labelText: 'About Me'),
                           ),
                         ]
                     )
@@ -71,14 +84,24 @@ class EditProfileForm extends StatelessWidget {
                                       Navigator.pop(context);
                                       _fbKey.currentState.value.forEach((key, val) {
                                         switch(key) {
-                                          case 'name':
-                                            if (userState.name != val) {
-                                              userState.setName(val);
+                                          case 'firstname':
+                                            if (userState.firstname != val) {
+                                              userState.setFirstName(val);
+                                            }
+                                            break;
+                                          case 'lastname':
+                                            if (userState.lastname != val) {
+                                              userState.setLastName(val);
                                             }
                                             break;
                                           case 'email':
                                             if (userState.email != val) {
                                               userState.setEmail(val);
+                                            }
+                                            break;
+                                          case 'description':
+                                            if (userState.description != val) {
+                                              userState.setDescription(val);
                                             }
                                             break;
                                         }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:outlook/profile/profile_page.dart';
 import 'package:provider/provider.dart';
@@ -5,37 +7,94 @@ import 'package:outlook/user_state.dart';
 import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
-import 'package:outlook/temp-stories.dart';
 import 'story_main.dart';
+import 'package:outlook/temp-stories.dart';
+import 'package:http/http.dart' as http;
 
-void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => UserState()),
-      ChangeNotifierProvider(create: (context) => PageState())
-    ],
-    child: MyApp()
-  )
-);
+void main() => runApp(Outlook());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+/// The root of the entire app. Encompasses the loading screen logic, initialization logic,
+/// and determines when it is appropriate to render the core of the app.
+class Outlook extends StatefulWidget {
+
+  _OutlookState createState() => _OutlookState();
+}
+
+class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
+
+  bool loaded = false;
+  UserState userState;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  /// Calls the backend for user specific user data like name, email, etc.
+  /// and passes into the global UserState for the entire application to use.
+  void fetchUser() async {
+    final userDataResponse = await http.get('BACKEND API URL HERE');
+    if (userDataResponse.statusCode == 200) {
+       setState(() {
+         userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
+         loaded = true;
+       });
+    } else {
+      userState = null;
+    }
+  }
+  
+  Widget wrapMaterialApp(Widget widget) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Outlook',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Martel'
       ),
-      home: MainLayout(),
+      home: widget
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget widget = wrapMaterialApp(
+        Scaffold(
+            body: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Outlook', style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900)),
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    )
+                  ],
+                )
+            )
+        )
+    );
+
+    if (loaded) {
+      widget = MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => userState),
+            ChangeNotifierProvider(create: (context) => PageState())
+          ],
+          child: wrapMaterialApp(MainLayout())
+      );
+    }
+
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 750),
+      child: widget
     );
   }
 }
 
 
-
+/// Contains the main part of the app, including discover, news feed, and profile page tabs.
+/// This appears after the user has properly logged in and initialization data like user data has been retrieved.
 class MainLayout extends StatelessWidget {
 
   PageResources createPageResources(BuildContext context, int pageIndex) {
