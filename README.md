@@ -1,5 +1,5 @@
 # Outlook
-“FAKE NEWS!” is an expression that has caught a lot of traction since the past year or two. This term was mostly popularized by social media platforms like Facebook and Instagram, which handles a huge portion of internet traffic in today’s time. Most of the news articles that we see are unsolicited rumors targeting certain groups of people, often maliciously. 
+“FAKE NEWS!” is an expression that has caught a lot of traction since the past year or two. This term was mostly popularized by social media platforms like Facebook and Instagram, which handle a huge portion of internet traffic in today’s time. Most of the news articles that we see are unsolicited rumors targeting certain groups of people, often maliciously. 
 
 The application is for all people as long as they have opinions! By allowing people from diverse backgrounds and age groups to enable discussions on verified articles, we believe this application would provide the right balance between social media and debating platforms. The application does not intend to better social media apps like Facebook or Instagram. On the other hand, it attempts to provide a dedicated platform for more scholastic discussions under a no-nonsense roof.
 
