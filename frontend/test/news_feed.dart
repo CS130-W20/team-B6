@@ -10,7 +10,7 @@ void main() {
     await tester.pumpWidget(Outlook());
     expect(find.text('Outlook'), findsOneWidget);
     // Verify the presence of FeedStories widget in the feed
-    expect(find.byWidget(FeedStories), findsOneWidget);
+    expect(find.byWidget(FeedStories()), findsOneWidget);
     //Verfiy the presence of the following icon, which is present in the newsfeed
     expect(find.byIcon(Icons.announcement), findsNothing);
     //Verfiy the presence of the following icon, which is present in the newsfeed
