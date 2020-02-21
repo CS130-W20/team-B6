@@ -7,6 +7,7 @@ import 'package:outlook/user_state.dart';
 import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
+import 'package:outlook/post.dart';
 import 'story_main.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,7 +31,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   }
 
   void fetchUser() async {
-    final userDataResponse = await http.get('BACKEND API URL HERE');
+    final userDataResponse = await http.get('https://2f283211.ngrok.io/users/212');
     if (userDataResponse.statusCode == 200) {
        setState(() {
          userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
@@ -100,15 +101,19 @@ class MainLayout extends StatelessWidget {
     switch (pageIndex) {
       case 0:
         return PageResources(
-          name: 'Discover', 
-          widget: Text('Discover')
-          );
+            name: 'Discover',
+            widget: Text('Discover')
+        );
       case 1:
         return PageResources(
-          name: 'Outlook', 
-          widget: Text('Home'),
-          actions: getNewsStory(context)
-          );
+            name: 'Outlook',
+            widget: Post(
+                "https://www.businessinsider.com/wuhan-coronavirus-mild-pandemic-how-it-could-end-2020-2",
+                NetworkImage(
+                    "https://i.insider.com/5e3b296be35bab4f171e181b"),
+                "summary"),
+            actions: getNewsStory(context)
+        );
       case 2:
         return PageResources(
             name: 'Your Profile',
