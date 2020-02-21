@@ -28,7 +28,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    fetchUser();
+//    fetchUser();
   }
 
   /// Calls the backend for user specific user data like name, email, etc.
@@ -75,10 +75,16 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
         )
     );
 
-    if (loaded) {
+    if (true) {
       widget = MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (context) => userState),
+            ChangeNotifierProvider(create: (context) => UserState(
+              firstname: 'Clayton',
+              lastname: 'Chu',
+              username: 'claytonc',
+              description: 'This is a cool description',
+              email: 'clayton@example.com'
+            )),
             ChangeNotifierProvider(create: (context) => PageState())
           ],
           child: wrapMaterialApp(MainLayout())
