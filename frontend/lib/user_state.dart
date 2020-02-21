@@ -10,31 +10,37 @@ class UserState extends ChangeNotifier {
   String email = "";
   String description = "";
 
+  /// If a different user logs in, the username is changed.
   void setUsername(String username) {
     this.username = username;
     notifyListeners();
   }
 
+  /// If a different user logs in or the user edits this, the first name is changed.
   void setFirstName(String firstname) {
     this.firstname = firstname;
     notifyListeners();
   }
 
+  /// If a different user logs in or the user edits this, the last name is changed.
   void setLastName(String lastname) {
     this.lastname = lastname;
     notifyListeners();
   }
 
+  /// If a different user logs in or the user edits this, the email is changed.
   void setEmail(String email) {
     this.email = email;
     notifyListeners();
   }
 
+  /// If a different user logs in or the user edits this, the user description is changed.
   void setDescription(String description) {
     this.description = description;
     notifyListeners();
   }
 
+  /// Automatically creates a user state from a JSON user object.
   factory UserState.fromJson(Map<String, dynamic> json) {
     return UserState(
       id: json['pk'],

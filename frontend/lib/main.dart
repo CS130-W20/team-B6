@@ -12,6 +12,8 @@ import 'package:http/http.dart' as http;
 
 void main() => runApp(Outlook());
 
+/// The root of the entire app. Encompasses the loading screen logic, initialization logic,
+/// and determines when it is appropriate to render the core of the app.
 class Outlook extends StatefulWidget {
 
   _OutlookState createState() => _OutlookState();
@@ -20,7 +22,6 @@ class Outlook extends StatefulWidget {
 class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 
   bool loaded = false;
-  bool animationStart = false;
   UserState userState;
 
   @override
@@ -29,17 +30,14 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     fetchUser();
   }
 
+  /// Calls the backend for user specific user data like name, email, etc.
+  /// and passes into the global UserState for the entire application to use.
   void fetchUser() async {
     final userDataResponse = await http.get('BACKEND API URL HERE');
     if (userDataResponse.statusCode == 200) {
        setState(() {
          userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
          loaded = true;
-       });
-       Future.delayed(Duration(milliseconds: 500), () {
-         setState(() {
-           animationStart = true;
-         });
        });
     } else {
       userState = null;
@@ -93,7 +91,8 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 }
 
 
-
+/// Contains the main part of the app, including discover, news feed, and profile page tabs.
+/// This appears after the user has properly logged in and initialization data like user data has been retrieved.
 class MainLayout extends StatelessWidget {
 
   PageResources createPageResources(BuildContext context, int pageIndex) {

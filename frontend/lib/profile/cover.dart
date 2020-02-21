@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+/// Renders the user's profile picture, name, username, and optionally, a cover photo.
 class Cover extends StatefulWidget {
   Cover({Key key, this.firstname, this.lastname, this.username}): super(key: key);
 

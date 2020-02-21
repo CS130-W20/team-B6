@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
+/// The actual form layout for the user to edit their profile info.
 class EditProfileForm extends StatelessWidget {
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outlook/user_state.dart';
 import 'package:provider/provider.dart';
 
+/// Displays whatever description the user has set on their profile. Calls UserState.
 class AboutSection extends StatelessWidget {
 
   @override

@@ -6,6 +6,8 @@ import 'package:outlook/profile/sections/about.dart';
 
 PageController _controller = PageController(initialPage: 0);
 
+/// The root for the more specific contents of the profile page.
+/// Controls whether the user's Activity, Following, or About section is displayed.
 class SectionControl extends StatefulWidget {
   SectionControl({Key key}): super(key: key);
 

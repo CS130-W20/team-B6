@@ -5,6 +5,7 @@ import 'package:outlook/profile/section-control/section_control.dart';
 import 'package:outlook/user_state.dart';
 import 'package:provider/provider.dart';
 
+/// The profile page has some options in its app bar, like an icon that leads to editing the profile page.
 List<Widget> getProfileActions(BuildContext context) {
   return <Widget>[
     IconButton(
@@ -16,6 +17,7 @@ List<Widget> getProfileActions(BuildContext context) {
   ];
 }
 
+/// Root of the profile page.
 class ProfilePage extends StatefulWidget {
 
   final String name = "Your Profile";
