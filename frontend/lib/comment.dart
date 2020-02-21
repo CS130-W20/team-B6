@@ -14,7 +14,18 @@ class Comment extends StatefulWidget {
 
   commentPreview(BuildContext context) => InkWell(
     onTap: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => this));
+      print("context: " + context.toString());
+      print(this.toString());
+      // TODO(Jeffrey): figure out how to get this material info directly rather than hard coding it.
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: 'Martel'
+        ),
+        home: Material(child: this),
+      )));
     },
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
