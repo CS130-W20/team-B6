@@ -1,8 +1,8 @@
 from django.db import models
 
-# Create your models here.
-
 class Post(models.Model):
+    """Post model to represent a post on a news feed."""
+
     creation_timestamp = models.DateTimeField()
     like_count = models.IntegerField(default=0)
     news_article_url = models.URLField()
@@ -16,6 +16,8 @@ class Post(models.Model):
         return rep
 
 class User(models.Model):
+    """User model to represent a single user of the app."""
+
     user_name = models.CharField(unique=True, max_length=20)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
@@ -35,6 +37,8 @@ class User(models.Model):
         return rep
 
 class Article(models.Model):
+    """Article model to represent a single news article."""
+
     source_name = models.CharField(max_length=20)
     # author length should be more because sometimes
     # it includes the source name as well.
