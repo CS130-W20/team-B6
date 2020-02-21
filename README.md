@@ -6,7 +6,7 @@ The application is for all people as long as they have opinions! By allowing peo
 ## Directory Structure
 The app's frontend and backend is split into their respective folders.
 ### Frontend
-The frontend runs on Dart/Flutter and is intended to be a cross-platform mobile application. The android and ios folders are mostly auto-generated (with some configuration), and the source code is found in the lib folder. Each page is then separated by a folder, and the entry point is `main.dart`.
+The frontend runs on Dart/Flutter and is intended to be a cross-platform mobile application. The android and ios folders are mostly auto-generated (with some configuration), and the source code is found in the lib folder. Each page is then separated by a folder, with a common entry point `main.dart`.
 ### Backend
 The backend runs on Python Django and a SQL database. The directory structure of the backend follows the typical Django structure, with the app's general settings found in the `outlook` folder. The more specific configurations like API endpoints, database querying, and database schema declaration are found in the `backend` folder.
 
