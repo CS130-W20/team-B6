@@ -18,6 +18,37 @@ enum IndicatorHeight { small, large }
 
 String urlnews = '';
 
+// class A {
+//   Future<String> getInt(stringtemp) {
+//     return Future.value(stringtemp);
+//   }
+// }
+
+class BrowserSwipeValidator {
+  static Future<String> validate(String value) async {
+    
+    if (await canLaunch(value)) {
+      await launch(value);
+      return 'url launched';
+    } else {
+      return 'Could not launch url';
+    }
+  
+  }
+}
+
+
+class HomePageValidator {
+  static String validate(context) {
+    Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp()),
+            );
+    return 'going back to home page';
+  
+  }
+}
+
 
 
 class StoryItem {
@@ -275,14 +306,14 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
     url = urlnews;
     print (url);
     
-
+    BrowserSwipeValidator.validate(url);
     // launch(url);
 
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    // if (await canLaunch(url)) {
+    //   await launch(url);
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
 
   }
 
@@ -292,10 +323,14 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   }
 
   void closeNewsStory() {
-    Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyApp()),
-            );
+    // Navigator.push(
+    //           context,
+    //           MaterialPageRoute(builder: (context) => MyApp()),
+    //         );
+    // return 'going back to home page';
+
+    HomePageValidator.validate(context);
+
   }
 
   void goBack() {
