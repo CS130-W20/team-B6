@@ -40,7 +40,10 @@ class FeedList extends StatelessWidget {
                           ),
                           new Text(
                             "February 20, 2020",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                            ),
                           )
                         ],
                       ),
@@ -80,7 +83,7 @@ class FeedList extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    "Liked by Samar Seth and others",
+                    "Upvoted by Samar Seth and 3,642,092 others",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

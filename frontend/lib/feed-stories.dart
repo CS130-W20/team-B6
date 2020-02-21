@@ -27,13 +27,14 @@ class FeedStories extends StatelessWidget {
             alignment: Alignment.bottomRight,
             children: <Widget>[
               new Container(
-                width: 60.0,
-                height: 60.0,
+                width: 70.0,
+                height: 200.0,
                 decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
+                  border: Border.all(width: 3.0,color: Colors.black),
+                  shape: BoxShape.rectangle,
                   image: new DecorationImage(
                       fit: BoxFit.fill,
-                      image: new NetworkImage("https://yt3.ggpht.com/a/AGF-l7-wuYtDksmLBwlT5PE9LdMlKt0X2762ynpXLg=s900-c-k-c0xffffffff-no-rj-mo")
+                      image: new NetworkImage("https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/082012/bbc_news.png?itok=wf2PsHXO")
                   )
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
