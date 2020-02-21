@@ -9,8 +9,7 @@ class FeedList extends StatelessWidget {
     Comment comment = Comment(
       "Elections are all just made up.",
       "Politics has just stoppped happening, there's no more politics.",
-        NetworkImage(
-            "https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/17854841_1604698002893259_1016495646377963278_o.jpg?_nc_cat=102&_nc_ohc=V-7pYJlLOFcAX8qB2sf&_nc_ht=scontent-lax3-1.xx&oh=b212b6699f6659ae01d32eba87e1e1c7&oe=5EF53710"),
+        AssetImage('assets/defaultprofilepic.jpg'),
       "NoPoliticsGuy"
     );
     return ListView.builder(
