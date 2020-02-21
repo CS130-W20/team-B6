@@ -8,6 +8,7 @@ import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
 import 'story_main.dart';
+import 'package:outlook/temp-stories.dart';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(Outlook());
@@ -47,6 +48,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   Widget wrapMaterialApp(Widget widget) {
     return MaterialApp(
       title: 'Outlook',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Martel'
@@ -111,7 +113,7 @@ class MainLayout extends StatelessWidget {
       case 1:
         return PageResources(
           name: 'Outlook', 
-          widget: Text('Home'),
+          widget: AppHome(),
           actions: getNewsStory(context)
           );
       case 2:
