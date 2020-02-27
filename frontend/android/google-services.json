@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "448604861097",
+    "firebase_url": "https://outlook-e8e79.firebaseio.com",
+    "project_id": "outlook-e8e79",
+    "storage_bucket": "outlook-e8e79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448604861097:android:b8c5dd4d8acdc1ee5f2fb8",
+        "android_client_info": {
+          "package_name": "com.package.outlook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448604861097-diud87hcs31a2rpe30bj38f6uim8ngmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc5eJa5u2t1OljMRbLlF5ygvmllhE2Dfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448604861097-diud87hcs31a2rpe30bj38f6uim8ngmj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "448604861097-ivm1kicnr1rggclg9dcubv4ir3e3g3a9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.package.outlook"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,24 +10,27 @@ import 'package:outlook/page_resources.dart';
 import 'story_main.dart';
 import 'package:outlook/temp-stories.dart';
 import 'package:http/http.dart' as http;
+import 'package:outlook/firebase_manager.dart';
 
 void main() => runApp(Outlook());
 
 /// The root of the entire app. Encompasses the loading screen logic, initialization logic,
 /// and determines when it is appropriate to render the core of the app.
 class Outlook extends StatefulWidget {
-
   _OutlookState createState() => _OutlookState();
 }
 
 class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 
-  bool loaded = false;
+  bool userDataLoaded = false;
   UserState userState;
+  bool profilePicLoaded = false;
+  String profilePicUrl;
 
   @override
   void initState() {
     super.initState();
+    initFirebase();
     fetchUser();
   }
 
@@ -36,15 +39,29 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   void fetchUser() async {
     final userDataResponse = await http.get('BACKEND API URL HERE');
     if (userDataResponse.statusCode == 200) {
+       UserState state = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
        setState(() {
-         userState = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
-         loaded = true;
+         userState = state;
+         userDataLoaded = true;
        });
+       getProfilePic(state.username);
     } else {
       userState = null;
     }
   }
-  
+
+  void initFirebase() async {
+    await FirebaseManager.getInstance(); // init firebase storage first
+  }
+
+  void getProfilePic(String username) async {
+    String url = await FirebaseManager.getProfilePicture(username);
+    setState(() {
+      profilePicLoaded = true;
+      profilePicUrl = url;
+    });
+  }
+
   Widget wrapMaterialApp(Widget widget) {
     return MaterialApp(
       title: 'Outlook',
@@ -75,7 +92,8 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
         )
     );
 
-    if (loaded) {
+    if (userDataLoaded && profilePicLoaded) {
+      userState.setProfilePic(profilePicUrl);
       widget = MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => userState),
@@ -86,8 +104,8 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     }
 
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 750),
-      child: widget
+        duration: Duration(milliseconds: 750),
+        child: widget
     );
   }
 }

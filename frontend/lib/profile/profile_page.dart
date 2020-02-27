@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outlook/firebase_manager.dart';
 import 'package:outlook/profile/cover.dart';
 import 'package:outlook/profile/edit_profile_page.dart';
 import 'package:outlook/profile/section-control/section_control.dart';
