@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -52,7 +53,7 @@ class ProfilePicture extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(100)),
               image:  DecorationImage(
-                  image: userState.profilepic.length > 0 ? NetworkImage(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
+                  image: userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
               ),
               boxShadow: [
                 BoxShadow(

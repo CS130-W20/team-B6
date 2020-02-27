@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 class FirebaseManager {
   static FirebaseStorage _storage = null;
 
-  static getInstance() async {
+  static initStorage() async {
     if (_storage == null) {
       final FirebaseApp app = await FirebaseApp.configure(
         name: 'Outlook',
@@ -21,7 +21,10 @@ class FirebaseManager {
       FirebaseManager._storage = FirebaseStorage(
           app: app, storageBucket: 'gs://outlook-e8e79.appspot.com/');
     }
-    return FirebaseManager._storage;
+  }
+
+  static FirebaseStorage getInstance() {
+    return _storage;
   }
 
   static Future<String> getProfilePicture(String username) async {

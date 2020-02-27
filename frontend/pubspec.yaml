@@ -25,6 +25,7 @@ dependencies:
   http:
   firebase_core:
   firebase_storage:
+  image_picker:
 
   cached_network_image: 2.0.0-rc
   video_player: ^0.10.2+3

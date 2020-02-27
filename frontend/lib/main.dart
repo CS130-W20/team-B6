@@ -51,7 +51,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   }
 
   void initFirebase() async {
-    await FirebaseManager.getInstance(); // init firebase storage first
+    await FirebaseManager.initStorage(); // init firebase storage first
   }
 
   void getProfilePic(String username) async {
