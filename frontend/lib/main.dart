@@ -37,7 +37,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   /// Calls the backend for user specific user data like name, email, etc.
   /// and passes into the global UserState for the entire application to use.
   void fetchUser() async {
-    final userDataResponse = await http.get('BACKEND API URL HERE');
+    final userDataResponse = await http.get('http://5405fdcd.ngrok.io/users/1');
     if (userDataResponse.statusCode == 200) {
        UserState state = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
        setState(() {
@@ -51,7 +51,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   }
 
   void initFirebase() async {
-    await FirebaseManager.getInstance(); // init firebase storage first
+    await FirebaseManager.initStorage(); // init firebase storage first
   }
 
   void getProfilePic(String username) async {
