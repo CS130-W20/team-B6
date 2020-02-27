@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:provider/provider.dart';
+import 'package:outlook/user_state.dart';
 
 /// Renders the user's profile picture, name, username, and optionally, a cover photo.
 class Cover extends StatefulWidget {
@@ -39,23 +42,27 @@ class _CoverState extends State<Cover> {
 class ProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-          maxHeight: 120,
-          maxWidth: 120
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-          image:  DecorationImage(
-              image: AssetImage('assets/defaultprofilepic.jpg')
+    return Consumer<UserState>(
+      builder: (context, userState, child) {
+        return Container(
+          constraints: BoxConstraints(
+              maxHeight: 120,
+              maxWidth: 120
           ),
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.2),
-                blurRadius: 8
-            )
-          ]
-      ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(100)),
+              image:  DecorationImage(
+                  image: userState.profilepic.length > 0 ? NetworkImage(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                    blurRadius: 8
+                )
+              ]
+          ),
+        );
+      }
     );
   }
 }

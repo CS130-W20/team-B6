@@ -9,6 +9,7 @@ class UserState extends ChangeNotifier {
   String username = "";
   String email = "";
   String description = "";
+  String profilepic = "";
 
   /// If a different user logs in, the username is changed.
   void setUsername(String username) {
@@ -37,6 +38,11 @@ class UserState extends ChangeNotifier {
   /// If a different user logs in or the user edits this, the user description is changed.
   void setDescription(String description) {
     this.description = description;
+    notifyListeners();
+  }
+
+  void setProfilePic(String url) {
+    this.profilepic = url;
     notifyListeners();
   }
 
