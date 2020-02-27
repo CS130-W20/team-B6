@@ -11,8 +11,8 @@ class FirebaseManager {
         name: 'Outlook',
         options: FirebaseOptions(
           googleAppID: Platform.isIOS
-              ? '1:448604861097:ios:66935a43aa371e5b5f2fb8'
-              : '1:448604861097:android:b8c5dd4d8acdc1ee5f2fb8',
+              ? '1:448604861097:ios:bbbc62621f025afe5f2fb8'
+              : '1:448604861097:android:58853d547b69d36b5f2fb8',
           gcmSenderID: '448604861097',
           apiKey: 'AIzaSyBAcu-7eYDwVX_9w7cKTClyvWRbdQ4oojI',
           projectID: 'outlook-e8e79',
