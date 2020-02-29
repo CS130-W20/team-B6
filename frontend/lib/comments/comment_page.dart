@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/comments/comment.dart';
 
 class CommentPage extends StatelessWidget {
@@ -23,7 +24,7 @@ class CommentPage extends StatelessWidget {
             color: Colors.black
         ),
       ),
-      body: comment.widget(),
+      body: comment.widget()
     );
   }
 }

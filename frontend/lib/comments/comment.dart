@@ -18,14 +18,16 @@ class Comment {
   final String argument;
   final ImageProvider commenterPic;
   final String commenterName;
+  List<Comment> agrees = List<Comment>();
+  List<Comment> dissents = List<Comment>();
 
   Comment(this.claim, this.argument, this.commenterPic, this.commenterName);
 
-  commentPreview() => CommentPreview(this);
+  Widget commentPreview() => CommentPreview(this);
 
-  widget() => CommentWidget(this);
+  Widget widget() => CommentWidget(this);
 
-  commentPage() => CommentPage(this);
+  Widget commentPage() => CommentPage(this);
 }
 
 class CommentPreview extends StatelessWidget {
@@ -74,6 +76,12 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   @override
   Widget build(BuildContext context) {
+    Column agreeList = Column(
+      children: widget.comment.agrees.map((c) => c.commentPreview()).toList()
+    );
+    Column dissentList = Column(
+        children: widget.comment.dissents.map((c) => c.commentPreview()).toList()
+    );
     return Container(
         color: Colors.white,
         child: Padding(
@@ -94,18 +102,41 @@ class _CommentWidgetState extends State<CommentWidget> {
                 SizedBox(width: 10),
                 Text(widget.comment.commenterName,
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
               ]),
               Text("Argument:", style: TextStyle(fontWeight: FontWeight.bold)),
               Text(widget.comment.argument, style: TextStyle(fontSize: 14)),
-              Row(children: [
-                Expanded(child: Column(children: [
+              Divider(),
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text("Agree",
-                      style: TextStyle(color: Colors.grey, fontSize: 12))
+                      style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  RaisedButton(onPressed: () {
+                    setState(() {
+                      widget.comment.agrees.add(Comment(
+                        "Yeah same",
+                          "I agree with that",
+                          AssetImage('assets/defaultprofilepic.jpg'),
+                          "PoliticsAreFake2"
+                      ));
+                    });
+                  }),
+                  agreeList,
                 ])),
-                Expanded(child: Column(children: [
+                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text("Dissent",
-                      style: TextStyle(color: Colors.grey, fontSize: 12))
+                      style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  RaisedButton(onPressed: () {
+                    setState(() {
+                      widget.comment.dissents.add(Comment(
+                          "No that's wrong",
+                          "This will prove it",
+                          AssetImage('assets/defaultprofilepic.jpg'),
+                          "guy"
+                      ));
+                    });
+                  }),
+                  dissentList,
                 ]))
               ]),
             ])
