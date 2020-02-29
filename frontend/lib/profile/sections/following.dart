@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const int GRID_PADDING = 15;
 const int ITEMS_PER_ROW = 4;
 
+/// Shows the people who the user follows on their profile page.
 class FollowingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

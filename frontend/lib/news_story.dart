@@ -294,277 +294,273 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   void closeNewsStory() {
     Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => myApp()),
-                          );
-                }
+              MaterialPageRoute(builder: (context) => Outlook()),
+            );
+  }
 
-  myApp() => MyApp();
-              
-                void goBack() {
-              
-                  
-                  widget.controller?.play();
-              
-                  animationController.stop();
-              
-                  if (this.lastShowing == null) {
-                    widget.storyItems.last.seen = false;
-                  }
-              
-                  if (this.lastShowing == widget.storyItems.first) {
-                    beginPlay();
-                  } else {
-                    this.lastShowing.seen = false;
-                    int lastPos = widget.storyItems.indexOf(this.lastShowing);
-                    final previous = widget.storyItems[lastPos - 1];
-              
-                    previous.seen = false;
-              
-                    beginPlay();
-                  }
-                }
-              
-                void goForward() {
-                  if (this.lastShowing != widget.storyItems.last) {
-                    animationController.stop();
-              
-                    final _last = this.lastShowing;
-              
-                    if (_last != null) {
-                      _last.seen = true;
-                      if (_last != widget.storyItems.last) {
-                        beginPlay();
-                      }
+  void goBack() {
+
+    
+    widget.controller?.play();
+
+    animationController.stop();
+
+    if (this.lastShowing == null) {
+      widget.storyItems.last.seen = false;
+    }
+
+    if (this.lastShowing == widget.storyItems.first) {
+      beginPlay();
+    } else {
+      this.lastShowing.seen = false;
+      int lastPos = widget.storyItems.indexOf(this.lastShowing);
+      final previous = widget.storyItems[lastPos - 1];
+
+      previous.seen = false;
+
+      beginPlay();
+    }
+  }
+
+  void goForward() {
+    if (this.lastShowing != widget.storyItems.last) {
+      animationController.stop();
+
+      final _last = this.lastShowing;
+
+      if (_last != null) {
+        _last.seen = true;
+        if (_last != widget.storyItems.last) {
+          beginPlay();
+        }
+      }
+    } else {
+      animationController.animateTo(1.0, duration: Duration(milliseconds: 10));
+    }
+  }
+
+  void pause() {
+    this.animationController?.stop(canceled: false);
+  }
+
+  void unpause() {
+    this.animationController?.forward();
+  }
+
+  void controlPause() {
+    if (widget.controller != null) {
+      widget.controller.pause();
+    } else {
+      pause();
+    }
+  }
+
+  void controlUnpause() {
+    if (widget.controller != null) {
+      widget.controller.play();
+    } else {
+      unpause();
+    }
+  }
+
+  Widget get currentView => widget.storyItems
+      .firstWhere((it) => !it.seen, orElse: () => widget.storyItems.last)
+      .view;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Stack(
+        children: <Widget>[
+          // new RaisedButton(
+          //   padding: const EdgeInsets.all(80.10),
+          //   textColor: Colors.white,
+          //   color: Colors.blue,
+          //   onPressed: buttonPressed,
+          //   child: new Text("BUTTON"),
+          // ),
+          
+          currentView,
+          Align(
+            alignment: widget.progressPosition == ProgressPosition.top
+                ? Alignment.topCenter
+                : Alignment.bottomCenter,
+            child: SafeArea(
+              bottom: widget.inline ? false : true,
+              // we use SafeArea here for notched and bezeles phones
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: PageBar(
+                  widget.storyItems
+                      .map((it) => PageData(it.time, it.seen))
+                      .toList(),
+                  this.currentAnimation,
+                  key: UniqueKey(),
+                  indicatorHeight: widget.inline
+                      ? IndicatorHeight.small
+                      : IndicatorHeight.large,
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            heightFactor: 1,
+            child: RawGestureDetector(
+              gestures: <Type, GestureRecognizerFactory>{
+                TapGestureRecognizer:
+                    GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
+                        () => TapGestureRecognizer(), (instance) {
+                  instance
+                    ..onTapDown = (details) {
+                      controlPause();
+                      debouncer?.cancel();
+                      debouncer = Timer(Duration(milliseconds: 500), () {});
                     }
-                  } else {
-                    animationController.animateTo(1.0, duration: Duration(milliseconds: 10));
-                  }
-                }
+                    ..onTapUp = (details) {
+                      if (debouncer?.isActive == true) {
+                        debouncer.cancel();
+                        debouncer = null;
+
+                        goForward();
+                      } else {
+                        debouncer.cancel();
+                        debouncer = null;
+
+                        controlUnpause();
+                      }
+                    };
+                })
+              },
+            ),
+          ),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     Row(mainAxisAlignment: MainAxisAlignment.end,
+          //       children: [Container(color: Colors.blue, height: 100, width: 100)])]
+          // ),
+          Align(
+              child : Column(
+              children: <Widget>[
+                Expanded(
+                flex: 9,
+                // child: Container(
+                //   Column(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //   Row(mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [Container(color: Colors.blue, height: 100, width: 100)])]
+                //   ),
+                // ),
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                  child: Container(
+                    child: RaisedButton(
+                      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0 ),
+                      textColor: Colors.black,
+                      color: Colors.blueGrey[100],
+                      onPressed: buttonPressed,
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      child: new Icon(Icons.star_border, color: Colors.black,),
+                      ),
+                  ),
+
+                ),
+                Container(
+                  child: Container(
+                    child: RaisedButton(
+                      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0 ),
+                      textColor: Colors.black,
+                      color: Colors.blueGrey[100],
+                      onPressed: buttonPressed,
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      child: new Icon(Icons.add_comment, color: Colors.black,),
+                      // child: new Text("+"),
+                      ),
+                  ),
+
+                )
+                ]
+                ),
+                
+                ]
+                ),
+
+                
+
+                ),
+                Expanded(
+                flex: 3,
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                Row(mainAxisAlignment: MainAxisAlignment.end,
+                children: [Container(color: Colors.blue, height: 0, width: 0)])]
+                ),
               
-                void pause() {
-                  this.animationController?.stop(canceled: false);
-                }
-              
-                void unpause() {
-                  this.animationController?.forward();
-                }
-              
-                void controlPause() {
-                  if (widget.controller != null) {
-                    widget.controller.pause();
-                  } else {
-                    pause();
-                  }
-                }
-              
-                void controlUnpause() {
-                  if (widget.controller != null) {
-                    widget.controller.play();
-                  } else {
-                    unpause();
-                  }
-                }
-              
-                Widget get currentView => widget.storyItems
-                    .firstWhere((it) => !it.seen, orElse: () => widget.storyItems.last)
-                    .view;
-              
-                @override
-                Widget build(BuildContext context) {
-                  return Container(
-                    color: Colors.white,
-                    child: Stack(
-                      children: <Widget>[
-                        // new RaisedButton(
-                        //   padding: const EdgeInsets.all(80.10),
-                        //   textColor: Colors.white,
-                        //   color: Colors.blue,
-                        //   onPressed: buttonPressed,
-                        //   child: new Text("BUTTON"),
-                        // ),
-                        
-                        currentView,
-                        Align(
-                          alignment: widget.progressPosition == ProgressPosition.top
-                              ? Alignment.topCenter
-                              : Alignment.bottomCenter,
-                          child: SafeArea(
-                            bottom: widget.inline ? false : true,
-                            // we use SafeArea here for notched and bezeles phones
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              child: PageBar(
-                                widget.storyItems
-                                    .map((it) => PageData(it.time, it.seen))
-                                    .toList(),
-                                this.currentAnimation,
-                                key: UniqueKey(),
-                                indicatorHeight: widget.inline
-                                    ? IndicatorHeight.small
-                                    : IndicatorHeight.large,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          heightFactor: 1,
-                          child: RawGestureDetector(
-                            gestures: <Type, GestureRecognizerFactory>{
-                              TapGestureRecognizer:
-                                  GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
-                                      () => TapGestureRecognizer(), (instance) {
-                                instance
-                                  ..onTapDown = (details) {
-                                    controlPause();
-                                    debouncer?.cancel();
-                                    debouncer = Timer(Duration(milliseconds: 500), () {});
-                                  }
-                                  ..onTapUp = (details) {
-                                    if (debouncer?.isActive == true) {
-                                      debouncer.cancel();
-                                      debouncer = null;
-              
-                                      goForward();
-                                    } else {
-                                      debouncer.cancel();
-                                      debouncer = null;
-              
-                                      controlUnpause();
-                                    }
-                                  };
-                              })
-                            },
-                          ),
-                        ),
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.end,
-                        //   children: [
-                        //     Row(mainAxisAlignment: MainAxisAlignment.end,
-                        //       children: [Container(color: Colors.blue, height: 100, width: 100)])]
-                        // ),
-                        Align(
-                            child : Column(
-                            children: <Widget>[
-                              Expanded(
-                              flex: 9,
-                              // child: Container(
-                              //   Column(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //   Row(mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [Container(color: Colors.blue, height: 100, width: 100)])]
-                              //   ),
-                              // ),
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                child: Container(
-                                  child: RaisedButton(
-                                    padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0 ),
-                                    textColor: Colors.black,
-                                    color: Colors.blueGrey[100],
-                                    onPressed: buttonPressed,
-                                    shape: new RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.circular(30.0),
-                                    ),
-                                    child: new Icon(Icons.star_border, color: Colors.black,),
-                                    ),
-                                ),
-              
-                              ),
-                              Container(
-                                child: Container(
-                                  child: RaisedButton(
-                                    padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0 ),
-                                    textColor: Colors.black,
-                                    color: Colors.blueGrey[100],
-                                    onPressed: buttonPressed,
-                                    shape: new RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.circular(30.0),
-                                    ),
-                                    child: new Icon(Icons.add_comment, color: Colors.black,),
-                                    // child: new Text("+"),
-                                    ),
-                                ),
-              
-                              )
-                              ]
-                              ),
-                              
-                              ]
-                              ),
-              
-                              
-              
-                              ),
-                              Expanded(
-                              flex: 3,
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                              Row(mainAxisAlignment: MainAxisAlignment.end,
-                              children: [Container(color: Colors.blue, height: 0, width: 0)])]
-                              ),
-                            
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Align(
-                        //   alignment: Alignment(0.7, -0.5),
-                        //   //padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 250.0, bottom: 10.0 ),
-                        //   child: RaisedButton(
-                        //   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0 ),
-                        //   textColor: Colors.white,
-                        //   color: Colors.blue,
-                        //   onPressed: buttonPressed,
-                        //   child: new Text("BUTTON"),
-                        //   ),
-                          
-                        // ),
-                        Align(
-                          //alignment: Alignment.centerLeft,
-                          heightFactor: 2,
-                          child: SizedBox(
-                            child: GestureDetector(onPanUpdate: (details) {
-                                    if (details.delta.dx < 0) {
-                                      // swiping in up direction
-                                      swipeUp();
-                                    }
-                                    else {
-                                      //go back to news feed
-                                      closeNewsStory();
-                                    }
-                                },
-                            ),
-                            //width: 1000,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          heightFactor: 1,
-                          child: SizedBox(
-                            child: GestureDetector(
-                              onTap: () {
-                                goBack();
-                              },
-                            ),
-                            width: 70,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              
-                MyApp() {}
+                ),
+              ],
+            ),
+          ),
+          // Align(
+          //   alignment: Alignment(0.7, -0.5),
+          //   //padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 250.0, bottom: 10.0 ),
+          //   child: RaisedButton(
+          //   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0 ),
+          //   textColor: Colors.white,
+          //   color: Colors.blue,
+          //   onPressed: buttonPressed,
+          //   child: new Text("BUTTON"),
+          //   ),
+            
+          // ),
+          Align(
+            //alignment: Alignment.centerLeft,
+            heightFactor: 2,
+            child: SizedBox(
+              child: GestureDetector(onPanUpdate: (details) {
+                      if (details.delta.dx < 0) {
+                        // swiping in up direction
+                        swipeUp();
+                      }
+                      else {
+                        //go back to news feed
+                        closeNewsStory();
+                      }
+                  },
+              ),
+              //width: 1000,
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            heightFactor: 1,
+            child: SizedBox(
+              child: GestureDetector(
+                onTap: () {
+                  goBack();
+                },
+              ),
+              width: 70,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class PageData {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Displays the recent comments/posts the user has made.
 class ActivitySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class ActivitySection extends StatelessWidget {
   }
 }
 
+/// Displays one block of activity, with which article it was on and what the user said.
 class Comment extends StatefulWidget {
 
   final String text;

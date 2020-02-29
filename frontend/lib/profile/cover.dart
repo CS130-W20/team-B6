@@ -1,10 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:provider/provider.dart';
+import 'package:outlook/user_state.dart';
 
+/// Renders the user's profile picture, name, username, and optionally, a cover photo.
 class Cover extends StatefulWidget {
-  Cover({Key key, this.name, this.username}): super(key: key);
+  Cover({Key key, this.firstname, this.lastname, this.username}): super(key: key);
 
-  final String name;
+  final String firstname;
+  final String lastname;
   final String username;
 
   @override
@@ -26,7 +32,7 @@ class _CoverState extends State<Cover> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ProfilePicture(),
-            ProfileName(name: widget.name, username: widget.username)
+            ProfileName(name: "${widget.firstname} ${widget.lastname}", username: widget.username)
           ]
         )
       )
@@ -37,23 +43,27 @@ class _CoverState extends State<Cover> {
 class ProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(
-          maxHeight: 120,
-          maxWidth: 120
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-          image:  DecorationImage(
-              image: AssetImage('assets/defaultprofilepic.jpg')
+    return Consumer<UserState>(
+      builder: (context, userState, child) {
+        return Container(
+          constraints: BoxConstraints(
+              maxHeight: 120,
+              maxWidth: 120
           ),
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.2),
-                blurRadius: 8
-            )
-          ]
-      ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(100)),
+              image:  DecorationImage(
+                  image: userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                    blurRadius: 8
+                )
+              ]
+          ),
+        );
+      }
     );
   }
 }

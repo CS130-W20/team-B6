@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/profile/edit/edit_form.dart';
 
+/// Root of the page that contains a form for the user to edit profile info.
 class EditProfilePage extends StatelessWidget {
   EditProfilePage({Key key}): super(key: key);
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:outlook/firebase_manager.dart';
 import 'package:outlook/profile/cover.dart';
 import 'package:outlook/profile/edit_profile_page.dart';
 import 'package:outlook/profile/section-control/section_control.dart';
 import 'package:outlook/user_state.dart';
 import 'package:provider/provider.dart';
 
+/// The profile page has some options in its app bar, like an icon that leads to editing the profile page.
 List<Widget> getProfileActions(BuildContext context) {
   return <Widget>[
     IconButton(
@@ -16,6 +18,7 @@ List<Widget> getProfileActions(BuildContext context) {
   ];
 }
 
+/// Root of the profile page.
 class ProfilePage extends StatefulWidget {
 
   final String name = "Your Profile";
@@ -32,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context, userState, child) {
         return Column(
             children: <Widget>[
-              Cover(name: userState.name, username: userState.username),
+              Cover(firstname: userState.firstname, lastname: userState.lastname, username: userState.username),
               Flexible(
                   child: SectionControl()
               )
