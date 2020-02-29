@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:outlook/comment.dart';
+import 'package:outlook/comments/comment.dart';
 
 void main() {
   testWidgets('comment has commenter name, claim, and argument', (WidgetTester tester) async {
