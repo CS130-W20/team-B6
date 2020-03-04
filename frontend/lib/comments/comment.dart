@@ -12,6 +12,9 @@ List<Widget> getCommentActions(BuildContext context) {
   ];
 }
 
+// Contains the commenter's info, their comment, and replies.
+// This class has three singleton Widget member variables to be displayed: the
+// preview, the comment, and the page containing the comment.
 class Comment {
   final String claim;
   final String argument;
@@ -34,19 +37,21 @@ class Comment {
 
   CommentWidget getWidget() {
     if (widget == null) {
-      CommentWidget(this);
+      widget = CommentWidget(this);
     }
     return widget;
   }
 
   CommentPage getPage() {
     if (page == null) {
-      CommentPage(this);
+      page = CommentPage(this);
     }
     return page;
   }
 }
 
+// CommentPreviews are displayed below newsfeed items and as replies to other
+// comments.
 class CommentPreview extends StatelessWidget {
   final Comment comment;
 
@@ -81,6 +86,7 @@ class CommentPreview extends StatelessWidget {
   }
 }
 
+// CommentWidget shows the comment's full argument and is only shown on a CommentPage.
 class CommentWidget extends StatefulWidget {
   final Comment comment;
 
