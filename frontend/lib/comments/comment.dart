@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment_page.dart';
-import 'package:outlook/page_resources.dart';
 
 List<Widget> getCommentActions(BuildContext context) {
   return <Widget>[
@@ -20,14 +19,32 @@ class Comment {
   final String commenterName;
   List<Comment> agrees = List<Comment>();
   List<Comment> dissents = List<Comment>();
+  CommentPreview preview;
+  CommentWidget widget;
+  CommentPage page;
 
   Comment(this.claim, this.argument, this.commenterPic, this.commenterName);
 
-  Widget commentPreview() => CommentPreview(this);
+  CommentPreview getPreview() {
+    if (preview == null) {
+      preview = CommentPreview(this);
+    }
+    return preview;
+  }
 
-  Widget widget() => CommentWidget(this);
+  CommentWidget getWidget() {
+    if (widget == null) {
+      CommentWidget(this);
+    }
+    return widget;
+  }
 
-  Widget commentPage() => CommentPage(this);
+  CommentPage getPage() {
+    if (page == null) {
+      CommentPage(this);
+    }
+    return page;
+  }
 }
 
 class CommentPreview extends StatelessWidget {
@@ -40,7 +57,7 @@ class CommentPreview extends StatelessWidget {
     return InkWell(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => comment.commentPage()));
+              MaterialPageRoute(builder: (context) => comment.getPage()));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,10 +94,10 @@ class _CommentWidgetState extends State<CommentWidget> {
   @override
   Widget build(BuildContext context) {
     Column agreeList = Column(
-      children: widget.comment.agrees.map((c) => c.commentPreview()).toList()
+      children: widget.comment.agrees.map((c) => c.getPreview()).toList()
     );
     Column dissentList = Column(
-        children: widget.comment.dissents.map((c) => c.commentPreview()).toList()
+        children: widget.comment.dissents.map((c) => c.getPreview()).toList()
     );
     return Container(
         color: Colors.white,
