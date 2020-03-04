@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment_page.dart';
-
-List<Widget> getCommentActions(BuildContext context) {
-  return <Widget>[
-    IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    )
-  ];
-}
+import 'package:outlook/comments/reply.dart';
 
 // Contains the commenter's info, their comment, and replies.
 // This class has three singleton Widget member variables to be displayed: the
@@ -89,8 +79,9 @@ class CommentPreview extends StatelessWidget {
 // CommentWidget shows the comment's full argument and is only shown on a CommentPage.
 class CommentWidget extends StatefulWidget {
   final Comment comment;
+  final Reply reply;
 
-  CommentWidget(this.comment);
+  CommentWidget(this.comment): reply = Reply(comment);
 
   @override
   _CommentWidgetState createState() => _CommentWidgetState();
@@ -99,12 +90,6 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   @override
   Widget build(BuildContext context) {
-    Column agreeList = Column(
-      children: widget.comment.agrees.map((c) => c.getPreview()).toList()
-    );
-    Column dissentList = Column(
-        children: widget.comment.dissents.map((c) => c.getPreview()).toList()
-    );
     return Container(
         color: Colors.white,
         child: Padding(
@@ -130,38 +115,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               Text("Argument:", style: TextStyle(fontWeight: FontWeight.bold)),
               Text(widget.comment.argument, style: TextStyle(fontSize: 14)),
               Divider(),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Agree",
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  RaisedButton(onPressed: () {
-                    setState(() {
-                      widget.comment.agrees.add(Comment(
-                        "Yeah same",
-                          "I agree with that",
-                          AssetImage('assets/defaultprofilepic.jpg'),
-                          "PoliticsAreFake2"
-                      ));
-                    });
-                  }),
-                  agreeList,
-                ])),
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Dissent",
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  RaisedButton(onPressed: () {
-                    setState(() {
-                      widget.comment.dissents.add(Comment(
-                          "No that's wrong",
-                          "This will prove it",
-                          AssetImage('assets/defaultprofilepic.jpg'),
-                          "guy"
-                      ));
-                    });
-                  }),
-                  dissentList,
-                ]))
-              ]),
+              widget.reply
             ])
         )
     );

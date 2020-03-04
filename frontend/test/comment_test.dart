@@ -52,7 +52,7 @@ void main() {
 
     await tester.tap(find.byWidget(comment.getPreview()));
     await tester.pumpAndSettle();
-    
+
     expect(pageFinder, findsOneWidget);
   });
 }
