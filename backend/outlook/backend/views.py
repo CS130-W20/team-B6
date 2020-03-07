@@ -14,8 +14,7 @@ from rest_framework.status import (
     HTTP_200_OK
 )
 from rest_framework.response import Response
-
-from backend.models import Post, Profile
+from backend.models import Post, Profile, Comment
 
 @csrf_exempt
 @api_view(["GET"])
@@ -119,3 +118,62 @@ def put_profile(request, user_id):
             setattr(target_profile, field_name, data[field_name])
     target_profile.save()
     return HttpResponse("Update operation successful.")
+
+@csrf_exempt
+@api_view(["GET"])
+def get_comments_for_post(request, post_id):
+    """GET interface to retrieve all the comments for a given post id."""
+
+    search_results = Post.objects.filter(id=post_id)
+    if search_results:
+        target_post = search_results.first()
+    else:
+        return HttpResponse("No post found with given post id.")
+    data = serializers.serialize('json', Comment.objects.filter(parent_post=target_post))
+    return HttpResponse(data, content_type="application/json")
+
+@csrf_exempt
+@api_view(["POST"])
+def add_comment_to_post(request, post_id):
+    """POST interface to add a comment to a post.
+    Expect the following items in the JSON body:
+    username
+    claim
+    argument
+    parent_comment_id (optional)
+    is_agreement
+    """
+
+    data = json.loads(request.body)
+    required_data = [
+      "username",
+      "claim",
+      "argument",
+      "is_agreement",
+    ]
+    for key in required_data:
+        if key not in data:
+            return HttpResponse("Missing data to create comment.", status=401)
+
+    search_results = Post.objects.filter(id=post_id)
+    if search_results:
+        target_post = search_results.first()
+    else:
+        return HttpResponse("No post found with given post id.")
+
+    search_results = User.objects.filter(username=data["username"])
+    if search_results:
+        target_user = search_results.first()
+    else:
+        return HttpResponse("No user found with given username.")
+
+    new_comment = Comment(user=target_user, claim=data["claim"], argument=data["argument"], is_agreement=data["is_agreement"], parent_post=target_post)
+    if "parent_comment_id" in data:
+        search_results = Comment.objects.filter(id=data["parent_comment_id"])
+        if search_results:
+            target_comment = search_results.first()
+        else:
+            return HttpResponse("No comment found with given parent_comment_id.")
+        new_comment.parent_comment = target_comment
+    new_comment.save()
+    return HttpResponse("New comment saved to post.")

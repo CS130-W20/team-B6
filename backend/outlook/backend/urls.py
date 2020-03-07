@@ -7,6 +7,8 @@ urlpatterns = [
         path('posts/<int:post_id>', views.get_post, name='get_post'),
         path('users/<int:user_id>', views.get_profile, name="get_profile"),
         path('users/put/<int:user_id>', views.put_profile, name="put_profile"),
-        path('login/', views.login, name="login"),
-        path('signup/', views.signup, name="signup"),
+        path('login', views.login, name="login"),
+        path('signup', views.signup, name="signup"),
+        path('comments/<int:post_id>', views.get_comments_for_post, name="get_comments_for_post"),
+        path('comments/add/<int:post_id>', views.add_comment_to_post, name="add_comment_to_post"),
 ]
