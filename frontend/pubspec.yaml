@@ -29,6 +29,11 @@ dependencies:
   hive:
   hive_flutter: ^0.3.0+2
   path_provider:
+  cached_network_image: 2.0.0-rc
+  video_player: ^0.10.2+3
+  flutter_cache_manager: ^1.1.1
+  rxdart: ^0.23.1
+  url_launcher: ^4.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
