@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:outlook/managers/data_manager.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:outlook/user_state.dart';
+import 'package:hive/hive.dart';
 
 /// Renders the user's profile picture, name, username, and optionally, a cover photo.
 class Cover extends StatefulWidget {
@@ -43,25 +45,38 @@ class _CoverState extends State<Cover> {
 class ProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserState>(
-      builder: (context, userState, child) {
-        return Container(
-          constraints: BoxConstraints(
-              maxHeight: 120,
-              maxWidth: 120
-          ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              image:  DecorationImage(
-                  image: userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
-              ),
-              boxShadow: [
-                BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    blurRadius: 8
-                )
-              ]
-          ),
+
+    return ValueListenableBuilder(
+      valueListenable: UserState.getListenable(),
+      builder: (context, userBox, child) {
+        UserState userState = UserState.getState();
+        return FutureBuilder(
+            future: DataManager.getProfilePicture(userState.username),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data != UserState.getProfilePic()) {
+                  UserState.setProfilePic(snapshot.data);
+                }
+              }
+              return Container(
+                constraints: BoxConstraints(
+                    maxHeight: 120,
+                    maxWidth: 120
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    image:  DecorationImage(
+                        image: userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.2),
+                          blurRadius: 8
+                      )
+                    ]
+                ),
+              );
+            },
         );
       }
     );

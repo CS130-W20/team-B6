@@ -18,8 +18,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserState>(
-        builder: (context, userState, child) {
+    return ValueListenableBuilder(
+        valueListenable: UserState.getListenable(),
+        builder: (context, userBox, child) {
           return Consumer<PageState>(
             builder: (context, pageState, child) {
 
@@ -44,7 +45,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.account_circle),
-                        title: Text(userState.firstname)
+                        title: Text(UserState.getFirstName())
                     ),
                   ]
               );

@@ -9,10 +9,21 @@ import 'package:outlook/page_state.dart';
 import 'package:outlook/page_resources.dart';
 import 'story_main.dart';
 import 'package:outlook/temp-stories.dart';
-import 'package:http/http.dart' as http;
-import 'package:outlook/firebase_manager.dart';
+import 'package:outlook/managers/data_manager.dart';
+import 'package:outlook/managers/firebase_manager.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
-void main() => runApp(Outlook());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var appDocDirectory = await path_provider.getApplicationDocumentsDirectory();
+  await Hive.initFlutter(appDocDirectory.path);
+  runApp(Outlook());
+
+  await Hive.openBox(DataManager.AUTH_BOX);
+  await Hive.openBox(DataManager.USER_BOX);
+}
 
 /// The root of the entire app. Encompasses the loading screen logic, initialization logic,
 /// and determines when it is appropriate to render the core of the app.
@@ -23,9 +34,6 @@ class Outlook extends StatefulWidget {
 class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 
   bool userDataLoaded = false;
-  UserState userState;
-  bool profilePicLoaded = false;
-  String profilePicUrl;
 
   @override
   void initState() {
@@ -37,29 +45,20 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   /// Calls the backend for user specific user data like name, email, etc.
   /// and passes into the global UserState for the entire application to use.
   void fetchUser() async {
-    final userDataResponse = await http.get('BACKEND API URL HERE');
+    final userDataResponse = await DataManager.getUserData(1);
     if (userDataResponse.statusCode == 200) {
-       UserState state = UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
+       UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
+       String boxProfileUrl = UserState.getProfilePic();
+       String profileUrl = boxProfileUrl != null ? "" : boxProfileUrl;
+//       print('profile url' + profileUrl);
        setState(() {
-         userState = state;
          userDataLoaded = true;
        });
-       getProfilePic(state.username);
-    } else {
-      userState = null;
     }
   }
 
   void initFirebase() async {
     await FirebaseManager.initStorage(); // init firebase storage first
-  }
-
-  void getProfilePic(String username) async {
-    String url = await FirebaseManager.getProfilePicture(username);
-    setState(() {
-      profilePicLoaded = true;
-      profilePicUrl = url;
-    });
   }
 
   Widget wrapMaterialApp(Widget widget) {
@@ -92,11 +91,9 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
         )
     );
 
-    if (userDataLoaded && profilePicLoaded) {
-      userState.setProfilePic(profilePicUrl);
+    if (userDataLoaded) {
       widget = MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (context) => userState),
             ChangeNotifierProvider(create: (context) => PageState())
           ],
           child: wrapMaterialApp(MainLayout())

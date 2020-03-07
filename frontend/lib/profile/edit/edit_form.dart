@@ -2,7 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:outlook/firebase_manager.dart';
+import 'package:outlook/managers/firebase_manager.dart';
 import 'package:outlook/user_state.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -24,7 +24,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
     StorageUploadTask uploadTask = storage.putFile(_image);
     await uploadTask.onComplete;
     storage.getDownloadURL().then((fileURL) {
-      userState.setProfilePic(fileURL);
+      UserState.setProfilePic(fileURL);
     });
   }
 
@@ -36,29 +36,30 @@ class _EditProfileFormState extends State<EditProfileForm> {
     });
   }
 
-  void saveForm(UserState userState) {
+  void saveForm() {
+      UserState userState = UserState.getState();
       if (_fbKey.currentState.saveAndValidate()) {
         Navigator.pop(context);
         _fbKey.currentState.value.forEach((key, val) {
           switch(key) {
             case 'firstname':
               if (userState.firstname != val) {
-                userState.setFirstName(val);
+                UserState.setFirstName(val);
               }
               break;
             case 'lastname':
               if (userState.lastname != val) {
-                userState.setLastName(val);
+                UserState.setLastName(val);
               }
               break;
             case 'email':
               if (userState.email != val) {
-                userState.setEmail(val);
+                UserState.setEmail(val);
               }
               break;
             case 'description':
               if (userState.description != val) {
-                userState.setDescription(val);
+                UserState.setDescription(val);
               }
               break;
           }
@@ -74,7 +75,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserState>(
+    return ValueListenableBuilder(
+        valueListenable: UserState.getListenable(),
         builder: (context, userState, child) {
           return Padding(
               padding: EdgeInsets.all(15),
@@ -157,7 +159,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                                           padding: EdgeInsets.all(10),
                                           child: Text('Save', style: TextStyle(color: Colors.white, fontSize: 16))
                                       ),
-                                      onPressed: () => saveForm(userState)
+                                      onPressed: () => saveForm()
                                   )
                                 ]
                             )
