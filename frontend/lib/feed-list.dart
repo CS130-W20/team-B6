@@ -97,7 +97,7 @@ class FeedList extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
-                  child: comment.commentPreview()
+                  child: comment.getPreview()
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
