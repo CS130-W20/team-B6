@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment_page.dart';
-import 'package:outlook/page_resources.dart';
+import 'package:outlook/comments/reply.dart';
 
-List<Widget> getCommentActions(BuildContext context) {
-  return <Widget>[
-    IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    )
-  ];
-}
-
+// Contains the commenter's info, their comment, and replies.
+// This class has three singleton Widget member variables to be displayed: the
+// preview, the comment, and the page containing the comment.
 class Comment {
   final String claim;
   final String argument;
@@ -20,16 +12,36 @@ class Comment {
   final String commenterName;
   List<Comment> agrees = List<Comment>();
   List<Comment> dissents = List<Comment>();
+  CommentPreview preview;
+  CommentWidget widget;
+  CommentPage page;
 
   Comment(this.claim, this.argument, this.commenterPic, this.commenterName);
 
-  Widget commentPreview() => CommentPreview(this);
+  CommentPreview getPreview() {
+    if (preview == null) {
+      preview = CommentPreview(this);
+    }
+    return preview;
+  }
 
-  Widget widget() => CommentWidget(this);
+  CommentWidget getWidget() {
+    if (widget == null) {
+      widget = CommentWidget(this);
+    }
+    return widget;
+  }
 
-  Widget commentPage() => CommentPage(this);
+  CommentPage getPage() {
+    if (page == null) {
+      page = CommentPage(this);
+    }
+    return page;
+  }
 }
 
+// CommentPreviews are displayed below newsfeed items and as replies to other
+// comments.
 class CommentPreview extends StatelessWidget {
   final Comment comment;
 
@@ -40,7 +52,7 @@ class CommentPreview extends StatelessWidget {
     return InkWell(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => comment.commentPage()));
+              MaterialPageRoute(builder: (context) => comment.getPage()));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,10 +76,12 @@ class CommentPreview extends StatelessWidget {
   }
 }
 
+// CommentWidget shows the comment's full argument and is only shown on a CommentPage.
 class CommentWidget extends StatefulWidget {
   final Comment comment;
+  final Reply reply;
 
-  CommentWidget(this.comment);
+  CommentWidget(this.comment): reply = Reply(comment);
 
   @override
   _CommentWidgetState createState() => _CommentWidgetState();
@@ -76,12 +90,6 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   @override
   Widget build(BuildContext context) {
-    Column agreeList = Column(
-      children: widget.comment.agrees.map((c) => c.commentPreview()).toList()
-    );
-    Column dissentList = Column(
-        children: widget.comment.dissents.map((c) => c.commentPreview()).toList()
-    );
     return Container(
         color: Colors.white,
         child: Padding(
@@ -107,38 +115,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               Text("Argument:", style: TextStyle(fontWeight: FontWeight.bold)),
               Text(widget.comment.argument, style: TextStyle(fontSize: 14)),
               Divider(),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Agree",
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  RaisedButton(onPressed: () {
-                    setState(() {
-                      widget.comment.agrees.add(Comment(
-                        "Yeah same",
-                          "I agree with that",
-                          AssetImage('assets/defaultprofilepic.jpg'),
-                          "PoliticsAreFake2"
-                      ));
-                    });
-                  }),
-                  agreeList,
-                ])),
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Dissent",
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  RaisedButton(onPressed: () {
-                    setState(() {
-                      widget.comment.dissents.add(Comment(
-                          "No that's wrong",
-                          "This will prove it",
-                          AssetImage('assets/defaultprofilepic.jpg'),
-                          "guy"
-                      ));
-                    });
-                  }),
-                  dissentList,
-                ]))
-              ]),
+              widget.reply
             ])
         )
     );
