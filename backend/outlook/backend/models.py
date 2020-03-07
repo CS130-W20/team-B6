@@ -27,7 +27,7 @@ class Comment(models.Model):
 class Profile(models.Model):
     """Profile model to represent details about a single user of the app."""
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=70)
@@ -42,6 +42,7 @@ class Profile(models.Model):
         rep += 'email_address: ' + str(self.email_address) + '\n'
         rep += 'description: ' + str(self.description) + '\n'
         rep += 'profile_picture_url: ' + str(self.profile_picture_url) + '\n'
+        rep += 'user: ' + str(self.user) + '\n'
         return rep
 
 @receiver(post_save, sender=User)

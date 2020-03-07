@@ -43,9 +43,11 @@ def signup(request):
         validate_password(data["password"])
     except:
         return HttpResponse("Password is not strong enough.", status=400)
-    new_profile = Profile(first_name=data["firstname"], last_name=data["lastname"])
-    new_user = User(username=data["username"], password=data["password"], profile=new_profile)
+    new_user = User(username=data["username"], password=data["password"])
     new_user.save()
+    new_profile = Profile(first_name=data["firstname"], last_name=data["lastname"])
+    new_profile.user = new_user
+    new_profile.save()
     return HttpResponse("User created successfully.")
 
 @csrf_exempt
