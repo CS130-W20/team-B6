@@ -14,7 +14,6 @@ from rest_framework.status import (
     HTTP_200_OK
 )
 from rest_framework.response import Response
-
 from backend.models import Post, Profile, Comment
 
 @csrf_exempt
