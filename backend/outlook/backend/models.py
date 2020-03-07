@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Post(models.Model):
     """Post model to represent a post on a news feed."""
@@ -15,10 +18,10 @@ class Post(models.Model):
         rep += 'News Article Url: ' + str(self.news_article_url) + '\n'
         return rep
 
-class User(models.Model):
-    """User model to represent a single user of the app."""
+class Profile(models.Model):
+    """Profile model to represent details about a single user of the app."""
 
-    user_name = models.CharField(unique=True, max_length=20)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=70)
@@ -28,13 +31,21 @@ class User(models.Model):
     def __str__(self):
         rep = ''
         rep += 'id: ' + str(self.id) + '\n'
-        rep += 'user_name: ' + str(self.user_name) + '\n'
         rep += 'first_name: ' + str(self.first_name) + '\n'
         rep += 'last_name: ' + str(self.last_name) + '\n'
         rep += 'email_address: ' + str(self.email_address) + '\n'
         rep += 'description: ' + str(self.description) + '\n'
         rep += 'profile_picture_url: ' + str(self.profile_picture_url) + '\n'
         return rep
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 class Article(models.Model):
     """Article model to represent a single news article."""
