@@ -54,18 +54,24 @@ def save_article_data(article):
     """
 
     from backend.models import Article
-    # TODO: Avoid duplicates.
     # Check if article already exists in the DB.
     # Primary key should be the article URL.
+    search_results = Article.objects.filter(article_url=article["url"])
+    if search_results:
+        return search_results.first()
 
     # If article does not already exist, save it now.
     new_article = Article()
     new_article.source_name = article["source"]["name"]
-    new_article.title = article["title"]
     new_article.author = article["author"]
+    if not new_article.author:
+        new_article.author = "Unknown Author"
+    new_article.title = article["title"]
+    new_article.article_url = article["url"]
+    new_article.article_image_url = article["urlToImage"]
     new_article.publish_date = article["publishedAt"]
     new_article.save()
-    return 1
+    return new_article
 
 def generate_news_feed():
     """Driver function to generate news feed.
@@ -75,7 +81,9 @@ def generate_news_feed():
     """
 
     top_articles = retrieve_top_articles()
+    saved_articles = []
     for article in top_articles:
-        save_article_data(article)
+        saved_articles.append(save_article_data(article))
+    return saved_articles
     # TODO: make this list of top articles easily accessible 
     # through endpoint.

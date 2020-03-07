@@ -59,7 +59,7 @@ class Article(models.Model):
     source_name = models.CharField(max_length=20)
     # author length should be more because sometimes
     # it includes the source name as well.
-    author = models.CharField(max_length=100)
+    author = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=100)
     article_url = models.URLField(unique=True)
     article_image_url = models.URLField()

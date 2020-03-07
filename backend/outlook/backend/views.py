@@ -175,3 +175,22 @@ def add_comment_to_post(request, post_id):
         new_comment.parent_comment = target_comment
     new_comment.save()
     return HttpResponse("New comment saved to post.")
+
+@csrf_exempt
+@api_view(["GET"])
+def get_newsfeed_posts(request):
+    from .news import generate_news_feed
+    from django.forms.models import model_to_dict
+    newsfeed_articles = generate_news_feed()
+    newsfeed_posts = []
+    for article in newsfeed_articles:
+        search_results = Post.objects.filter(article=article)
+        if search_results:
+            post_data = model_to_dict(search_results.first())
+        else:
+            new_post = Post(article=article)
+            new_post.save()
+            post_data = model_to_dict(new_post)
+        post_data["article"] = model_to_dict(article)
+        newsfeed_posts.append(post_data)
+    return HttpResponse(json.dumps(newsfeed_posts, indent=4, sort_keys=True, default=str), content_type="application/json")

@@ -11,4 +11,5 @@ urlpatterns = [
         path('signup', views.signup, name="signup"),
         path('comments/<int:post_id>', views.get_comments_for_post, name="get_comments_for_post"),
         path('comments/add/<int:post_id>', views.add_comment_to_post, name="add_comment_to_post"),
+        path('newsfeed', views.get_newsfeed_posts, name="get_newsfeed_posts"),
 ]
