@@ -178,10 +178,12 @@ def add_comment_to_post(request, post_id):
 
 @csrf_exempt
 @api_view(["GET"])
-def get_newsfeed_posts(request):
+def get_newsfeed_posts(request, source=None, category=None):
+    """Retrieve general newsfeed posts."""
+
     from .news import generate_news_feed
     from django.forms.models import model_to_dict
-    newsfeed_articles = generate_news_feed()
+    newsfeed_articles = generate_news_feed(source, category)
     newsfeed_posts = []
     for article in newsfeed_articles:
         search_results = Post.objects.filter(article=article)
@@ -194,3 +196,28 @@ def get_newsfeed_posts(request):
         post_data["article"] = model_to_dict(article)
         newsfeed_posts.append(post_data)
     return HttpResponse(json.dumps(newsfeed_posts, indent=4, sort_keys=True, default=str), content_type="application/json")
+
+@csrf_exempt
+@api_view(["GET"])
+def get_newsfeed_posts_from_source(request, source):
+    """The correct identifiers for each news source can be
+    found at:
+    https://newsapi.org/docs/endpoints/sources
+    """
+
+    return get_newsfeed_posts(request, source=source)
+
+@csrf_exempt
+@api_view(["GET"])
+def get_newsfeed_posts_from_category(request, category):
+    """The currently supported categories are:
+    business
+    entertainment
+    general
+    health
+    science
+    sports
+    technology
+    """
+
+    return get_newsfeed_posts(request, category=category)
