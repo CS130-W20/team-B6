@@ -48,9 +48,6 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     final userDataResponse = await DataManager.getUserData(1);
     if (userDataResponse.statusCode == 200) {
        UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
-       String boxProfileUrl = UserState.getProfilePic();
-       String profileUrl = boxProfileUrl != null ? "" : boxProfileUrl;
-//       print('profile url' + profileUrl);
        setState(() {
          userDataLoaded = true;
        });
