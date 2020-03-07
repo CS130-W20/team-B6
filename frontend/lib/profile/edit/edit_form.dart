@@ -77,7 +77,8 @@ class _EditProfileFormState extends State<EditProfileForm> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
         valueListenable: UserState.getListenable(),
-        builder: (context, userState, child) {
+        builder: (context, userBox, child) {
+          UserState userState = UserState.getState();
           return Padding(
               padding: EdgeInsets.all(15),
               child: Column(
