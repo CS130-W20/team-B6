@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
+import 'package:outlook/user_state.dart';
+import 'package:provider/provider.dart';
 
 // The Reply widget is used to show existing replies or to let the user write one.
 class Reply extends StatefulWidget {
@@ -36,23 +39,26 @@ class _ReplyState extends State<Reply> {
           ),
         ),
         Row(children: [
-          RaisedButton(
-            child: Text("Post"),
+          Consumer<UserState>(builder: (context, userState, child) => RaisedButton(
+            child: Text(agreeing ? "Agree" : "Dissent"),
             onPressed: () {
-              if (claimController.text.isNotEmpty && argumentController.text.isNotEmpty) {
+              if (claimController.text.isNotEmpty &&
+                argumentController.text.isNotEmpty) {
                 setState(() {
                   posting = false;
-                  final replyList = agreeing ? widget.comment.agrees : widget.comment.dissents;
+                  final replyList = agreeing
+                    ? widget.comment.agrees
+                    : widget.comment.dissents;
                   replyList.add(Comment(
-                      claimController.text,
-                      argumentController.text,
-                      AssetImage('assets/defaultprofilepic.jpg'),
-                      "PoliticsAreFake2"));
+                    claimController.text,
+                    argumentController.text,
+                    userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg'),
+                    "${userState.firstname} ${userState.lastname}"));
                 });
               }
             },
-          ),
-          SizedBox(width:16),
+          )),
+          SizedBox(width: 16),
           RaisedButton(
             child: Text("Cancel"),
             onPressed: () {
