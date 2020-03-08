@@ -211,7 +211,8 @@ def get_newsfeed_posts_from_source(request, source):
     https://newsapi.org/docs/endpoints/sources
     """
 
-    return get_newsfeed_data(request, source=source)
+    data = get_newsfeed_data(request, source=source)
+    return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type="application/json")
 
 @csrf_exempt
 @api_view(["GET"])
@@ -226,4 +227,5 @@ def get_newsfeed_posts_from_category(request, category):
     technology
     """
 
-    return get_newsfeed_data(request, category=category)
+    data = get_newsfeed_data(request, category=category)
+    return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type="application/json")
