@@ -3,6 +3,7 @@ import 'package:outlook/managers/firebase_manager.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:outlook/states/auth_state.dart';
+import 'package:outlook/states/user_state.dart';
 
 // ApiManager and StorageManager in one
 // Checks if certain data exists in storage before calling api for it
@@ -31,5 +32,11 @@ class DataManager {
 
   static getProfilePicture(String username) {
     return FirebaseManager.getProfilePicture(username);
+  }
+
+  static putUserData(String data) {
+    return http.put('$DOMAIN/users/put/${UserState.getId()}', headers: {
+      "Authorization": "Token ${AuthState.getToken() != null ? AuthState.getToken() : ''}",
+    }, body: data);
   }
 }
