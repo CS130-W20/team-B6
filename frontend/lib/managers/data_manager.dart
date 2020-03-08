@@ -8,7 +8,7 @@ import 'package:outlook/states/auth_state.dart';
 // Checks if certain data exists in storage before calling api for it
 class DataManager {
 
-  static const String DOMAIN = 'http://3dbccfc1.ngrok.io';
+  static const String DOMAIN = 'http://4a6dde01.ngrok.io';
   static const String AUTH_BOX = "auth";
   static const String USER_BOX = "user";
 
