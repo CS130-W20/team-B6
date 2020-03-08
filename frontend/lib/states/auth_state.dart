@@ -26,4 +26,12 @@ class AuthState {
     set('token', token);
   }
 
+  static String getPassword() {
+    return get('password');
+  }
+
+  static void setPassword(String password) {
+    set('password', password);
+  }
+
 }

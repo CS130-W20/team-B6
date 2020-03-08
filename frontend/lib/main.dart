@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:outlook/login/signup.dart';
 import 'package:outlook/profile/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:outlook/states/user_state.dart';
@@ -16,16 +17,21 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:outlook/states/auth_state.dart';
+import 'package:outlook/login/signup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDocDirectory = await path_provider.getApplicationDocumentsDirectory();
+  List<int> key = [];
+  for (var i = 0; i < 32; i++) {
+    key.add(i);
+  }
   await Hive.initFlutter(appDocDirectory.path);
 
   await Hive.openBox(DataManager.AUTH_BOX);
-  await Hive.openBox(DataManager.USER_BOX);
-//  Hive.box(DataManager.AUTH_BOX).clear();
-//  Hive.box(DataManager.USER_BOX).clear();
+  await Hive.openBox(DataManager.USER_BOX, encryptionCipher: HiveAesCipher(key));
+  await Hive.box(DataManager.AUTH_BOX).clear();
+  await Hive.box(DataManager.USER_BOX).clear();
 
   runApp(Outlook());
 }
@@ -70,7 +76,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     print(AuthState.getToken());
     if (AuthState.getToken() == null) {
       print('attempting to log in');
-      final loginResponse = await DataManager.login('claytonc', 'password123\$');
+      final loginResponse = await DataManager.login('claytonc', 'password12\$');
       print(loginResponse.statusCode);
       if (loginResponse.statusCode == 200) {
         var loginData = jsonDecode(loginResponse.body);
@@ -141,7 +147,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
           child: wrapMaterialApp(MainLayout())
       );
     } else if (!userDataLoading && !userDataLoaded) {
-
+      widget = wrapMaterialApp(SignUpPage());
     }
 
     return AnimatedSwitcher(

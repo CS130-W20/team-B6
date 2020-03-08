@@ -19,6 +19,23 @@ class DataManager {
     });
   }
 
+  static putWithOptions(String url, String data) {
+    return http.put('$DOMAIN/users/put/${UserState.getId()}', headers: {
+      "Authorization": "Token ${AuthState.getToken() != null ? AuthState.getToken() : ''}",
+    }, body: data);
+  }
+
+  /// @params:
+  /// data = {
+  ///   firstname: String,
+  ///   lastname: String,
+  ///   username: String,
+  ///   password: String
+  /// }
+  static signup(String data) {
+    return http.post('$DOMAIN/signup', body: data);
+  }
+
   static login(String username, String password) {
     return http.post('$DOMAIN/login', body: {
       "username": username,
@@ -35,8 +52,6 @@ class DataManager {
   }
 
   static putUserData(String data) {
-    return http.put('$DOMAIN/users/put/${UserState.getId()}', headers: {
-      "Authorization": "Token ${AuthState.getToken() != null ? AuthState.getToken() : ''}",
-    }, body: data);
+    return putWithOptions('$DOMAIN/users/put/${UserState.getId()}', data);
   }
 }

@@ -106,11 +106,13 @@ class _EditProfileFormState extends State<EditProfileForm> {
                                 attribute: 'firstname',
                                 validators: [FormBuilderValidators.required()],
                                 decoration: InputDecoration(labelText: 'First Name'),
+                                maxLines: 1
                               ),
                               FormBuilderTextField(
                                 attribute: 'lastname',
                                 validators: [FormBuilderValidators.required()],
                                 decoration: InputDecoration(labelText: 'Last Name'),
+                                maxLines: 1
                               ),
                               FormBuilderTextField(
                                 attribute: 'email',
@@ -120,6 +122,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                                 ],
                                 decoration: InputDecoration(labelText: 'Email'),
                                 keyboardType: TextInputType.emailAddress,
+                                maxLines: 1
                               ),
                               FormBuilderTextField(
                                 attribute: 'description',
