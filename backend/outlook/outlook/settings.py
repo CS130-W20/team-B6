@@ -26,7 +26,7 @@ SECRET_KEY = '$on5x)f&0jucqf8s%dx&e^4uc@4e0wasc3hb3x%-9($o+_a1g='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'sheltered-tor-57022.herokuapp.com']
+ALLOWED_HOSTS = ['*', 'sheltered-tor-57022.herokuapp.com', 'http://235d4f57.ngrok.io']
 
 # Application definition
 

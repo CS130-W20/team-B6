@@ -71,7 +71,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     print(AuthState.getToken());
     if (AuthState.getToken() == null) {
       print('attempting to log in');
-      final loginResponse = await DataManager.login('claytonc', 'password123\$');
+      final loginResponse = await DataManager.login('shashtemp', 'qwertyasdfgh123zxcvA12!');
       print(loginResponse.statusCode);
       if (loginResponse.statusCode == 200) {
         var loginData = jsonDecode(loginResponse.body);
