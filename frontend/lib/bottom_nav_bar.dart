@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:outlook/main.dart';
 import 'package:provider/provider.dart';
-import 'package:outlook/user_state.dart';
-import 'package:outlook/profile/profile_page.dart';
-import 'package:outlook/page_state.dart';
+import 'package:outlook/states/user_state.dart';
+import 'package:outlook/states/page_state.dart';
 
 /// Handles the bottom navigation bar present across most pages.
 /// Contains Discover, News Feed, and Profile tabs.

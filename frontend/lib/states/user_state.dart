@@ -91,7 +91,7 @@ class UserState {
   }
 
   static String getProfilePic() {
-    return get(PROFILEPIC);
+    return get(PROFILEPIC) != null ? get(PROFILEPIC) : "";
   }
 
   static void setProfilePic(String url) {

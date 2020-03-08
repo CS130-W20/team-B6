@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:outlook/profile/profile_page.dart';
 import 'package:provider/provider.dart';
-import 'package:outlook/user_state.dart';
+import 'package:outlook/states/user_state.dart';
 import 'package:outlook/bottom_nav_bar.dart';
-import 'package:outlook/page_state.dart';
+import 'package:outlook/states/page_state.dart';
 import 'package:outlook/page_resources.dart';
 import 'story_main.dart';
 import 'package:outlook/temp-stories.dart';
@@ -14,15 +14,19 @@ import 'package:outlook/managers/firebase_manager.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:outlook/states/auth_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDocDirectory = await path_provider.getApplicationDocumentsDirectory();
   await Hive.initFlutter(appDocDirectory.path);
-  runApp(Outlook());
 
   await Hive.openBox(DataManager.AUTH_BOX);
   await Hive.openBox(DataManager.USER_BOX);
+  Hive.box(DataManager.AUTH_BOX).clear();
+  Hive.box(DataManager.USER_BOX).clear();
+
+  runApp(Outlook());
 }
 
 /// The root of the entire app. Encompasses the loading screen logic, initialization logic,
@@ -34,6 +38,7 @@ class Outlook extends StatefulWidget {
 class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 
   bool userDataLoaded = false;
+  bool userDataLoading = true;
 
   @override
   void initState() {
@@ -42,15 +47,54 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     fetchUser();
   }
 
+  getUserData() async {
+    final userDataResponse = await DataManager.getUserData(UserState.getId());
+    if (userDataResponse.statusCode == 200) {
+      UserState.fromJson(jsonDecode(userDataResponse.body));
+      print(UserState.getUserName());
+      setState(() {
+        userDataLoading = false;
+        userDataLoaded = true;
+      });
+    } else {
+      print('a');
+      setState(() {
+        userDataLoading = false;
+        userDataLoaded = false;
+      });
+    }
+  }
+
   /// Calls the backend for user specific user data like name, email, etc.
   /// and passes into the global UserState for the entire application to use.
   void fetchUser() async {
-    final userDataResponse = await DataManager.getUserData(1);
-    if (userDataResponse.statusCode == 200) {
-       UserState.fromJson(jsonDecode(userDataResponse.body)[0]);
-       setState(() {
-         userDataLoaded = true;
-       });
+    print(AuthState.getToken());
+    if (AuthState.getToken() == null) {
+      print('attempting to log in');
+      final loginResponse = await DataManager.login('claytonc', 'password123\$');
+      print(loginResponse.statusCode);
+      if (loginResponse.statusCode == 200) {
+        var loginData = jsonDecode(loginResponse.body);
+        AuthState.setToken(loginData['token']);
+        UserState.setId(loginData['id']);
+        print('attempting to get user data');
+        await getUserData();
+      } else {
+        print('b');
+        setState(() {
+          userDataLoading = false;
+          userDataLoaded = false;
+        });
+      }
+    } else {
+      print('c');
+      if (UserState.getUserName() == null) {
+        await getUserData();
+      }
+      setState(() {
+        userDataLoading = false;
+        userDataLoaded = true;
+      });
     }
   }
 
@@ -88,13 +132,16 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
         )
     );
 
-    if (userDataLoaded) {
+    if (!userDataLoading && userDataLoaded) {
+      print('.');
       widget = MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => PageState())
           ],
           child: wrapMaterialApp(MainLayout())
       );
+    } else if (!userDataLoading && !userDataLoaded) {
+
     }
 
     return AnimatedSwitcher(
