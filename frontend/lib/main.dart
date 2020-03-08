@@ -24,8 +24,8 @@ void main() async {
 
   await Hive.openBox(DataManager.AUTH_BOX);
   await Hive.openBox(DataManager.USER_BOX);
-  Hive.box(DataManager.AUTH_BOX).clear();
-  Hive.box(DataManager.USER_BOX).clear();
+//  Hive.box(DataManager.AUTH_BOX).clear();
+//  Hive.box(DataManager.USER_BOX).clear();
 
   runApp(Outlook());
 }
@@ -52,13 +52,11 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     final userDataResponse = await DataManager.getUserData(UserState.getId());
     if (userDataResponse.statusCode == 200) {
       UserState.fromJson(jsonDecode(userDataResponse.body));
-      print(UserState.getUserName());
       setState(() {
         userDataLoading = false;
         userDataLoaded = true;
       });
     } else {
-      print('a');
       setState(() {
         userDataLoading = false;
         userDataLoaded = false;
@@ -91,16 +89,17 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
       print('c');
       if (UserState.getUserName() == null) {
         await getUserData();
+      } else {
+        setState(() {
+          userDataLoading = false;
+          userDataLoaded = true;
+        });
       }
-      setState(() {
-        userDataLoading = false;
-        userDataLoaded = true;
-      });
     }
   }
 
   void initFirebase() async {
-    await FirebaseManager.initStorage(); // init firebase storage first
+    await FirebaseManager.initStorage();
   }
 
   Widget wrapMaterialApp(Widget widget) {

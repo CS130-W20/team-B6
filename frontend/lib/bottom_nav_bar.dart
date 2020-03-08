@@ -21,14 +21,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         builder: (context, userBox, child) {
           return Consumer<PageState>(
             builder: (context, pageState, child) {
-
               void _onTap(int index) {
                 if (index == pageState.currentIndex) {
                   return;
                 }
                 pageState.changePage(index);
               }
-
               return BottomNavigationBar(
                   currentIndex: pageState.currentIndex,
                   onTap: _onTap,
