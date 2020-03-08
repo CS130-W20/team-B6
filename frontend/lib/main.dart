@@ -8,6 +8,7 @@ import 'package:outlook/bottom_nav_bar.dart';
 import 'package:outlook/states/page_state.dart';
 import 'package:outlook/page_resources.dart';
 import 'story_main.dart';
+import 'discover_main.dart';
 import 'package:outlook/temp-stories.dart';
 import 'package:outlook/managers/data_manager.dart';
 import 'package:outlook/managers/firebase_manager.dart';
@@ -161,7 +162,7 @@ class MainLayout extends StatelessWidget {
       case 0:
         return PageResources(
           name: 'Discover', 
-          widget: Text('Discover')
+          widget: DiscoverPage()
           );
       case 1:
         return PageResources(

@@ -54,6 +54,16 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - images/business.png
+    - images/politics.png
+    - images/technology.png
+    - images/startups.png
+    - images/sports.png
+    - images/international.png
+    - images/entertainment.png
+    - images/automobile.png
+    - images/science.png
+    - images/travel.png
 
   fonts:
     - family: Martel
@@ -72,8 +82,16 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  #  - images/business.png
+  #  - images/politics.png
+  #  - images/technology.png
+  #  - images/startups.png
+  #  - images/sports.png
+  #  - images/international.png
+  #  - images/entertainment.png
+  #  - images/automobile.png
+  #  - images/science.png
+  #  - images/travel.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
