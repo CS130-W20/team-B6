@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:outlook/managers/firebase_manager.dart';
 import 'package:outlook/states/user_state.dart';
-import 'package:provider/provider.dart';
+import 'package:outlook/managers/data_manager.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -40,30 +42,36 @@ class _EditProfileFormState extends State<EditProfileForm> {
       UserState userState = UserState.getState();
       if (_fbKey.currentState.saveAndValidate()) {
         Navigator.pop(context);
+        var userFormMap = {};
         _fbKey.currentState.value.forEach((key, val) {
           switch(key) {
             case 'firstname':
               if (userState.firstname != val) {
+                userFormMap['first_name'] = val;
                 UserState.setFirstName(val);
               }
               break;
             case 'lastname':
               if (userState.lastname != val) {
+                userFormMap['last_name'] = val;
                 UserState.setLastName(val);
               }
               break;
             case 'email':
               if (userState.email != val) {
+                userFormMap['email_address'] = val;
                 UserState.setEmail(val);
               }
               break;
             case 'description':
               if (userState.description != val) {
+                userFormMap['description'] = val;
                 UserState.setDescription(val);
               }
               break;
           }
         });
+        DataManager.putUserData(jsonEncode(userFormMap));
 
         if (_image != null) {
           uploadFile(userState);
