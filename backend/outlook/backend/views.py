@@ -15,6 +15,8 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 from backend.models import Post, Profile, Comment
+import json
+from django.http import JsonResponse
 
 @csrf_exempt
 @api_view(["GET"])
@@ -65,7 +67,7 @@ def login(request):
         return Response({'error': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key},
+    return Response({'token': token.key, 'id': user.id},
                     status=HTTP_200_OK)
 
 @csrf_exempt
@@ -87,8 +89,12 @@ def get_profile(request, user_id):
 
     search_results = User.objects.filter(id=user_id)
     if search_results:
-        data = serializers.serialize('json', [search_results.first().profile])
-        return HttpResponse(data, content_type="application/json")
+        profile_data = search_results.first().profile
+        serial_profile_data = serializers.serialize('json', [profile_data])
+        # append username to response
+        profile_json = json.loads(serial_profile_data)[0]
+        profile_json['fields']['user_name'] = search_results.first().username
+        return JsonResponse(profile_json)
     else:
         return HttpResponse("No user with given user id found.")
 

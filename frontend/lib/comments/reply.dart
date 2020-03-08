@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
-import 'package:outlook/user_state.dart';
+import 'package:outlook/states/user_state.dart';
 import 'package:provider/provider.dart';
 
 // The Reply widget is used to show existing replies or to let the user write one.

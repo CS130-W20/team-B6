@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:outlook/managers/data_manager.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
-import 'package:outlook/user_state.dart';
+import 'package:outlook/states/user_state.dart';
 import 'package:hive/hive.dart';
 
 /// Renders the user's profile picture, name, username, and optionally, a cover photo.
