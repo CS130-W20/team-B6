@@ -179,11 +179,7 @@ def add_comment_to_post(request, post_id):
     new_comment.save()
     return HttpResponse("New comment saved to post.")
 
-@csrf_exempt
-@api_view(["GET"])
-def get_newsfeed_posts(request, source=None, category=None):
-    """Retrieve general newsfeed posts."""
-
+def get_newsfeed_data(source=None, category=None):
     from .news import generate_news_feed
     from django.forms.models import model_to_dict
     newsfeed_articles = generate_news_feed(source, category)
@@ -198,7 +194,14 @@ def get_newsfeed_posts(request, source=None, category=None):
             post_data = model_to_dict(new_post)
         post_data["article"] = model_to_dict(article)
         newsfeed_posts.append(post_data)
-    return HttpResponse(json.dumps(newsfeed_posts, indent=4, sort_keys=True, default=str), content_type="application/json")
+    return newsfeed_posts
+
+@csrf_exempt
+@api_view(["GET"])
+def get_newsfeed_posts(request):
+    """Retrieve general newsfeed posts."""
+
+    return HttpResponse(json.dumps(get_newsfeed_data(), indent=4, sort_keys=True, default=str), content_type="application/json")
 
 @csrf_exempt
 @api_view(["GET"])
@@ -208,7 +211,7 @@ def get_newsfeed_posts_from_source(request, source):
     https://newsapi.org/docs/endpoints/sources
     """
 
-    return get_newsfeed_posts(request, source=source)
+    return get_newsfeed_data(request, source=source)
 
 @csrf_exempt
 @api_view(["GET"])
@@ -223,4 +226,4 @@ def get_newsfeed_posts_from_category(request, category):
     technology
     """
 
-    return get_newsfeed_posts(request, category=category)
+    return get_newsfeed_data(request, category=category)
