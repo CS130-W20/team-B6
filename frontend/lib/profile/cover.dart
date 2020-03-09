@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:outlook/managers/data_manager.dart';
+import 'package:outlook/managers/api_manager.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:outlook/states/user_state.dart';
@@ -51,7 +51,7 @@ class ProfilePicture extends StatelessWidget {
       builder: (context, userBox, child) {
         UserState userState = UserState.getState();
         return FutureBuilder(
-            future: DataManager.getProfilePicture(userState.username),
+            future: ApiManager.getProfilePicture(userState.username),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data != UserState.getProfilePic()) {
