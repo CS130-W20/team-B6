@@ -8,7 +8,7 @@ class Comment(models.Model):
     
     claim = models.CharField(max_length=140)
     argument = models.CharField(max_length=140)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_agreement = models.BooleanField(default=True)
     parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     parent_post = models.ForeignKey('Post', on_delete=models.CASCADE)
