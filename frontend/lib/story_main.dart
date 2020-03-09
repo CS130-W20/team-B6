@@ -88,7 +88,7 @@ class _NewsStory extends State<NewsStory> {
 
 
           StoryItem.inlineImage(
-                    "https://www.businessinsider.com/wuhan-coronavirus-mild-pandemic-how-it-could-end-2020-2",
+                    "https://www.google.com",
                     NetworkImage(
                         "https://i.insider.com/5e3b296be35bab4f171e181b"),
                     caption: Text(
@@ -104,7 +104,7 @@ class _NewsStory extends State<NewsStory> {
                   ),
 
           StoryItem.inlineImage(
-                    "https://www.businessinsider.com/wuhan-coronavirus-mild-pandemic-how-it-could-end-2020-2",
+                    "https://www.facebook.com",
                     NetworkImage(
                         "https://i.insider.com/5e3b296be35bab4f171e181b"),
                     caption: Text(
@@ -120,7 +120,7 @@ class _NewsStory extends State<NewsStory> {
                   ),
 
           StoryItem.inlineImage(
-                    "https://www.businessinsider.com/wuhan-coronavirus-mild-pandemic-how-it-could-end-2020-2",
+                    "https://www.quora.com",
                     NetworkImage(
                         "https://i.insider.com/5e3b296be35bab4f171e181b"),
                     caption: Text(

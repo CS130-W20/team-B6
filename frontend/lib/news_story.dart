@@ -16,7 +16,9 @@ enum ProgressPosition { top, bottom }
 
 enum IndicatorHeight { small, large }
 
-String urlnews = '';
+// List<String> urlnews;
+
+List<String> urlList = List<String>();
 
 
 
@@ -24,11 +26,12 @@ class StoryItem {
   
   final Duration time;
 
-  
   bool seen;
 
   
   final Widget view;
+
+  // static BuildContext context;
 
   StoryItem(
     this.view, {
@@ -46,11 +49,17 @@ class StoryItem {
     bool roundedBottom = false,
     
   }) {
-    print ('---------news-url:--');
-    print (urltempnews);
-    print (urlnews);
-    urlnews = urltempnews;
-    print (urlnews);
+
+    // urlnews += urltempnews;
+    urlList.add(urltempnews);
+
+    // Navigator.push(context, new MaterialPageRoute(builder: (context) => new StoryView(urlnews);
+
+
+    // print ('---------news-url:--');
+    // print (urltempnews);
+    // print (urlnews);
+
     return StoryItem(
       Container(
         child : Column(
@@ -157,6 +166,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   AnimationController animationController;
   Animation<double> currentAnimation;
   Timer debouncer;
+  // String urlnews;
 
   StreamSubscription<PlaybackState> playbackSubscription;
 
@@ -269,21 +279,29 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
     }
   }
 
-  void swipeUp() async {
+  void swipeUp(List<String> urlfindlist) async {
     print ('Swiping Up from Story');
     
-    url = urlnews;
-    print (url);
-    
+
+    int storynumber = widget.storyItems.indexOf(this.lastShowing);
+    // storynumber = storynumber - 1;
+    print (storynumber);
+
+    String finalurl = urlfindlist[storynumber];
+    // setState(() {
+    //   myurl = url;
+    // });
+    // myurl = url;
 
     // launch(url);
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunch(finalurl)) {
+      await launch(finalurl);
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch url';
     }
 
+    
   }
 
   void buttonPressed() {
@@ -533,8 +551,9 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
             child: SizedBox(
               child: GestureDetector(onPanUpdate: (details) {
                       if (details.delta.dx < 0) {
-                        // swiping in up direction
-                        swipeUp();
+                        print ("swiping in up direction");
+                        // print (urlList);
+                        swipeUp(urlList);
                       }
                       else {
                         //go back to news feed
@@ -547,7 +566,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            heightFactor: 1,
+            heightFactor: 0.7,
             child: SizedBox(
               child: GestureDetector(
                 onTap: () {
