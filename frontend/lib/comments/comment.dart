@@ -1,22 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment_page.dart';
 import 'package:outlook/comments/reply.dart';
+import 'package:outlook/managers/api_manager.dart';
 
 // Contains the commenter's info, their comment, and replies.
 // This class has three singleton Widget member variables to be displayed: the
 // preview, the comment, and the page containing the comment.
 class Comment {
+  final int postId;
   final String claim;
   final String argument;
   final ImageProvider commenterPic;
   final String commenterName;
+  final bool agree;
+  final int parentId;
+  int commentId = -1;
   List<Comment> agrees = List<Comment>();
   List<Comment> dissents = List<Comment>();
   CommentPreview preview;
   CommentWidget widget;
   CommentPage page;
+  Future<void> repliesFuture;
 
-  Comment(this.claim, this.argument, this.commenterPic, this.commenterName);
+  static postComment(postId, claim, argument, commenterPic, commenterName, {agree=true, parentId=-1}){
+    final comment = Comment(postId, claim, argument, commenterPic, commenterName, agree: agree, parentId: parentId);
+    comment.setCommentId();
+    return comment;
+  }
+
+  Comment(this.postId, this.claim, this.argument, this.commenterPic, this.commenterName, {this.agree=true, this.parentId=-1});
+
+  setCommentId() async {
+    print("posting comment");
+    var commentPostResponse;
+    if(parentId != -1)
+      commentPostResponse = await ApiManager.postComment(postId, claim, argument, agree, parentId: parentId);
+    else
+      commentPostResponse = await ApiManager.postComment(postId, claim, argument, agree);
+    commentId = int.parse(commentPostResponse.body.split('=')[1]);
+    print(commentPostResponse);
+    print("ID $commentId");
+  }
+
+  Future<void> getReplies() async {
+    final replies = await ApiManager.getReplies(this);
+    agrees = replies[0];
+    dissents = replies[1];
+    print('done loading replies');
+  }
 
   CommentPreview getPreview() {
     if (preview == null) {
@@ -51,6 +82,7 @@ class CommentPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
+          comment.repliesFuture = comment.getReplies();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => comment.getPage()));
         },

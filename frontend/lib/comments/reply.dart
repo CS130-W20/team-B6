@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
 import 'package:outlook/states/user_state.dart';
-import 'package:provider/provider.dart';
 
 // The Reply widget is used to show existing replies or to let the user write one.
 class Reply extends StatefulWidget {
@@ -39,25 +38,31 @@ class _ReplyState extends State<Reply> {
           ),
         ),
         Row(children: [
-          Consumer<UserState>(builder: (context, userState, child) => RaisedButton(
+          RaisedButton(
             child: Text(agreeing ? "Agree" : "Dissent"),
             onPressed: () {
               if (claimController.text.isNotEmpty &&
-                argumentController.text.isNotEmpty) {
+                  argumentController.text.isNotEmpty) {
                 setState(() {
                   posting = false;
                   final replyList = agreeing
-                    ? widget.comment.agrees
-                    : widget.comment.dissents;
-                  replyList.add(Comment(
-                    claimController.text,
-                    argumentController.text,
-                    userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg'),
-                    "${userState.firstname} ${userState.lastname}"));
+                      ? widget.comment.agrees
+                      : widget.comment.dissents;
+                  final userState = UserState.getState();
+                  replyList.add(Comment.postComment(
+                      widget.comment.postId,
+                      claimController.text,
+                      argumentController.text,
+                      userState.profilepic.length > 0
+                          ? CachedNetworkImageProvider(userState.profilepic)
+                          : AssetImage('assets/defaultprofilepic.jpg'),
+                      "${userState.firstname} ${userState.lastname}",
+                      agree: agreeing,
+                      parentId: widget.comment.commentId));
                 });
               }
             },
-          )),
+          ),
           SizedBox(width: 16),
           RaisedButton(
             child: Text("Cancel"),
@@ -70,41 +75,49 @@ class _ReplyState extends State<Reply> {
         ]),
       ]);
     } else {
-      Column agreeList = Column(
-          children: widget.comment.agrees.map((c) => c.getPreview()).toList());
-      Column dissentList = Column(
-          children:
+      return FutureBuilder<void>(
+          future: widget.comment.repliesFuture,
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) return Text("loading");
+            print('done waiting for replies');
+            Column agreeList = Column(
+              children: widget.comment.agrees.map((c) => c.getPreview()).toList());
+            Column dissentList = Column(
+              children:
               widget.comment.dissents.map((c) => c.getPreview()).toList());
-      return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          RaisedButton(
-              child: Text("Agree",
-                  style: TextStyle(color: Colors.grey, fontSize: 12)),
-              onPressed: () {
-                setState(() {
-                  posting = true;
-                  agreeing = true;
-                });
-              }),
-          agreeList,
-        ])),
-        Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          RaisedButton(
-              child: Text("Dissent",
-                  style: TextStyle(color: Colors.grey, fontSize: 12)),
-              onPressed: () {
-                setState(() {
-                  posting = true;
-                  agreeing = false;
-                });
-              }),
-          dissentList,
-        ]))
-      ]);
+            return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    RaisedButton(
+                        child: Text("Agree",
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        onPressed: () {
+                          setState(() {
+                            posting = true;
+                            agreeing = true;
+                          });
+                        }),
+                    agreeList,
+                  ])),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    RaisedButton(
+                        child: Text("Dissent",
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        onPressed: () {
+                          setState(() {
+                            posting = true;
+                            agreeing = false;
+                          });
+                        }),
+                    dissentList,
+                  ]))
+            ]);
+          });
     }
   }
 }

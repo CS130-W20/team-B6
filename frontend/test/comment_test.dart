@@ -4,7 +4,7 @@ import 'package:outlook/comments/comment.dart';
 
 void main() {
   final pic = AssetImage('assets/defaultprofilepic.jpg');
-  var comment = Comment('claim', 'argument', pic, 'name');
+  var comment = Comment(1, 'claim', 'argument', pic, 'name');
   testWidgets('comment widget has commenter name, claim, and argument', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
         home: Material(
