@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:outlook/login/signup.dart';
+import 'package:outlook/login/login.dart';
 import 'package:outlook/profile/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:outlook/states/user_state.dart';
@@ -152,7 +152,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
           child: wrapMaterialApp(MainLayout())
       );
     } else if (!userDataLoading && !userDataLoaded) {
-      widget = wrapMaterialApp(SignUpPage());
+      widget = wrapMaterialApp(LogInPage());
     }
 
     return AnimatedSwitcher(
