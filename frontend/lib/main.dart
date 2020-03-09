@@ -11,7 +11,7 @@ import 'package:outlook/page_resources.dart';
 import 'story_main.dart';
 import 'discover_main.dart';
 import 'package:outlook/temp-stories.dart';
-import 'package:outlook/managers/data_manager.dart';
+import 'package:outlook/managers/api_manager.dart';
 import 'package:outlook/managers/firebase_manager.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,11 +27,11 @@ void main() async {
   }
   await Hive.initFlutter(appDocDirectory.path);
 
-  await Hive.openBox(DataManager.AUTH_BOX);
-  await Hive.openBox(DataManager.USER_BOX, encryptionCipher: HiveAesCipher(key));
+  await Hive.openBox(AuthState.AUTH_BOX);
+  await Hive.openBox(UserState.USER_BOX, encryptionCipher: HiveAesCipher(key));
   // UNCOMMENT THIS OUT RESET STORAGE DATA
-//  await Hive.box(DataManager.AUTH_BOX).clear();
-//  await Hive.box(DataManager.USER_BOX).clear();
+//  await Hive.box(AuthState.AUTH_BOX).clear();
+//  await Hive.box(UserState.USER_BOX).clear();
 
   runApp(Outlook());
 }
@@ -55,7 +55,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   }
 
   getUserData() async {
-    final userDataResponse = await DataManager.getUserData(UserState.getId());
+    final userDataResponse = await ApiManager.getUserData(UserState.getId());
     if (userDataResponse.statusCode == 200) {
       print(jsonDecode(userDataResponse.body));
       UserState.fromJson(jsonDecode(userDataResponse.body));
@@ -77,7 +77,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     print('authtoken ' + AuthState.getToken());
     if (AuthState.getToken() == '') {
       print('attempting to log in');
-      final loginResponse = await DataManager.login(UserState.getUserName(), AuthState.getPassword());
+      final loginResponse = await ApiManager.login(UserState.getUserName(), AuthState.getPassword());
       print(loginResponse.statusCode);
       if (loginResponse.statusCode == 200) {
         var loginData = jsonDecode(loginResponse.body);

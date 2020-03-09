@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:outlook/login/login.dart';
-import 'package:outlook/managers/data_manager.dart';
+import 'package:outlook/managers/api_manager.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import './login.dart';
@@ -22,7 +22,7 @@ class _SignUpState extends State<SignUpPage> {
   void signUp(BuildContext context) async {
     if (_fbKey.currentState.saveAndValidate()) {
       setState(() => submitted = true);
-      Response signUpResponse = await DataManager.signup(jsonEncode(_fbKey.currentState.value));
+      Response signUpResponse = await ApiManager.signup(jsonEncode(_fbKey.currentState.value));
       if (signUpResponse != null && signUpResponse.statusCode == 200) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LogInPage()));
       }

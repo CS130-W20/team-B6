@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:outlook/managers/data_manager.dart';
+import 'package:outlook/managers/api_manager.dart';
 import 'package:http/http.dart';
 import './signup.dart';
 import 'package:outlook/main.dart';
@@ -24,7 +24,7 @@ class _LogInState extends State<LogInPage> {
     if (_fbKey.currentState.saveAndValidate()) {
       setState(() => submitted = true);
       var credentials = _fbKey.currentState.value;
-      Response logInResponse = await DataManager.login(credentials['username'], credentials['password']);
+      Response logInResponse = await ApiManager.login(credentials['username'], credentials['password']);
       if (logInResponse != null && logInResponse.statusCode == 200) {
         var responseBody = jsonDecode(logInResponse.body);
         UserState.setUserName(credentials['username']);

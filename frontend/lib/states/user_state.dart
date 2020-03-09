@@ -1,8 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:outlook/managers/data_manager.dart';
 
 class UserState {
+
+  static const String USER_BOX = "user";
+
   UserState({this.username, this.firstname, this.lastname, this.email, this.description, this.profilepic, this.id});
 
   static const USERNAME = 'username';
@@ -22,7 +24,7 @@ class UserState {
   int id = 0; // 0 = not exists
 
   static getListenable() {
-    return Hive.box(DataManager.USER_BOX).listenable();
+    return Hive.box(UserState.USER_BOX).listenable();
   }
 
   static UserState getState() => UserState(
@@ -36,12 +38,12 @@ class UserState {
     );
 
   static void set(String key, var value) {
-    var userBox = Hive.box(DataManager.USER_BOX);
+    var userBox = Hive.box(UserState.USER_BOX);
     userBox.put(key, value);
   }
 
   static get(String key, { defaultValue: ''}) {
-    var userBox = Hive.box(DataManager.USER_BOX);
+    var userBox = Hive.box(UserState.USER_BOX);
     return userBox.get(key, defaultValue: defaultValue);
   }
 
