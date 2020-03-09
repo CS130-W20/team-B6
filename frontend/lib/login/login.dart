@@ -3,6 +3,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:outlook/managers/data_manager.dart';
 import 'package:http/http.dart';
 import './signup.dart';
+import 'package:outlook/main.dart';
+import 'dart:convert';
+import 'package:outlook/states/auth_state.dart';
+import 'package:outlook/states/user_state.dart';
 
 final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
@@ -21,6 +25,15 @@ class _LogInState extends State<LogInPage> {
       setState(() => submitted = true);
       var credentials = _fbKey.currentState.value;
       Response logInResponse = await DataManager.login(credentials['username'], credentials['password']);
+      if (logInResponse != null && logInResponse.statusCode == 200) {
+        var responseBody = jsonDecode(logInResponse.body);
+        UserState.setUserName(credentials['username']);
+        AuthState.setPassword(credentials['password']);
+        UserState.setId(responseBody['id']);
+        AuthState.setToken(responseBody['token']);
+        // move to main content
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Outlook()));
+      }
       setState(() {
         response = logInResponse;
         submitted = false;

@@ -17,7 +17,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:outlook/states/auth_state.dart';
-import 'package:outlook/login/signup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,8 +29,9 @@ void main() async {
 
   await Hive.openBox(DataManager.AUTH_BOX);
   await Hive.openBox(DataManager.USER_BOX, encryptionCipher: HiveAesCipher(key));
-  await Hive.box(DataManager.AUTH_BOX).clear();
-  await Hive.box(DataManager.USER_BOX).clear();
+  // UNCOMMENT THIS OUT RESET STORAGE DATA
+//  await Hive.box(DataManager.AUTH_BOX).clear();
+//  await Hive.box(DataManager.USER_BOX).clear();
 
   runApp(Outlook());
 }
@@ -57,6 +57,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   getUserData() async {
     final userDataResponse = await DataManager.getUserData(UserState.getId());
     if (userDataResponse.statusCode == 200) {
+      print(jsonDecode(userDataResponse.body));
       UserState.fromJson(jsonDecode(userDataResponse.body));
       setState(() {
         userDataLoading = false;
@@ -73,10 +74,10 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
   /// Calls the backend for user specific user data like name, email, etc.
   /// and passes into the global UserState for the entire application to use.
   void fetchUser() async {
-    print(AuthState.getToken());
-    if (AuthState.getToken() == null) {
+    print('authtoken ' + AuthState.getToken());
+    if (AuthState.getToken() == '') {
       print('attempting to log in');
-      final loginResponse = await DataManager.login('claytonc', 'password12\$');
+      final loginResponse = await DataManager.login(UserState.getUserName(), AuthState.getPassword());
       print(loginResponse.statusCode);
       if (loginResponse.statusCode == 200) {
         var loginData = jsonDecode(loginResponse.body);
@@ -93,9 +94,13 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
       }
     } else {
       print('c');
-      if (UserState.getUserName() == null) {
+      if (UserState.getFirstName().length == 0
+          || UserState.getLastName().length == 0
+          || UserState.getUserName().length == 0
+        ) {
         await getUserData();
       } else {
+        print('d');
         setState(() {
           userDataLoading = false;
           userDataLoaded = true;

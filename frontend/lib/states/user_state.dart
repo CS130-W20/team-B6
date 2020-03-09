@@ -19,7 +19,7 @@ class UserState {
   String email;
   String description;
   String profilepic;
-  int id;
+  int id = 0; // 0 = not exists
 
   static getListenable() {
     return Hive.box(DataManager.USER_BOX).listenable();
@@ -40,9 +40,9 @@ class UserState {
     userBox.put(key, value);
   }
 
-  static get(String key) {
+  static get(String key, { defaultValue: ''}) {
     var userBox = Hive.box(DataManager.USER_BOX);
-    return userBox.get(key);
+    return userBox.get(key, defaultValue: defaultValue);
   }
 
   static String getUserName() {
@@ -99,7 +99,7 @@ class UserState {
   }
 
   static int getId() {
-    return get(ID);
+    return get(ID, defaultValue: 0);
   }
 
   static void setId(int id) {

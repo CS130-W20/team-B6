@@ -13,9 +13,9 @@ class AuthState {
     authBox.put(key, value);
   }
 
-  static get(String key) {
+  static get(String key, { defaultValue: '' }) {
     var authBox = Hive.box(DataManager.AUTH_BOX);
-    return authBox.get(key);
+    return authBox.get(key, defaultValue: defaultValue);
   }
 
   static String getToken() {
