@@ -15,7 +15,7 @@ Without doing anything, the frontend should just be infinitely loading. To get t
 1. Start the backend server.
 2. Download and install [ngrok](https://dashboard.ngrok.com/get-started), which will create an HTTP tunnel to help extend localhost so that your phone can reach the server. (I don't think you need this if you're using the emulator).
 3. Open ngrok and type in the command `ngrok http localhost:8000`. You should see that it maps some address like `http://4b75b70e.ngrok.io ` to localhost.
-4. Go to `frontend/lib/managers/api_manager.dart` and replace the `BACKEND API URL HERE` with  `$NGROK_ADDRESS`.
+4. Go to `frontend/lib/managers/api_manager.dart` and set the `DOMAIN` with  `$NGROK_ADDRESS`.
 5. In `backend/.../outlook/settings.py`, add your ngrok address to the list of allowed hosts. If the list has '*' in it, that should be fine also.
 6. Run the app, sign up and log in with an account and it should work.
 
