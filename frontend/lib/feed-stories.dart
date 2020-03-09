@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'story_main.dart';
 
 class FeedStories extends StatelessWidget {
+
+  // BuildContext context;
 
   final topText = Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -9,14 +12,12 @@ class FeedStories extends StatelessWidget {
         "Latest News",
         style: new TextStyle(fontWeight: FontWeight.bold),
       ),
-      new Row(
-        children: <Widget>[
-          //new Icon(Icon.play_arrow),
-          new Text("Watch All", style: TextStyle(fontWeight: FontWeight.bold))
-        ],
-      )
+      
     ]
   );
+
+
+  
   final stories = Expanded (
     child: new Padding(
       padding: const EdgeInsets.only(top:8.0),
@@ -27,6 +28,9 @@ class FeedStories extends StatelessWidget {
             alignment: Alignment.bottomRight,
             children: <Widget>[
               new Container(
+                child: InkWell(
+                onTap: () => getNewsStory(context,'datapass'),
+                child: Container(
                 width: 70.0,
                 height: 200.0,
                 decoration: new BoxDecoration(
@@ -38,12 +42,15 @@ class FeedStories extends StatelessWidget {
                   )
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              )
+                ),
+                ),
+              ),
             ],
         ),
       ),
     )
   );
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -53,8 +60,15 @@ class FeedStories extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          new Container(
+                child: InkWell(
+                onTap: () => getNewsStory(context,'datapass'),
+                child: Container(
           topText,
           stories,
+                ),
+                ),
+                ),
         ],
       )
       

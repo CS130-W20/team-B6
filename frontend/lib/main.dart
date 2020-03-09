@@ -152,7 +152,13 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
           child: wrapMaterialApp(MainLayout())
       );
     } else if (!userDataLoading && !userDataLoaded) {
-      widget = wrapMaterialApp(SignUpPage());
+      // widget = wrapMaterialApp(SignUpPage());
+      widget = MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => PageState())
+          ],
+          child: wrapMaterialApp(MainLayout())
+      );
     }
 
     return AnimatedSwitcher(
@@ -167,6 +173,8 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 /// This appears after the user has properly logged in and initialization data like user data has been retrieved.
 class MainLayout extends StatelessWidget {
 
+  String datapass = 'asddd';
+
   PageResources createPageResources(BuildContext context, int pageIndex) {
     switch (pageIndex) {
       case 0:
@@ -178,7 +186,7 @@ class MainLayout extends StatelessWidget {
         return PageResources(
           name: 'Outlook', 
           widget: AppHome(),
-          actions: getNewsStory(context)
+          actions: getNewsStory(context,datapass)
           );
       case 2:
         return PageResources(
