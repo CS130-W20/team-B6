@@ -20,6 +20,9 @@ enum IndicatorHeight { small, large }
 
 List<String> urlList = List<String>();
 
+int hardcodecounter = 0;
+
+
 
 
 class StoryItem {
@@ -41,6 +44,7 @@ class StoryItem {
 
 
   static StoryItem inlineImage(
+    int hardcodecounter2,
     String urltempnews, 
     ImageProvider image, {
     Text caption,
@@ -49,9 +53,11 @@ class StoryItem {
     bool roundedBottom = false,
     
   }) {
-
+    hardcodecounter = hardcodecounter2;
     // urlnews += urltempnews;
     urlList.add(urltempnews);
+    // print ("--------^^^^^^^^^-------^^^^^^^--------");
+    // print (urlList);
 
     // Navigator.push(context, new MaterialPageRoute(builder: (context) => new StoryView(urlnews);
 
@@ -285,9 +291,17 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
 
     int storynumber = widget.storyItems.indexOf(this.lastShowing);
     // storynumber = storynumber - 1;
+    print ("--^^--^^--^^--^^--^^--^^cheching this point -----");
     print (storynumber);
+    print (urlfindlist);
 
-    String finalurl = urlfindlist[storynumber];
+    int arrayend = urlfindlist.length;
+
+    int indexnumber = hardcodecounter - 5 + storynumber;
+    print ("--^^--^^--^^--^^--^^--^^cheching index number point -----");
+    print (indexnumber);
+
+    String finalurl = urlfindlist[indexnumber];
     // setState(() {
     //   myurl = url;
     // });

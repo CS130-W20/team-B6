@@ -11,7 +11,7 @@ import 'package:outlook/states/user_state.dart';
 // ApiManager and StorageManager in one
 // Checks if certain data exists in storage before calling api for it
 class ApiManager {
-  static const String DOMAIN = 'http://ce2280dd.ngrok.io';
+  static const String DOMAIN = 'http://4a6dde01.ngrok.io';
 
   /// Generic Api GET function with token
   static getWithOptions(String url) {
