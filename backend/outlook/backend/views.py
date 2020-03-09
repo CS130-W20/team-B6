@@ -153,6 +153,14 @@ def get_comments_for_post(request, post_id):
     return HttpResponse(data, content_type="application/json")
 
 @csrf_exempt
+@api_view(["GET"])
+def get_replies_for_comment(request, comment_id):
+    """GET interface to retrieve all the replies for a given comment id."""
+
+    data = serializers.serialize('json', Comment.objects.filter(parent_comment=comment_id))
+    return HttpResponse(data, content_type="application/json")
+
+@csrf_exempt
 @api_view(["POST"])
 def add_comment_to_post(request, post_id):
     """POST interface to add a comment to a post.
