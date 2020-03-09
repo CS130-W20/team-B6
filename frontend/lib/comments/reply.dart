@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
-import 'package:outlook/managers/data_manager.dart';
 import 'package:outlook/states/user_state.dart';
-import 'package:provider/provider.dart';
 
 // The Reply widget is used to show existing replies or to let the user write one.
 class Reply extends StatefulWidget {
@@ -59,10 +57,8 @@ class _ReplyState extends State<Reply> {
                           ? CachedNetworkImageProvider(userState.profilepic)
                           : AssetImage('assets/defaultprofilepic.jpg'),
                       "${userState.firstname} ${userState.lastname}",
-                      agree: agreeing));
-                  DataManager.postComment(widget.comment.postId,
-                      claimController.text, argumentController.text, agreeing,
-                      parentId: widget.comment.commentId);
+                      agree: agreeing,
+                      parentId: widget.comment.commentId));
                 });
               }
             },

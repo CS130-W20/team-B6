@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
 import 'package:outlook/feed-stories.dart' show FeedStories;
-import 'package:outlook/managers/data_manager.dart';
 
 class FeedList extends StatelessWidget {
   static Comment sampleComment = Comment(1,

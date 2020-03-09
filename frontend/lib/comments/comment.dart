@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment_page.dart';
 import 'package:outlook/comments/reply.dart';
-import 'package:outlook/managers/data_manager.dart';
+import 'package:outlook/managers/api_manager.dart';
 
 // Contains the commenter's info, their comment, and replies.
 // This class has three singleton Widget member variables to be displayed: the
@@ -29,9 +29,9 @@ class Comment {
     print("posting comment");
     var commentPostResponse;
     if(parentId != -1)
-      commentPostResponse = await DataManager.postComment(postId, claim, argument, agree, parentId: parentId);
+      commentPostResponse = await ApiManager.postComment(postId, claim, argument, agree, parentId: parentId);
     else
-      commentPostResponse = await DataManager.postComment(postId, claim, argument, agree);
+      commentPostResponse = await ApiManager.postComment(postId, claim, argument, agree);
     commentId = int.parse(commentPostResponse.body.split('=')[1]);
     print(commentPostResponse);
     print("ID $commentId");
