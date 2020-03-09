@@ -65,20 +65,27 @@ def save_article_data(article):
     if search_results:
         return search_results.first()
 
-    # If article does not already exist, save it now.
-    new_article = Article()
-    new_article.source_name = article["source"]["name"]
-    new_article.author = article["author"]
-    if not new_article.author:
-        new_article.author = "Unknown Author"
-    new_article.title = article["title"]
-    new_article.article_url = article["url"]
-    new_article.article_image_url = article["urlToImage"]
-    if not new_article.article_image_url:
-        new_article.article_image_url = "https://southpasadenan.com/wp-content/uploads/south-pasadena-news-08-21-18-mid-century-modern-home-at-83-patrician-way-sits-high-atop-LA-01.jpg"
-    new_article.publish_date = article["publishedAt"]
-    new_article.save()
-    return new_article
+    try:
+        # Chuck out unrealistically long article fields.
+        if len(article["source"]["name"]) > 2000 or len(article["author"]) > 2000 or len(article["title"]) > 2000:
+            return None
+
+        # If article does not already exist, save it now.
+        new_article = Article()
+        new_article.source_name = article["source"]["name"]
+        new_article.author = article["author"]
+        if not new_article.author:
+            new_article.author = "Unknown Author"
+        new_article.title = article["title"]
+        new_article.article_url = article["url"]
+        new_article.article_image_url = article["urlToImage"]
+        if not new_article.article_image_url:
+            new_article.article_image_url = "https://southpasadenan.com/wp-content/uploads/south-pasadena-news-08-21-18-mid-century-modern-home-at-83-patrician-way-sits-high-atop-LA-01.jpg"
+        new_article.publish_date = article["publishedAt"]
+        new_article.save()
+        return new_article
+    except:
+        return None
 
 def generate_news_feed(source=None, category=None):
     """Driver function to generate news feed.
@@ -90,5 +97,7 @@ def generate_news_feed(source=None, category=None):
     top_articles = retrieve_top_articles(source, category)
     saved_articles = []
     for article in top_articles:
-        saved_articles.append(save_article_data(article))
+        new_article = save_article_data(article)
+        if new_article:
+            saved_articles.append(new_article)
     return saved_articles

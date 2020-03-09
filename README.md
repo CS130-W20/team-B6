@@ -11,15 +11,13 @@ The frontend runs on Dart/Flutter and is intended to be a cross-platform mobile 
 The backend runs on Python Django and a SQL database. The directory structure of the backend follows the typical Django structure, with the app's general settings found in the `outlook` folder. The more specific configurations like API endpoints, database querying, and database schema declaration are found in the `backend` folder.
 
 ## Installation/Run instructions
-When starting up the app without modifying anything, the frontend should just be infinitely loading. To get to the app itself, make sure to follow these steps.
-
-1. In backend/.../db.sqlite3, add an entry in backend_users with id 1.
-2. Start the backend server.
-3. Download and install ngrok, which will create an HTTP tunnel to help extend localhost so that your phone can reach the server.
-4. Open ngrok and type in the command ngrok http localhost:8000. You should see that it maps some address like http://4b75b70e.ngrok.io to localhost.
-5. Go to frontend/.../main.dart and replace the BACKEND API URL HERE with [ngrok_address]/users/1.
-6. In backend/.../outlook/settings.py, add your ngrok address to the list of allowed hosts.
-7. Run the app and it should work.
+Without doing anything, the frontend should just be infinitely loading. To get to the app itself, make sure to follow these steps.
+1. Start the backend server.
+2. Download and install [ngrok](https://dashboard.ngrok.com/get-started), which will create an HTTP tunnel to help extend localhost so that your phone can reach the server. (I don't think you need this if you're using the emulator).
+3. Open ngrok and type in the command `ngrok http localhost:8000`. You should see that it maps some address like `http://4b75b70e.ngrok.io ` to localhost.
+4. Go to `frontend/lib/managers/api_manager.dart` and set the `DOMAIN` with  `$NGROK_ADDRESS`.
+5. In `backend/.../outlook/settings.py`, add your ngrok address to the list of allowed hosts. If the list has '*' in it, that should be fine also.
+6. Run the app, sign up and log in with an account and it should work.
 
 ## Relevant Links 
 - Documentation link

@@ -8,7 +8,7 @@ class Comment(models.Model):
     
     claim = models.CharField(max_length=140)
     argument = models.CharField(max_length=140)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_agreement = models.BooleanField(default=True)
     parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     parent_post = models.ForeignKey('Post', on_delete=models.CASCADE)
@@ -57,11 +57,11 @@ def save_user_profile(sender, instance, **kwargs):
 class Article(models.Model):
     """Article model to represent a single news article."""
 
-    source_name = models.CharField(max_length=200)
+    source_name = models.CharField(max_length=2000)
     # author length should be more because sometimes
     # it includes the source name as well.
-    author = models.CharField(max_length=1000, null=True, blank=True)
-    title = models.CharField(max_length=1000)
+    author = models.CharField(max_length=2000, null=True, blank=True)
+    title = models.CharField(max_length=2000)
     article_url = models.URLField(unique=True)
     article_image_url = models.URLField()
     publish_date = models.DateTimeField()
