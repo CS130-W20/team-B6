@@ -75,41 +75,49 @@ class _ReplyState extends State<Reply> {
         ]),
       ]);
     } else {
-      Column agreeList = Column(
-          children: widget.comment.agrees.map((c) => c.getPreview()).toList());
-      Column dissentList = Column(
-          children:
+      return FutureBuilder<void>(
+          future: widget.comment.repliesFuture,
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) return Text("loading");
+            print('done waiting for replies');
+            Column agreeList = Column(
+              children: widget.comment.agrees.map((c) => c.getPreview()).toList());
+            Column dissentList = Column(
+              children:
               widget.comment.dissents.map((c) => c.getPreview()).toList());
-      return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          RaisedButton(
-              child: Text("Agree",
-                  style: TextStyle(color: Colors.grey, fontSize: 12)),
-              onPressed: () {
-                setState(() {
-                  posting = true;
-                  agreeing = true;
-                });
-              }),
-          agreeList,
-        ])),
-        Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          RaisedButton(
-              child: Text("Dissent",
-                  style: TextStyle(color: Colors.grey, fontSize: 12)),
-              onPressed: () {
-                setState(() {
-                  posting = true;
-                  agreeing = false;
-                });
-              }),
-          dissentList,
-        ]))
-      ]);
+            return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    RaisedButton(
+                        child: Text("Agree",
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        onPressed: () {
+                          setState(() {
+                            posting = true;
+                            agreeing = true;
+                          });
+                        }),
+                    agreeList,
+                  ])),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    RaisedButton(
+                        child: Text("Dissent",
+                            style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        onPressed: () {
+                          setState(() {
+                            posting = true;
+                            agreeing = false;
+                          });
+                        }),
+                    dissentList,
+                  ]))
+            ]);
+          });
     }
   }
 }

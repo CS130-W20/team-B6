@@ -20,6 +20,7 @@ class Comment {
   CommentPreview preview;
   CommentWidget widget;
   CommentPage page;
+  Future<void> repliesFuture;
 
   static postComment(postId, claim, argument, commenterPic, commenterName, {agree=true, parentId=-1}){
     final comment = Comment(postId, claim, argument, commenterPic, commenterName, agree: agree, parentId: parentId);
@@ -39,6 +40,13 @@ class Comment {
     commentId = int.parse(commentPostResponse.body.split('=')[1]);
     print(commentPostResponse);
     print("ID $commentId");
+  }
+
+  Future<void> getReplies() async {
+    final replies = await ApiManager.getReplies(this);
+    agrees = replies[0];
+    dissents = replies[1];
+    print('done loading replies');
   }
 
   CommentPreview getPreview() {
@@ -74,6 +82,7 @@ class CommentPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
+          comment.repliesFuture = comment.getReplies();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => comment.getPage()));
         },

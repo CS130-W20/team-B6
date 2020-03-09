@@ -21,18 +21,18 @@ class FeedList extends StatelessWidget {
       future: commentsOnPost1,
       builder: (BuildContext context, AsyncSnapshot<List<Comment>> snapshot) {
         List<Widget> commentPreviewList;
-        String test;
         if(snapshot.hasData){
           commentPreviewList = snapshot.data.map((c) =>
             Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
               child: c.getPreview()
             )).toList();
-          test = "DONE";
         }
         else {
-          commentPreviewList = [];
-          test = "NOT DONE";
+          commentPreviewList = [Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
+            child: Text('loading comments...')
+          )];
         }
         return ListView.builder(
           itemCount: 5,
@@ -68,7 +68,7 @@ class FeedList extends StatelessWidget {
                           width: 10.0,
                         ),
                         new Text(
-                          "February 20, 2020 $test",
+                          "February 20, 2020",
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             decoration: TextDecoration.underline,

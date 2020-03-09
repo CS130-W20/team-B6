@@ -79,7 +79,7 @@ class ApiManager {
 
   static Future<List<Comment>> getCommentsOnPost(int postId) async {
     print('getting comments for post $postId');
-    final commentsResponse = await getWithOptions('$DOMAIN/comments/$postId');
+    http.Response commentsResponse = await getWithOptions('$DOMAIN/comments/$postId');
     List<Comment> comments = [];
     if (commentsResponse.statusCode == 200) {
       final jsonComments = jsonDecode(commentsResponse.body);
@@ -106,7 +106,47 @@ class ApiManager {
         comments.add(newComment);
       }
     }
-    print('comments gotten');
+    print('comments gotten for post $postId');
     return comments;
+  }
+  
+  static Future<List<List<Comment>>> getReplies(Comment comment) async {
+    print('getting replies for comment ${comment.commentId}');
+    http.Response repliesResponse = await getWithOptions('$DOMAIN/comments/get_replies/${comment.commentId}');
+    List<Comment> agrees = [];
+    List<Comment> dissents = [];
+    if(repliesResponse.statusCode == 200){
+      final jsonReplies = jsonDecode(repliesResponse.body);
+      for(var item in jsonReplies){
+        // print(item);
+        if (item['fields']['parent_comment'] == null) continue;
+        final userResponse = await getUserData(item['fields']['user']);
+        var commenterName = 'error';
+        ImageProvider commenterPic = AssetImage('assets/defaultprofilepic.jpg');
+        if (userResponse.statusCode == 200) {
+          final user = jsonDecode(userResponse.body);
+          commenterName =
+          '${user['fields']['first_name']} ${user['fields']['last_name']}';
+          String picUrl =
+          user['fields']['profile_picture_url'];
+          if (picUrl.isNotEmpty)
+            commenterPic = CachedNetworkImageProvider(picUrl);
+        }
+        print('user gotten');
+        var newComment = Comment(comment.postId, item['fields']['claim'], item['fields']['argument'],
+          commenterPic, commenterName,
+          agree: item['fields']['is_agreement'],
+        parentId: comment.commentId);
+        newComment.commentId = item['pk'];
+        if(item['fields']['is_agreement']){
+          agrees.add(newComment);
+        }
+        else {
+          dissents.add(newComment);
+        }
+      }
+    }
+    print('replies gotten for comment ${comment.commentId}');
+    return [agrees, dissents];
   }
 }
