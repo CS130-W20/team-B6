@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:outlook/managers/firebase_manager.dart';
 import 'package:hive/hive.dart';
@@ -9,7 +11,7 @@ import 'package:outlook/states/user_state.dart';
 // Checks if certain data exists in storage before calling api for it
 class DataManager {
 
-  static const String DOMAIN = 'http://4a6dde01.ngrok.io';
+  static const String DOMAIN = 'http://ce2280dd.ngrok.io';
   static const String AUTH_BOX = "auth";
   static const String USER_BOX = "user";
 
@@ -38,5 +40,19 @@ class DataManager {
     return http.put('$DOMAIN/users/put/${UserState.getId()}', headers: {
       "Authorization": "Token ${AuthState.getToken() != null ? AuthState.getToken() : ''}",
     }, body: data);
+  }
+
+  static postComment(int postId, String claim, String argument, bool agree, {int parentId = -1}) async {
+    var body = {
+      "username": UserState.getUserName(),
+      "claim": claim,
+      "argument": argument,
+      "is_agreement": agree ? "True" : "False"
+    };
+    if(parentId != -1)
+      body.putIfAbsent("parent_comment_id", () => parentId.toString());
+    return await http.post('$DOMAIN/comments/add/$postId', headers: {
+      "Authorization": "Token ${AuthState.getToken() != null ? AuthState.getToken() : ''}",
+    }, body: jsonEncode(body));
   }
 }

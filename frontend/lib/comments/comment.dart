@@ -1,22 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment_page.dart';
 import 'package:outlook/comments/reply.dart';
+import 'package:outlook/managers/data_manager.dart';
 
 // Contains the commenter's info, their comment, and replies.
 // This class has three singleton Widget member variables to be displayed: the
 // preview, the comment, and the page containing the comment.
 class Comment {
+  final int postId;
   final String claim;
   final String argument;
   final ImageProvider commenterPic;
   final String commenterName;
+  final bool agree;
+  final int parentId;
+  int commentId = -1;
   List<Comment> agrees = List<Comment>();
   List<Comment> dissents = List<Comment>();
   CommentPreview preview;
   CommentWidget widget;
   CommentPage page;
 
-  Comment(this.claim, this.argument, this.commenterPic, this.commenterName);
+  Comment(this.postId, this.claim, this.argument, this.commenterPic, this.commenterName, {this.agree=true, this.parentId=-1}) {
+    setCommentId();
+  }
+
+  setCommentId() async {
+    print("posting comment");
+    var commentPostResponse;
+    if(parentId != -1)
+      commentPostResponse = await DataManager.postComment(postId, claim, argument, agree, parentId: parentId);
+    else
+      commentPostResponse = await DataManager.postComment(postId, claim, argument, agree);
+    commentId = int.parse(commentPostResponse.body.split('=')[1]);
+    print(commentPostResponse);
+    print("ID $commentId");
+  }
 
   CommentPreview getPreview() {
     if (preview == null) {

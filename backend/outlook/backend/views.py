@@ -204,7 +204,7 @@ def add_comment_to_post(request, post_id):
             return HttpResponse("No comment found with given parent_comment_id.")
         new_comment.parent_comment = target_comment
     new_comment.save()
-    return HttpResponse("New comment saved to post.")
+    return HttpResponse("New comment saved to post. ID="+str(new_comment.id))
 
 def get_newsfeed_data(source=None, category=None):
     from .news import generate_news_feed

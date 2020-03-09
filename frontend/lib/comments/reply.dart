@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
+import 'package:outlook/managers/data_manager.dart';
 import 'package:outlook/states/user_state.dart';
 import 'package:provider/provider.dart';
 
@@ -39,25 +40,33 @@ class _ReplyState extends State<Reply> {
           ),
         ),
         Row(children: [
-          Consumer<UserState>(builder: (context, userState, child) => RaisedButton(
+          RaisedButton(
             child: Text(agreeing ? "Agree" : "Dissent"),
             onPressed: () {
               if (claimController.text.isNotEmpty &&
-                argumentController.text.isNotEmpty) {
+                  argumentController.text.isNotEmpty) {
                 setState(() {
                   posting = false;
                   final replyList = agreeing
-                    ? widget.comment.agrees
-                    : widget.comment.dissents;
+                      ? widget.comment.agrees
+                      : widget.comment.dissents;
+                  final userState = UserState.getState();
                   replyList.add(Comment(
-                    claimController.text,
-                    argumentController.text,
-                    userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg'),
-                    "${userState.firstname} ${userState.lastname}"));
+                      widget.comment.postId,
+                      claimController.text,
+                      argumentController.text,
+                      userState.profilepic.length > 0
+                          ? CachedNetworkImageProvider(userState.profilepic)
+                          : AssetImage('assets/defaultprofilepic.jpg'),
+                      "${userState.firstname} ${userState.lastname}",
+                      agree: agreeing));
+                  DataManager.postComment(widget.comment.postId,
+                      claimController.text, argumentController.text, agreeing,
+                      parentId: widget.comment.commentId);
                 });
               }
             },
-          )),
+          ),
           SizedBox(width: 16),
           RaisedButton(
             child: Text("Cancel"),
