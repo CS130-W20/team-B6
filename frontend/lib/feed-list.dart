@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:outlook/comments/comment.dart';
 import 'package:outlook/feed-stories.dart' show FeedStories;
 import 'package:outlook/managers/api_manager.dart';
+import 'dart:math';
 
+var fruits = ["https://www.logodesignlove.com/wp-content/uploads/2010/06/cnn-logo-white-on-red.jpg"
+, "https://ichef.bbci.co.uk/news/320/cpsprodpb/80F2/production/_111201033_mediaitem111201032.jpg", "https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2020/3/9/78b0860c142c46e0a93431eabaedf57d_18.jpg"];
+Random rnd = new Random();
+var url = fruits[1];
 class FeedList extends StatelessWidget {
   /*
   static Comment sampleComment = Comment.postComment(1,
@@ -86,7 +91,7 @@ class FeedList extends StatelessWidget {
               Flexible(
                 fit: FlexFit.loose,
                 child: new Image.network(
-                  "https://cdn.cnn.com/cnnnext/dam/assets/200219225100-07-msnbc-dem-debate-0219-buttigieg-klobuchar-large-tease.jpgr",
+                  "https://ichef.bbci.co.uk/news/320/cpsprodpb/80F2/production/_111201033_mediaitem111201032.jpg",
                   fit: BoxFit.cover,
                 ),
               ),
