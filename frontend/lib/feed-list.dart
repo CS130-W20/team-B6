@@ -117,7 +117,7 @@ class FeedList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  "Upvoted by Samar Seth and 3,642,092 others",
+                  "All of Italy is in lockdown as coronavirus cases rise \n Upvoted by 3 others",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),]
