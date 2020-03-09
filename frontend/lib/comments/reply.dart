@@ -49,7 +49,7 @@ class _ReplyState extends State<Reply> {
                       ? widget.comment.agrees
                       : widget.comment.dissents;
                   final userState = UserState.getState();
-                  replyList.add(Comment(
+                  replyList.add(Comment.postComment(
                       widget.comment.postId,
                       claimController.text,
                       argumentController.text,

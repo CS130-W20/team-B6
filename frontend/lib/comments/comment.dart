@@ -21,9 +21,13 @@ class Comment {
   CommentWidget widget;
   CommentPage page;
 
-  Comment(this.postId, this.claim, this.argument, this.commenterPic, this.commenterName, {this.agree=true, this.parentId=-1}) {
-    setCommentId();
+  static postComment(postId, claim, argument, commenterPic, commenterName, {agree=true, parentId=-1}){
+    final comment = Comment(postId, claim, argument, commenterPic, commenterName, agree: agree, parentId: parentId);
+    comment.setCommentId();
+    return comment;
   }
+
+  Comment(this.postId, this.claim, this.argument, this.commenterPic, this.commenterName, {this.agree=true, this.parentId=-1});
 
   setCommentId() async {
     print("posting comment");
