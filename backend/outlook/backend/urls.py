@@ -14,4 +14,5 @@ urlpatterns = [
         path('newsfeed', views.get_newsfeed_posts, name="get_newsfeed_posts"),
         path('newsfeed/source/<str:source>', views.get_newsfeed_posts_from_source, name='get_newsfeed_posts_from_source'),
         path('newsfeed/category/<str:category>', views.get_newsfeed_posts_from_category, name='get_newsfeed_posts_from_category'),
+        path('posts/increment_like/<int:post_id>', views.increment_like, name='increment_like'),
 ]

@@ -81,6 +81,19 @@ def get_post(request, post_id):
         return HttpResponse(data, content_type="application/json")
     else:
         return HttpResponse("No post with given post id found.")
+
+@csrf_exempt
+@api_view(["POST"])
+def increment_like(request, post_id):
+    """POST interface for incrementing like count of a Post based on id."""
+
+    search_results = Post.objects.filter(id=post_id)
+    if not search_results:
+        return HttpResponse("No post with given post id found.")
+    target_post = search_results.first()
+    target_post.like_count += 1
+    target_post.save()
+    return HttpResponse("Like count updated.")
       
 @csrf_exempt
 @api_view(["GET"])
