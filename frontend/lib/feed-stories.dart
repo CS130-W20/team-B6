@@ -40,10 +40,40 @@ class FeedStories extends StatelessWidget {
                 }
                 var res = await http.get(Uri.encodeFull(urlPass), headers: {"Authorization": "Token 9b0992c1398d71a14ba9009905deaf2f878c3a09"});
                 final List<dynamic> data = json.decode(res.body);
+                // List<int> id_list = [1,2,3,4,5];
+                // List<String> title_list = ['','','','',''];
+                // List<String> url_list = ['','','','',''];
+                // List<String> image_list = ['','','','',''];
+                // title_list[0] = data[0]["article"]["title"];
+                // image_list[0] = data[0]["article"]["article_image_url"];
+                // url_list[0] = data[0]["article"]["article_url"];
+                // id_list[0] = data[0]["article"]["id"];
+
+                // title_list[1] = data[1]["article"]["title"];
+                // image_list[1] = data[1]["article"]["article_image_url"];
+                // url_list[1] = data[1]["article"]["article_url"];
+                // id_list[1] = data[1]["article"]["id"];
+
+                // title_list[2] = data[2]["article"]["title"];
+                // image_list[2] = data[2]["article"]["article_image_url"];
+                // url_list[2] = data[2]["article"]["article_url"];
+                // id_list[2] = data[2]["article"]["id"];
+
+                // title_list[3] = data[3]["article"]["title"];
+                // image_list[3] = data[3]["article"]["article_image_url"];
+                // url_list[3] = data[3]["article"]["article_url"];
+                // id_list[3] = data[3]["article"]["id"];
+
+                // title_list[4] = data[4]["article"]["title"];
+                // image_list[4] = data[4]["article"]["article_image_url"];
+                // url_list[4] = data[4]["article"]["article_url"];
+                // id_list[4] = data[4]["article"]["id"];
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewsStoryApp(),
+                    // builder: (context) => NewsStoryApp(context,url_list, image_list,title_list, id_list),
                   ),
                 );
                 print(data[0]["article"]["article_image_url"]);

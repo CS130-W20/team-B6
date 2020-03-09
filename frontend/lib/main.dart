@@ -168,7 +168,7 @@ class MainLayout extends StatelessWidget {
         return PageResources(
           name: 'Outlook', 
           widget: AppHome(),
-          actions: getNewsStory(context)
+          actions: getNewsStory(context,'sample')
           );
       case 2:
         return PageResources(
