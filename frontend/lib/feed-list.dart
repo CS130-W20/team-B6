@@ -1,81 +1,89 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:outlook/feed-stories.dart' show FeedStories;
 
+int n = 0;
 class FeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var deviceSize = MediaQuery.of(context).size;
-    return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, index) => index == 0
-          ? new SizedBox(
-              child: new FeedStories(),
-              height: deviceSize.height * 0.15,
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
+    // var floatingActionButton;
+        return ListView.builder(
+          itemCount: 5,
+          itemBuilder: (context, index) => index == 0
+              ? new SizedBox(
+                  child: new FeedStories(),
+                  height: deviceSize.height * 0.15,
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new Container(
-                            height: 40.0,
-                            width: 60.0,
-                            decoration: new BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              image: new DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: new NetworkImage(
-                                      "https://www.logodesignlove.com/wp-content/uploads/2010/06/cnn-logo-white-on-red.jpg")),
-                            ),
+                          Row(
+                            children: <Widget>[
+                              new Container(
+                                height: 40.0,
+                                width: 60.0,
+                                decoration: new BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  image: new DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: new NetworkImage(
+                                          "https://www.logodesignlove.com/wp-content/uploads/2010/06/cnn-logo-white-on-red.jpg")),
+                                ),
+                              ),
+                              new SizedBox(
+                                width: 10.0,
+                              ),
+                              new Text(
+                                "February 20, 2020",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                ),
+                              )
+                            ],
                           ),
-                          new SizedBox(
-                            width: 10.0,
-                          ),
-                          new Text(
-                            "February 20, 2020",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                            ),
+                          new IconButton(
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {print('exec');},
                           )
                         ],
                       ),
-                      new IconButton(
-                        icon: Icon(Icons.more_vert),
-                        onPressed: null,
-                      )
-                    ],
-                  ),
-                ),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: new Image.network(
-                    "https://cdn.cnn.com/cnnnext/dam/assets/200219225100-07-msnbc-dem-debate-0219-buttigieg-klobuchar-large-tease.jpgr",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      new Row(
+                    ),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: new Image.network(
+                        "https://cdn.cnn.com/cnnnext/dam/assets/200219225100-07-msnbc-dem-debate-0219-buttigieg-klobuchar-large-tease.jpgr",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new SizedBox(
-                            width: 16.0,
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              new SizedBox(
+                                width: 16.0,
+                              ),
+                              
+                              new IconButton(
+                              icon: Icon(Icons.arrow_upward),
+                              onPressed: () {n++;print('yo');},
+                              ),
+                            ],
                           ),
-                          new Icon(Icons.arrow_upward),
-                        ],
-                      ),
-                      new Icon(Icons.announcement)
+                          new Icon(Icons.announcement)
                     
                     ],
                   ),
@@ -83,7 +91,7 @@ class FeedList extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    "Upvoted by Samar Seth and 3,642,092 others",
+                    "Upvoted by \'${n}'\ debaters!",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
