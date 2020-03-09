@@ -65,6 +65,10 @@ def save_article_data(article):
     if search_results:
         return search_results.first()
 
+    # Chuck out unrealistically long article fields.
+    if len(article["source"]["name"]) > 2000 or len(article["author"]) > 2000 or len(article["title"]) > 2000:
+        return None
+
     # If article does not already exist, save it now.
     new_article = Article()
     new_article.source_name = article["source"]["name"]
@@ -90,5 +94,7 @@ def generate_news_feed(source=None, category=None):
     top_articles = retrieve_top_articles(source, category)
     saved_articles = []
     for article in top_articles:
-        saved_articles.append(save_article_data(article))
+        new_article = save_article_data(article)
+        if new_article:
+            saved_articles.append(new_article)
     return saved_articles
