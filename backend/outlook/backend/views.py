@@ -270,6 +270,7 @@ def get_comments_by_user_id(request, user_id):
     filtered_json_response = []
     for comment in json_data:
         parent_post = Post.objects.filter(id=comment['fields']['parent_post'])
+        parent_comment = Comment.objects.filter(id=comment['fields']['parent_comment'])
         if parent_post:
             parent_post = parent_post[0]
             parent_article = Article.objects.filter(post=parent_post.id)
@@ -277,5 +278,11 @@ def get_comments_by_user_id(request, user_id):
                 parent_article = parent_article[0]
                 comment['fields']['parent_article_title'] = parent_article.title
                 comment['fields']['parent_article_url'] = parent_article.article_url
+                if parent_comment:
+                    parent_comment = parent_comment[0]
+                    comment['fields']['parent_comment_user'] = parent_comment.user.username
+                else:
+                    comment['fields']['parent_comment_user'] = None
                 filtered_json_response.append(comment)
+    filtered_json_response.sort(key=lambda r: r['pk'], reverse=True) # assumption, larger id = more recent
     return JsonResponse(filtered_json_response, safe=False)
