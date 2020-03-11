@@ -26,7 +26,7 @@ class ActivitySection extends StatelessWidget {
                           for (var comment in commentList) Comment(
                               text: comment['fields']['argument'],
                               preview: comment['fields']['claim'],
-                              articleName: '...',
+                              articleName: comment['fields']['parent_article_title'],
                               type: comment['fields']['parent_comment'] == null ? 'start' : 'reply'
                           )
                         ]
@@ -94,11 +94,12 @@ class _CommentState extends State<Comment> {
                         padding: EdgeInsets.only(bottom: 0),
                         child: Text(widget.articleName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       ),
+                      Divider(color: Colors.blueAccent),
                       Padding(
                         padding: EdgeInsets.only(bottom: 5),
-                        child: Text(widget.preview, style: TextStyle(fontSize: 12)),
+                        child: Text(widget.preview, style: TextStyle(fontSize: 14)),
                       ),
-                      Text(widget.text, style: TextStyle(fontSize: 14))
+                      Text(widget.text, style: TextStyle(fontSize: 12))
                     ]
                 )
             )

@@ -14,7 +14,7 @@ from rest_framework.status import (
     HTTP_200_OK
 )
 from rest_framework.response import Response
-from backend.models import Post, Profile, Comment
+from backend.models import Post, Profile, Comment, Article
 import json
 from django.http import JsonResponse
 
@@ -266,4 +266,16 @@ def get_comments_by_user_id(request, user_id):
 
     user_comments = Comment.objects.filter(user=user_id)
     data = serializers.serialize('json', user_comments)
-    return HttpResponse(data, content_type="application/json")
+    json_data = json.loads(data)
+    filtered_json_response = []
+    for comment in json_data:
+        parent_post = Post.objects.filter(id=comment['fields']['parent_post'])
+        if parent_post:
+            parent_post = parent_post[0]
+            parent_article = Article.objects.filter(post=parent_post.id)
+            if parent_article:
+                parent_article = parent_article[0]
+                comment['fields']['parent_article_title'] = parent_article.title
+                comment['fields']['parent_article_url'] = parent_article.article_url
+                filtered_json_response.append(comment)
+    return JsonResponse(filtered_json_response, safe=False)

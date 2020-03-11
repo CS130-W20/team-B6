@@ -31,13 +31,13 @@ class FeedList extends StatelessWidget {
         if(snapshot.hasData){
           commentPreviewList = snapshot.data.map((c) =>
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
               child: c.getPreview()
             )).toList();
         }
         else {
           commentPreviewList = [Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
             child: Text('loading comments...')
           )];
         }
