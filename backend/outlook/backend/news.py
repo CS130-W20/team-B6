@@ -67,7 +67,7 @@ def save_article_data(article):
 
     try:
         # Chuck out unrealistically long article fields.
-        if len(article["source"]["name"]) > 2000 or len(article["author"]) > 2000 or len(article["title"]) > 2000:
+        if len(article["source"]["name"]) > 2000 or (article["author"] and len(article["author"])) > 2000 or len(article["title"]) > 2000:
             return None
 
         # If article does not already exist, save it now.

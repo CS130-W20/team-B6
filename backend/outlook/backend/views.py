@@ -264,6 +264,6 @@ def get_comments_by_user_id(request, user_id):
     if not user:
         return HttpResponse("No user found with given user id")
 
-    user_comments = Comment.objects.filter(user=user)
+    user_comments = Comment.objects.filter(user=user_id)
     data = serializers.serialize('json', user_comments)
     return HttpResponse(data, content_type="application/json")
