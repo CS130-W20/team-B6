@@ -130,20 +130,23 @@ class _CommentWidgetState extends State<CommentWidget> {
               Text("Claim", style: TextStyle(fontWeight: FontWeight.bold)),
               Text(widget.comment.claim, style: TextStyle(fontSize: 18)),
               Divider(),
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Container(
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: widget.comment.commenterPic))),
-                SizedBox(width: 10),
-                Text(widget.comment.commenterName,
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-              ]),
+              FlatButton(
+                padding: EdgeInsets.all(0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Container(
+                      height: 40.0,
+                      width: 40.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: widget.comment.commenterPic))),
+                  SizedBox(width: 10),
+                  Text(widget.comment.commenterName,
+                      style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black)),
+                ]),
+              ),
               Text("Argument:", style: TextStyle(fontWeight: FontWeight.bold)),
               Text(widget.comment.argument, style: TextStyle(fontSize: 14)),
               Divider(),
