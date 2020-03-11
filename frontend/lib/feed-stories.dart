@@ -47,19 +47,23 @@ class FeedStories extends StatelessWidget {
                 );
                 print(data[0]["article"]["article_image_url"]);
             },
-            child: new Container(
+            child: new SizedBox(
+              width: 60,
+              height: 100,
+              child: new Container(
                 width: 70.0,
                 height: 200.0,
                 decoration: new BoxDecoration(
-                  border: Border.all(width: 3.0,color: Colors.black),
-                  shape: BoxShape.rectangle,
-                  image: new DecorationImage(
+                    border: Border.all(width: 1.5, color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                    image: new DecorationImage(
                       fit: BoxFit.fill,
                       image: new NetworkImage(url),
-                  )
+                    )
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
               )
+            )
     );
   }
 
@@ -126,7 +130,7 @@ class FeedStories extends StatelessWidget {
           stories,
         ],
       )
-      
+
     );
   }
 }

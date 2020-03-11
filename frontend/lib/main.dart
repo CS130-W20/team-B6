@@ -30,8 +30,8 @@ void main() async {
   await Hive.openBox(AuthState.AUTH_BOX);
   await Hive.openBox(UserState.USER_BOX, encryptionCipher: HiveAesCipher(key));
   // UNCOMMENT THIS OUT RESET STORAGE DATA
- await Hive.box(AuthState.AUTH_BOX).clear();
- await Hive.box(UserState.USER_BOX).clear();
+// await Hive.box(AuthState.AUTH_BOX).clear();
+// await Hive.box(UserState.USER_BOX).clear();
 
   runApp(Outlook());
 }
