@@ -256,3 +256,14 @@ def get_newsfeed_posts_from_category(request, category):
 
     data = get_newsfeed_data(category=category)
     return HttpResponse(json.dumps(data, indent=4, sort_keys=True, default=str), content_type="application/json")
+
+@csrf_exempt
+@api_view(['GET'])
+def get_comments_by_user_id(request, user_id):
+    user = User.objects.filter(id=user_id)
+    if not user:
+        return HttpResponse("No user found with given user id")
+
+    user_comments = Comment.objects.filter(user=user_id)
+    data = serializers.serialize('json', user_comments)
+    return HttpResponse(data, content_type="application/json")
