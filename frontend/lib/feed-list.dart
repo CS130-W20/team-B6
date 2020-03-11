@@ -5,6 +5,8 @@ import 'package:outlook/managers/api_manager.dart';
 import 'dart:math';
 import 'package:outlook/states/user_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
+import 'package:outlook/states/page_state.dart';
 
 var fruits = ["https://www.logodesignlove.com/wp-content/uploads/2010/06/cnn-logo-white-on-red.jpg"
 , "https://ichef.bbci.co.uk/news/320/cpsprodpb/80F2/production/_111201033_mediaitem111201032.jpg", "https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2020/3/9/78b0860c142c46e0a93431eabaedf57d_18.jpg"];
@@ -119,7 +121,7 @@ class FeedList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  "All of Italy is in lockdown as coronavirus cases rise \n Upvoted by 3 others",
+                  "All of Italy is in lockdown as coronavirus cases rise \nUpvoted by 3 others",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),]
@@ -130,15 +132,27 @@ class FeedList extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      height: 40.0,
-                      width: 40.0,
-                      decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: UserState.getProfilePic().length > 0 ? CachedNetworkImageProvider(UserState.getProfilePic()) : AssetImage('assets/defaultprofilepic.jpg')),
-                      ),
+                    new Consumer<PageState>(
+                      builder: (context, pageState, child) {
+                        return new SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: new FlatButton(
+                            padding: EdgeInsets.all(0),
+                            onPressed: () => pageState.changePage(2),
+                            child: new Container(
+                              height: 40.0,
+                              width: 40.0,
+                              decoration: new BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: UserState.getProfilePic().length > 0 ? CachedNetworkImageProvider(UserState.getProfilePic()) : AssetImage('assets/defaultprofilepic.jpg')),
+                              ),
+                            ),
+                          )
+                        );
+                      }
                     ),
                     new SizedBox(
                       width: 10.0,
