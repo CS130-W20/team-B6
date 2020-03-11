@@ -1,45 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:outlook/states/user_state.dart';
+import 'package:outlook/managers/api_manager.dart';
+import 'dart:convert';
+import 'dart:core';
 
 /// Displays the recent comments/posts the user has made.
 class ActivitySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(0, 0, 0, 0.01),
-      child: ListView(
-          children: <Widget>[
-            Comment(
-                text: 'Well I\'m just trying to see what other crazy things Florida man will do',
-                preview: 'reply to @other_user',
-                type: 'reply',
-                articleName: 'Florida Man does Something Crazy...Again'
-            ),
-            Comment(
-                text: 'Another sample comment to see what will happen',
-                preview: 'reply to @other_user2',
-                type: 'reply',
-                articleName: 'Some Random Event Happened'
-            ),
-            Comment(
-                text: 'Another sample comment to see what will happen',
-                preview: 'reply to @other_user2',
-                type: 'reply',
-                articleName: 'Some Random Event Happened'
-            ),
-            Comment(
-                text: 'Another sample comment to see what will happen',
-                preview: 'reply to @other_user2',
-                type: 'reply',
-                articleName: 'Some Random Event Happened'
-            ),
-            Comment(
-                text: 'Another sample comment to see what will happen',
-                preview: 'reply to @other_user2',
-                type: 'reply',
-                articleName: 'Some Random Event Happened'
-            )
-          ]
-      )
+        color: Color.fromRGBO(0, 0, 0, 0.01),
+        child: FutureBuilder(
+            future: ApiManager.getCommentsFromUser(UserState.getId()),
+            builder: (context, snapshot) {
+              Widget errorMsg = Center(
+                child: Text('Error in retrieving comments.')
+              );
+              if (snapshot.hasData) {
+                try {
+                  var commentsResponse = snapshot.data;
+                  var commentList = jsonDecode(commentsResponse.body);
+                  if (commentsResponse.statusCode == 200) {
+                    return ListView(
+                        children: <Widget>[
+                          for (var comment in commentList) Comment(
+                              text: comment['fields']['argument'],
+                              preview: comment['fields']['claim'],
+                              articleName: '...',
+                              type: comment['fields']['parent_comment'] == null ? 'start' : 'reply'
+                          )
+                        ]
+                    );
+                  } else {
+                    return errorMsg;
+                  }
+                } catch (e) {
+                  return errorMsg;
+                }
+              } else {
+                return Center(
+                    child: SizedBox(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        ),
+                        height: 50,
+                        width: 50
+                    )
+                );
+              }
+            }
+        )
     );
   }
 }

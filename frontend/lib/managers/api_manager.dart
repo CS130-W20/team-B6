@@ -59,6 +59,10 @@ class ApiManager {
     return putWithOptions('$DOMAIN/users/put/${UserState.getId()}', data);
   }
 
+  static getCommentsFromUser(int userId) {
+    return getWithOptions('$DOMAIN/users/${UserState.getId()}/comments');
+  }
+
   static postComment(int postId, String claim, String argument, bool agree,
       {int parentId = -1}) async {
     var body = {
