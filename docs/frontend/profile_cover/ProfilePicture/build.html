@@ -138,23 +138,40 @@ and</li>
       <h2><span>Implementation</span></h2>
       <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return Container(
-    constraints: BoxConstraints(
-        maxHeight: 120,
-        maxWidth: 120
-    ),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(100)),
-        image:  DecorationImage(
-            image: AssetImage(&#39;assets&#47;defaultprofilepic.jpg&#39;)
-        ),
-        boxShadow: [
-          BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.2),
-              blurRadius: 8
-          )
-        ]
-    ),
+
+  return ValueListenableBuilder(
+    valueListenable: UserState.getListenable(),
+    builder: (context, userBox, child) {
+      UserState userState = UserState.getState();
+      return FutureBuilder(
+          future: ApiManager.getProfilePicture(userState.username),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data != UserState.getProfilePic()) {
+                UserState.setProfilePic(snapshot.data);
+              }
+            }
+            return Container(
+              constraints: BoxConstraints(
+                  maxHeight: 120,
+                  maxWidth: 120
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  image:  DecorationImage(
+                      image: userState.profilepic.length &gt; 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage(&#39;assets&#47;defaultprofilepic.jpg&#39;)
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                        blurRadius: 8
+                    )
+                  ]
+              ),
+            );
+          },
+      );
+    }
   );
 }</code></pre>
     </section>

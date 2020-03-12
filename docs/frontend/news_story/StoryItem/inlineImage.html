@@ -87,7 +87,8 @@
     <section class="multi-line-signature">
       <span class="returntype"><a href="../../news_story/StoryItem-class.html">StoryItem</a></span>
             <span class="name ">inlineImage</span>
-(<wbr><ol class="parameter-list"><li><span class="parameter" id="inlineImage-param-urltempnews"><span class="type-annotation"><a href="../../dart-core/String-class.html">String</a></span> <span class="parameter-name">urltempnews</span>, </span></li>
+(<wbr><ol class="parameter-list"><li><span class="parameter" id="inlineImage-param-hardcodecounter2"><span class="type-annotation"><a href="../../dart-core/int-class.html">int</a></span> <span class="parameter-name">hardcodecounter2</span>, </span></li>
+<li><span class="parameter" id="inlineImage-param-urltempnews"><span class="type-annotation"><a href="../../dart-core/String-class.html">String</a></span> <span class="parameter-name">urltempnews</span>, </span></li>
 <li><span class="parameter" id="inlineImage-param-image"><span class="type-annotation">ImageProvider</span> <span class="parameter-name">image</span>, </span></li>
 <li><span class="parameter" id="inlineImage-param-caption">{<span class="type-annotation">Text</span> <span class="parameter-name">caption</span>, </span></li>
 <li><span class="parameter" id="inlineImage-param-seen"><span class="type-annotation"><a href="../../dart-core/bool-class.html">bool</a></span> <span class="parameter-name">seen</span>: <span class="default-value">false</span>, </span></li>
@@ -100,6 +101,7 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span></h2>
       <pre class="language-dart"><code class="language-dart">static StoryItem inlineImage(
+  int hardcodecounter2,
   String urltempnews,
   ImageProvider image, {
   Text caption,
@@ -108,11 +110,19 @@
   bool roundedBottom = false,
 
 }) {
-  print (&#39;---------news-url:--&#39;);
-  print (urltempnews);
-  print (urlnews);
-  urlnews = urltempnews;
-  print (urlnews);
+  hardcodecounter = hardcodecounter2;
+  &#47;&#47; urlnews += urltempnews;
+  urlList.add(urltempnews);
+  &#47;&#47; print (&quot;--------^^^^^^^^^-------^^^^^^^--------&quot;);
+  &#47;&#47; print (urlList);
+
+  &#47;&#47; Navigator.push(context, new MaterialPageRoute(builder: (context) =&gt; new StoryView(urlnews);
+
+
+  &#47;&#47; print (&#39;---------news-url:--&#39;);
+  &#47;&#47; print (urltempnews);
+  &#47;&#47; print (urlnews);
+
   return StoryItem(
     Container(
       child : Column(

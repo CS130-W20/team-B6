@@ -50,21 +50,34 @@
           <li class="section-title">Libraries</li>
           <li><a href="profile_sections_about/profile_sections_about-library.html">about</a></li>
           <li><a href="profile_sections_activity/profile_sections_activity-library.html">activity</a></li>
+          <li><a href="managers_api_manager/managers_api_manager-library.html">api_manager</a></li>
+          <li><a href="states_auth_state/states_auth_state-library.html">auth_state</a></li>
           <li><a href="bottom_nav_bar/bottom_nav_bar-library.html">bottom_nav_bar</a></li>
+          <li><a href="comments_comment/comments_comment-library.html">comment</a></li>
+          <li><a href="comments_comment_page/comments_comment_page-library.html">comment_page</a></li>
           <li><a href="profile_cover/profile_cover-library.html">cover</a></li>
+          <li><a href="discover_main/discover_main-library.html">discover_main</a></li>
           <li><a href="profile_edit_edit_form/profile_edit_edit_form-library.html">edit_form</a></li>
           <li><a href="profile_edit_profile_page/profile_edit_profile_page-library.html">edit_profile_page</a></li>
+          <li><a href="feed-list/feed-list-library.html">feed-list</a></li>
+          <li><a href="feed-stories/feed-stories-library.html">feed-stories</a></li>
+          <li><a href="managers_firebase_manager/managers_firebase_manager-library.html">firebase_manager</a></li>
           <li><a href="profile_sections_following/profile_sections_following-library.html">following</a></li>
+          <li><a href="login_login/login_login-library.html">login</a></li>
           <li><a href="main/main-library.html">main</a></li>
           <li><a href="news_story/news_story-library.html">news_story</a></li>
           <li><a href="news_story_actions/news_story_actions-library.html">news_story_actions</a></li>
+          <li><a href="newsfeed_body/newsfeed_body-library.html">newsfeed_body</a></li>
           <li><a href="page_resources/page_resources-library.html">page_resources</a></li>
-          <li><a href="page_state/page_state-library.html">page_state</a></li>
+          <li><a href="states_page_state/states_page_state-library.html">page_state</a></li>
           <li><a href="profile_profile_page/profile_profile_page-library.html">profile_page</a></li>
+          <li><a href="comments_reply/comments_reply-library.html">reply</a></li>
           <li><a href="profile_section-control_section_control/profile_section-control_section_control-library.html">section_control</a></li>
           <li><a href="profile_section-control_section_control_nav/profile_section-control_section_control_nav-library.html">section_control_nav</a></li>
+          <li><a href="login_signup/login_signup-library.html">signup</a></li>
           <li><a href="story_main/story_main-library.html">story_main</a></li>
-          <li><a href="user_state/user_state-library.html">user_state</a></li>
+          <li><a href="temp-stories/temp-stories-library.html">temp-stories</a></li>
+          <li><a href="states_user_state/states_user_state-library.html">user_state</a></li>
           <li class="section-title">Dart</li>
           <li><a href="dart-ui/dart-ui-library.html">dart:ui</a></li>
           <li class="section-subtitle">Core</li>
@@ -89,15 +102,33 @@
   <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
       <section class="desc markdown">
         <h1 id="outlook-frontend">Outlook Frontend</h1>
+<h2 id="run-the-app">Run the app</h2>
 <p>Without doing anything, the frontend should just be infinitely loading. To get to the app itself, make sure to follow these steps.</p>
 <ol>
-<li>In <code>backend/.../db.sqlite3</code>, add an entry in <code>backend_users</code> with id 1.</li>
 <li>Start the backend server.</li>
 <li>Download and install <a href="https://dashboard.ngrok.com/get-started">ngrok</a>, which will create an HTTP tunnel to help extend localhost so that your phone can reach the server. (I don't think you need this if you're using the emulator).</li>
 <li>Open ngrok and type in the command <code>ngrok http localhost:8000</code>. You should see that it maps some address like <code>http://4b75b70e.ngrok.io</code> to localhost.</li>
-<li>Go to <code>frontend/.../main.dart</code> and replace the <code>BACKEND API URL HERE</code> with  <code>[ngrok_address]/users/1</code>.</li>
-<li>Run the app and it should work.</li>
+<li>Go to <code>frontend/lib/managers/api_manager.dart</code> and replace the <code>DOMAIN</code> as the  <code>$NGROK_ADDRESS</code>.</li>
+<li>In <code>backend/.../outlook/settings.py</code>, add your ngrok address to the list of allowed hosts. If the list has '*' in it, that should be fine also.</li>
+<li>Run the app, sign up and log in with an account and it should work.</li>
 </ol>
+<h2 id="extra-info-troubleshooting">Extra info (troubleshooting)</h2>
+<ul>
+<li><a href="https://www.postman.com/downloads/">Postman</a> is recommend to make direct API requests to the backend.</li>
+<li>To directly make an account, go to <code>$NGROK_ADDRESS/signup</code> in Postman and select POST. Go to Body tab, click "raw", and put in</li>
+</ul>
+<pre class="language-dart"><code>{
+  "username": "$YOURUSERNAME",
+  "password": "$YOURPASSWORD",
+  "firstname": "$YOURFIRSTNAME",
+  "lastname": "$YOURLASTNAME"
+}
+</code></pre>
+<p>Clicking Send should sign you up as a user in the DB. Check that this is true.</p>
+<ul>
+<li>In <code>main.dart</code>, you can try to change the line of code with <code>ApiManager.login(...)</code> to <code>ApiManager.login($YOURUSERNAME, $YOURPASSWORD)</code>.</li>
+<li>To reset the data that Hive saves in its storage, you can uncomment out the two lines in <code>main()</code> inside <code>main.dart</code>. If data is blank, just manually add <code>UserState.setUserName(username)</code> and <code>AuthState.setPassword(password)</code> in <code>main()</code>, which should help retrieve the corresponding user data (assuming you signed up).</li>
+</ul>
       </section>
       
         <section class="summary">
@@ -115,14 +146,44 @@
             <dd>
                
             </dd>
+            <dt id="api_manager">
+              <span class="name"><a href="managers_api_manager/managers_api_manager-library.html">api_manager</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="auth_state">
+              <span class="name"><a href="states_auth_state/states_auth_state-library.html">auth_state</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
             <dt id="bottom_nav_bar">
               <span class="name"><a href="bottom_nav_bar/bottom_nav_bar-library.html">bottom_nav_bar</a></span>             
             </dt>
             <dd>
                
             </dd>
+            <dt id="comment">
+              <span class="name"><a href="comments_comment/comments_comment-library.html">comment</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="comment_page">
+              <span class="name"><a href="comments_comment_page/comments_comment_page-library.html">comment_page</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
             <dt id="cover">
               <span class="name"><a href="profile_cover/profile_cover-library.html">cover</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="discover_main">
+              <span class="name"><a href="discover_main/discover_main-library.html">discover_main</a></span>             
             </dt>
             <dd>
                
@@ -139,8 +200,32 @@
             <dd>
                
             </dd>
+            <dt id="feed-list">
+              <span class="name"><a href="feed-list/feed-list-library.html">feed-list</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="feed-stories">
+              <span class="name"><a href="feed-stories/feed-stories-library.html">feed-stories</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="firebase_manager">
+              <span class="name"><a href="managers_firebase_manager/managers_firebase_manager-library.html">firebase_manager</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
             <dt id="following">
               <span class="name"><a href="profile_sections_following/profile_sections_following-library.html">following</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="login">
+              <span class="name"><a href="login_login/login_login-library.html">login</a></span>             
             </dt>
             <dd>
                
@@ -163,6 +248,12 @@
             <dd>
                
             </dd>
+            <dt id="newsfeed_body">
+              <span class="name"><a href="newsfeed_body/newsfeed_body-library.html">newsfeed_body</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
             <dt id="page_resources">
               <span class="name"><a href="page_resources/page_resources-library.html">page_resources</a></span>             
             </dt>
@@ -170,13 +261,19 @@
                
             </dd>
             <dt id="page_state">
-              <span class="name"><a href="page_state/page_state-library.html">page_state</a></span>             
+              <span class="name"><a href="states_page_state/states_page_state-library.html">page_state</a></span>             
             </dt>
             <dd>
                
             </dd>
             <dt id="profile_page">
               <span class="name"><a href="profile_profile_page/profile_profile_page-library.html">profile_page</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="reply">
+              <span class="name"><a href="comments_reply/comments_reply-library.html">reply</a></span>             
             </dt>
             <dd>
                
@@ -193,14 +290,26 @@
             <dd>
                
             </dd>
+            <dt id="signup">
+              <span class="name"><a href="login_signup/login_signup-library.html">signup</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
             <dt id="story_main">
               <span class="name"><a href="story_main/story_main-library.html">story_main</a></span>             
             </dt>
             <dd>
                
             </dd>
+            <dt id="temp-stories">
+              <span class="name"><a href="temp-stories/temp-stories-library.html">temp-stories</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
             <dt id="user_state">
-              <span class="name"><a href="user_state/user_state-library.html">user_state</a></span>             
+              <span class="name"><a href="states_user_state/states_user_state-library.html">user_state</a></span>             
             </dt>
             <dd>
                

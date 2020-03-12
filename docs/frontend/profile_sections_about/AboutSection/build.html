@@ -138,15 +138,17 @@ and</li>
       <h2><span>Implementation</span></h2>
       <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return Consumer&lt;UserState&gt;(
-    builder: (context, userState, child) {
-     return Container(
-         child: Padding(
-             padding: EdgeInsets.all(20),
-             child: Text(userState.description, style: TextStyle(fontSize: 16))
-         )
-     );
-    }
+  return ValueListenableBuilder(
+      valueListenable: UserState.getListenable(),
+      builder: (context, userBox, child) {
+        UserState userState = UserState.getState();
+        return Container(
+           child: Padding(
+               padding: EdgeInsets.all(20),
+               child: Text(userState.description, style: TextStyle(fontSize: 16))
+           )
+        );
+      }
   );
 }</code></pre>
     </section>

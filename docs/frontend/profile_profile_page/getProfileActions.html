@@ -81,12 +81,33 @@
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span></h2>
       <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; getProfileActions(BuildContext context) {
+
+  void choiceAction(String action) async {
+    switch(action) {
+      case &#39;signout&#39;: {
+        await Hive.box(AuthState.AUTH_BOX).clear();
+        await Hive.box(UserState.USER_BOX).clear();
+        Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =&gt; Outlook()));
+      }
+    }
+  }
+
   return &lt;Widget&gt;[
     IconButton(
       icon: Icon(Icons.mode_edit),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) =&gt; EditProfilePage()));
       },
+    ),
+    PopupMenuButton&lt;String&gt;(
+      onSelected: choiceAction,
+      itemBuilder: (BuildContext context) =&gt; [
+        PopupMenuItem&lt;String&gt;(
+          value: &#39;signout&#39;,
+          child: Text(&#39;Sign Out&#39;)
+        )
+      ],
     )
   ];
 }</code></pre>

@@ -379,8 +379,9 @@ Widget build(BuildContext context) {
           child: SizedBox(
             child: GestureDetector(onPanUpdate: (details) {
                     if (details.delta.dx &lt; 0) {
-                      &#47;&#47; swiping in up direction
-                      swipeUp();
+                      print (&quot;swiping in up direction&quot;);
+                      &#47;&#47; print (urlList);
+                      swipeUp(urlList);
                     }
                     else {
                       &#47;&#47;go back to news feed
@@ -393,7 +394,7 @@ Widget build(BuildContext context) {
         ),
         Align(
           alignment: Alignment.centerLeft,
-          heightFactor: 1,
+          heightFactor: 0.7,
           child: SizedBox(
             child: GestureDetector(
               onTap: () {

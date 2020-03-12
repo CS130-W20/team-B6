@@ -105,13 +105,13 @@
     case 0:
       return PageResources(
         name: &#39;Discover&#39;,
-        widget: Text(&#39;Discover&#39;)
+        widget: DiscoverPage()
         );
     case 1:
       return PageResources(
         name: &#39;Outlook&#39;,
-        widget: Text(&#39;Home&#39;),
-        actions: getNewsStory(context)
+        widget: AppHome(),
+        actions: getNewsStory(context, &quot;sdfsdf&quot;)
         );
     case 2:
       return PageResources(

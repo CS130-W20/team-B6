@@ -77,7 +77,23 @@
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span></h2>
-      <pre class="language-dart"><code class="language-dart">void main() =&gt; runApp(Outlook());</code></pre>
+      <pre class="language-dart"><code class="language-dart">void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var appDocDirectory = await path_provider.getApplicationDocumentsDirectory();
+  List&lt;int&gt; key = [];
+  for (var i = 0; i &lt; 32; i++) {
+    key.add(i);
+  }
+  await Hive.initFlutter(appDocDirectory.path);
+
+  await Hive.openBox(AuthState.AUTH_BOX);
+  await Hive.openBox(UserState.USER_BOX, encryptionCipher: HiveAesCipher(key));
+  &#47;&#47; UNCOMMENT THIS OUT RESET STORAGE DATA
+&#47;&#47; await Hive.box(AuthState.AUTH_BOX).clear();
+&#47;&#47; await Hive.box(UserState.USER_BOX).clear();
+
+  runApp(Outlook());
+}</code></pre>
     </section>
 
   </div> <!-- /.main-content -->

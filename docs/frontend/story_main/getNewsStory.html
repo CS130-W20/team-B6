@@ -57,6 +57,14 @@
     
     
     
+      <li class="section-title"><a href="../story_main/story_main-library.html#properties">Properties</a></li>
+      <li><a href="../story_main/hardcodeCounter.html">hardcodeCounter</a></li>
+      <li><a href="../story_main/hardcodeCounter2.html">hardcodeCounter2</a></li>
+      <li><a href="../story_main/id_list.html">id_list</a></li>
+      <li><a href="../story_main/image_list.html">image_list</a></li>
+      <li><a href="../story_main/sourceMapper.html">sourceMapper</a></li>
+      <li><a href="../story_main/title_list.html">title_list</a></li>
+      <li><a href="../story_main/url_list.html">url_list</a></li>
     
       <li class="section-title"><a href="../story_main/story_main-library.html#functions">Functions</a></li>
       <li><a href="../story_main/getNewsStory.html">getNewsStory</a></li>
@@ -72,13 +80,51 @@
     <section class="multi-line-signature">
         <span class="returntype"><a href="../dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter">Widget</span>&gt;</span></span>
                 <span class="name ">getNewsStory</span>
-(<wbr><ol class="parameter-list"><li><span class="parameter" id="getNewsStory-param-context"><span class="type-annotation">BuildContext</span> <span class="parameter-name">context</span></span></li>
+(<wbr><ol class="parameter-list"><li><span class="parameter" id="getNewsStory-param-context"><span class="type-annotation">BuildContext</span> <span class="parameter-name">context</span>, </span></li>
+<li><span class="parameter" id="getNewsStory-param-source_name"><span class="type-annotation"><a href="../dart-core/String-class.html">String</a></span> <span class="parameter-name">source_name</span></span></li>
 </ol>)
     </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span></h2>
-      <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; getNewsStory(BuildContext context) {
+      <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; getNewsStory(BuildContext context, String source_name) {
+  print (&#39;--------&#39;);
+  &#47;&#47; Making API Call to backend to get news for source names.
+  source_name = sourceMapper[hardcodeCounter];
+  hardcodeCounter += 1;
+  hardcodeCounter = hardcodeCounter % 5;
+
+  _fetchData(source_name).then((data) {
+    print(&quot;HERE&quot;);
+    print(data);
+    &#47;&#47; print(data[0][&quot;article&quot;][&quot;article_url&quot;]);
+
+    title_list[0] = data[0][&quot;article&quot;][&quot;title&quot;];
+    image_list[0] = data[0][&quot;article&quot;][&quot;article_image_url&quot;];
+    url_list[0] = data[0][&quot;article&quot;][&quot;article_url&quot;];
+    id_list[0] = data[0][&quot;article&quot;][&quot;id&quot;];
+
+    title_list[1] = data[1][&quot;article&quot;][&quot;title&quot;];
+    image_list[1] = data[1][&quot;article&quot;][&quot;article_image_url&quot;];
+    url_list[1] = data[1][&quot;article&quot;][&quot;article_url&quot;];
+    id_list[1] = data[1][&quot;article&quot;][&quot;id&quot;];
+
+    title_list[2] = data[2][&quot;article&quot;][&quot;title&quot;];
+    image_list[2] = data[2][&quot;article&quot;][&quot;article_image_url&quot;];
+    url_list[2] = data[2][&quot;article&quot;][&quot;article_url&quot;];
+    id_list[2] = data[2][&quot;article&quot;][&quot;id&quot;];
+
+    title_list[3] = data[3][&quot;article&quot;][&quot;title&quot;];
+    image_list[3] = data[3][&quot;article&quot;][&quot;article_image_url&quot;];
+    url_list[3] = data[3][&quot;article&quot;][&quot;article_url&quot;];
+    id_list[3] = data[3][&quot;article&quot;][&quot;id&quot;];
+
+    title_list[4] = data[4][&quot;article&quot;][&quot;title&quot;];
+    image_list[4] = data[4][&quot;article&quot;][&quot;article_image_url&quot;];
+    url_list[4] = data[4][&quot;article&quot;][&quot;article_url&quot;];
+    id_list[4] = data[4][&quot;article&quot;][&quot;id&quot;];
+});
+
   return &lt;Widget&gt;[
     IconButton(
       icon: Icon(Icons.calendar_today),
@@ -90,6 +136,7 @@
           },
     )
   ];
+
 }</code></pre>
     </section>
 

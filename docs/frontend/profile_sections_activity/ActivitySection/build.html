@@ -139,41 +139,58 @@ and</li>
       <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Container(
-    color: Color.fromRGBO(0, 0, 0, 0.01),
-    child: ListView(
-        children: &lt;Widget&gt;[
-          Comment(
-              text: &#39;Well I\&#39;m just trying to see what other crazy things Florida man will do&#39;,
-              preview: &#39;reply to @other_user&#39;,
-              type: &#39;reply&#39;,
-              articleName: &#39;Florida Man does Something Crazy...Again&#39;
-          ),
-          Comment(
-              text: &#39;Another sample comment to see what will happen&#39;,
-              preview: &#39;reply to @other_user2&#39;,
-              type: &#39;reply&#39;,
-              articleName: &#39;Some Random Event Happened&#39;
-          ),
-          Comment(
-              text: &#39;Another sample comment to see what will happen&#39;,
-              preview: &#39;reply to @other_user2&#39;,
-              type: &#39;reply&#39;,
-              articleName: &#39;Some Random Event Happened&#39;
-          ),
-          Comment(
-              text: &#39;Another sample comment to see what will happen&#39;,
-              preview: &#39;reply to @other_user2&#39;,
-              type: &#39;reply&#39;,
-              articleName: &#39;Some Random Event Happened&#39;
-          ),
-          Comment(
-              text: &#39;Another sample comment to see what will happen&#39;,
-              preview: &#39;reply to @other_user2&#39;,
-              type: &#39;reply&#39;,
-              articleName: &#39;Some Random Event Happened&#39;
-          )
-        ]
-    )
+      color: Color.fromRGBO(0, 0, 0, 0.01),
+      child: FutureBuilder(
+          future: ApiManager.getCommentsFromUser(UserState.getId()),
+          builder: (context, snapshot) {
+            Widget errorMsg = Center(
+              child: Text(&#39;Error retrieving comments.&#39;)
+            );
+            if (snapshot.hasData) {
+              try {
+                var commentsResponse = snapshot.data;
+                if (commentsResponse.statusCode == 200) {
+                  var commentList = jsonDecode(commentsResponse.body);
+                  if (commentList.length &gt; 0) {
+                    return ListView(
+                        children: &lt;Widget&gt;[
+                          for (var comment in commentList) ActivityComment(
+                              text: comment[&#39;fields&#39;][&#39;argument&#39;],
+                              preview: comment[&#39;fields&#39;][&#39;claim&#39;],
+                              articleName: comment[&#39;fields&#39;][&#39;parent_article_title&#39;],
+                              type: comment[&#39;fields&#39;][&#39;parent_comment&#39;] == null ? &#39;start&#39; : &#39;reply&#39;,
+                              agree: comment[&#39;fields&#39;][&#39;is_agreement&#39;],
+                              isReply: comment[&#39;fields&#39;][&#39;parent_comment&#39;] != null,
+                              replyToUser: comment[&#39;fields&#39;][&#39;parent_comment_user&#39;],
+                              parentComment: comment[&#39;fields&#39;][&#39;parent_comment&#39;],
+                              parentPost: comment[&#39;fields&#39;][&#39;parent_post&#39;]
+                          )
+                        ]
+                    );
+                  } else {
+                    return Center(
+                      child: Text(&quot;You haven&#39;t commented on anything yet!&quot;)
+                    );
+                  }
+                } else {
+                  return errorMsg;
+                }
+              } catch (e) {
+                return errorMsg;
+              }
+            } else {
+              return Center(
+                  child: SizedBox(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation&lt;Color&gt;(Colors.black),
+                      ),
+                      height: 50,
+                      width: 50
+                  )
+              );
+            }
+          }
+      )
   );
 }</code></pre>
     </section>
