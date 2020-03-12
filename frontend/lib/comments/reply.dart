@@ -90,30 +90,38 @@ class _ReplyState extends State<Reply> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    RaisedButton(
-                        child: Text("Agree",
-                            style: TextStyle(color: Colors.grey, fontSize: 12)),
-                        onPressed: () {
-                          setState(() {
-                            posting = true;
-                            agreeing = true;
-                          });
-                        }),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8),
+                          child: RaisedButton(
+                            color: Color.fromRGBO(0, 150, 0, 0.4),
+                            child: Text("Agree",
+                                style: TextStyle(color: Colors.white, fontSize: 12)),
+                            onPressed: () {
+                              setState(() {
+                                posting = true;
+                                agreeing = true;
+                              });
+                            }),
+                        ),
                     agreeList,
                   ])),
               Expanded(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    RaisedButton(
-                        child: Text("Dissent",
-                            style: TextStyle(color: Colors.grey, fontSize: 12)),
-                        onPressed: () {
-                          setState(() {
-                            posting = true;
-                            agreeing = false;
-                          });
-                        }),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8),
+                          child: RaisedButton(
+                              color: Color.fromRGBO(255, 0, 0, 0.4),
+                              child: Text("Dissent",
+                                  style: TextStyle(color: Colors.white, fontSize: 12)),
+                              onPressed: () {
+                                setState(() {
+                                  posting = true;
+                                  agreeing = false;
+                                });
+                              }),
+                        ),
                     dissentList,
                   ]))
             ]);

@@ -99,10 +99,17 @@ class CommentPreview extends StatelessWidget {
                         fit: BoxFit.fill, image: comment.commenterPic),
                   )),
               SizedBox(width: 10),
-              Text(comment.commenterName,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+              Padding(
+                padding: EdgeInsets.only(bottom: 2),
+                child: Text(comment.commenterName,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+              )
             ]),
-            Text(comment.claim, style: TextStyle(fontSize: 14)),
+            Padding(
+              padding: EdgeInsets.only(bottom: 7),
+              child: Text(comment.claim, style: TextStyle(fontSize: 13)),
+
+            )
           ],
         ));
   }
@@ -127,9 +134,6 @@ class _CommentWidgetState extends State<CommentWidget> {
         child: Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 0, 8.0, 0),
             child: ListView(children: [
-              Text("Claim", style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(widget.comment.claim, style: TextStyle(fontSize: 18)),
-              Divider(),
               FlatButton(
                 padding: EdgeInsets.all(0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -147,8 +151,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black)),
                 ]),
               ),
-              Text("Argument:", style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(widget.comment.argument, style: TextStyle(fontSize: 14)),
+              Text(widget.comment.claim, style: TextStyle(fontSize: 16)),
+              Divider(),
+//              Text("Argument:", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(widget.comment.argument, style: TextStyle(fontSize: 13)),
               Divider(),
               widget.reply
             ])
