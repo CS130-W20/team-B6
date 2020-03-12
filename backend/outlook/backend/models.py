@@ -33,16 +33,18 @@ class Profile(models.Model):
     email_address = models.EmailField(max_length=70)
     description = models.CharField(max_length=140)
     profile_picture_url = models.URLField()
+    followers = models.ManyToManyField('self')
 
     def __str__(self):
         rep = ''
-        rep += 'id: ' + str(self.id) + '\n'
+        # rep += 'id: ' + str(self.id) + '\n'
         rep += 'first_name: ' + str(self.first_name) + '\n'
         rep += 'last_name: ' + str(self.last_name) + '\n'
         rep += 'email_address: ' + str(self.email_address) + '\n'
         rep += 'description: ' + str(self.description) + '\n'
         rep += 'profile_picture_url: ' + str(self.profile_picture_url) + '\n'
         rep += 'user: ' + str(self.user) + '\n'
+        rep += 'followers: ' + str(self.followers) + '\n'
         return rep
 
 @receiver(post_save, sender=User)

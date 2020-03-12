@@ -286,3 +286,18 @@ def get_comments_by_user_id(request, user_id):
                 filtered_json_response.append(comment)
     filtered_json_response.sort(key=lambda r: r['pk'], reverse=True) # assumption, larger id = more recent
     return JsonResponse(filtered_json_response, safe=False)
+
+@csrf_exempt
+@api_view(['GET'])
+def get_followers(request, user_id):
+    user = User.objects.filter(id=user_id)
+    if not user:
+        return HttpResponse("No user found with given user id", status=HTTP_404_NOT_FOUND)
+
+    profile = user.first().profile
+    serialized_followers = serializers.serialize('json', profile.followers.all())
+    serialized_followers_json = json.loads(serialized_followers)
+    for follower_json in serialized_followers_json:
+        follower = User.objects.filter(id=follower_json['pk'])
+        follower_json['fields']['user_name'] = follower.first().username
+    return JsonResponse(serialized_followers_json, content_type='application/json', safe=False)

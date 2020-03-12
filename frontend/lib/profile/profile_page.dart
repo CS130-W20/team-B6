@@ -6,6 +6,7 @@ import 'package:outlook/states/user_state.dart';
 import 'package:hive/hive.dart';
 import 'package:outlook/states/auth_state.dart';
 import 'package:outlook/main.dart';
+import 'package:outlook/managers/api_manager.dart';
 
 /// The profile page has some options in its app bar, like an icon that leads to editing the profile page.
 List<Widget> getProfileActions(BuildContext context) {
@@ -42,7 +43,9 @@ List<Widget> getProfileActions(BuildContext context) {
 
 /// Root of the profile page.
 class ProfilePage extends StatefulWidget {
+  ProfilePage({Key key, this.userData}): super(key: key);
 
+  final userData;
   final String name = "Your Profile";
 
   @override
@@ -53,19 +56,38 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: UserState.getListenable(),
-      builder: (context, userBox, child) {
-        UserState userState = UserState.getState();
-        return Column(
-            children: <Widget>[
-              Cover(firstname: userState.firstname, lastname: userState.lastname, username: userState.username),
-              Flexible(
-                  child: SectionControl()
-              )
-            ]
-        );
-      }
-    );
+    print('other profile page ' + widget.userData['id'].toString());
+    print('userstate id ' + UserState.getId().toString());
+    if (UserState.getId() == widget.userData['id']) {
+      return ValueListenableBuilder(
+          valueListenable: UserState.getListenable(),
+          builder: (context, userBox, child) {
+            UserState userState = UserState.getState();
+            return Column(
+                children: <Widget>[
+                  Cover(userData: {
+                    "id": userState.id,
+                    "firstname": userState.firstname,
+                    "lastname": userState.lastname,
+                    "username": userState.username,
+                    "description": userState.description
+                  }),
+                  Flexible(
+                      child: SectionControl(userData: widget.userData)
+                  )
+                ]
+            );
+          }
+      );
+    } else {
+      return Column(
+          children: <Widget>[
+            Cover(userData: widget.userData),
+            Flexible(
+                child: SectionControl(userData: widget.userData)
+            )
+          ]
+      );
+    }
   }
 }

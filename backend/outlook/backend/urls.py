@@ -17,4 +17,5 @@ urlpatterns = [
         path('newsfeed/category/<str:category>', views.get_newsfeed_posts_from_category, name='get_newsfeed_posts_from_category'),
         path('posts/increment_like/<int:post_id>', views.increment_like, name='increment_like'),
         path('comments/get_replies/<int:comment_id>', views.get_replies_for_comment, name='get_replies_for_comment'),
+        path('users/<int:user_id>/followers', views.get_followers, name="get_followers")
 ]

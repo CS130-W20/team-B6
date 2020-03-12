@@ -9,12 +9,17 @@ import 'package:outlook/states/user_state.dart';
 
 /// Displays the recent comments/posts the user has made.
 class ActivitySection extends StatelessWidget {
+  ActivitySection({Key key, this.userData}): super(key: key);
+
+  final userData;
+
   @override
   Widget build(BuildContext context) {
+    print(userData);
     return Container(
         color: Color.fromRGBO(0, 0, 0, 0.01),
         child: FutureBuilder(
-            future: ApiManager.getCommentsFromUser(UserState.getId()),
+            future: ApiManager.getCommentsFromUser(userData['id']),
             builder: (context, snapshot) {
               Widget errorMsg = Center(
                 child: Text('Error retrieving comments.')
@@ -36,13 +41,14 @@ class ActivitySection extends StatelessWidget {
                                 isReply: comment['fields']['parent_comment'] != null,
                                 replyToUser: comment['fields']['parent_comment_user'],
                                 parentComment: comment['fields']['parent_comment'],
-                                parentPost: comment['fields']['parent_post']
+                                parentPost: comment['fields']['parent_post'],
+                                userData: userData
                             )
                           ]
                       );
                     } else {
                       return Center(
-                        child: Text("You haven't commented on anything yet!")
+                        child: Text("No comments yet!")
                       );
                     }
                   } else {
@@ -71,6 +77,7 @@ class ActivitySection extends StatelessWidget {
 /// Displays one block of activity, with which article it was on and what the user said.
 class ActivityComment extends StatefulWidget {
 
+  final userData;
   final String text;
   final String preview;
   final String type;
@@ -91,7 +98,8 @@ class ActivityComment extends StatefulWidget {
     this.isReply,
     this.replyToUser,
     this.parentComment,
-    this.parentPost
+    this.parentPost,
+    this.userData
   }): super(key: key);
 
   _CommentState createState() => _CommentState();
@@ -107,7 +115,7 @@ class _CommentState extends State<ActivityComment> {
       widget.preview,
       widget.text,
       UserState.getProfilePic() == null ? AssetImage('defaultprofilepic.jpg') : CachedNetworkImageProvider(UserState.getProfilePic()),
-      UserState.getUserName(),
+      widget.userData['username'],
       agree: widget.agree,
       parentId: widget.parentComment
     );

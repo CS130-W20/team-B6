@@ -9,11 +9,9 @@ import 'package:hive/hive.dart';
 
 /// Renders the user's profile picture, name, username, and optionally, a cover photo.
 class Cover extends StatefulWidget {
-  Cover({Key key, this.firstname, this.lastname, this.username}): super(key: key);
+  Cover({Key key, this.userData}): super(key: key);
 
-  final String firstname;
-  final String lastname;
-  final String username;
+  final userData;
 
   @override
   _CoverState createState() => _CoverState();
@@ -33,8 +31,8 @@ class _CoverState extends State<Cover> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ProfilePicture(),
-            ProfileName(name: "${widget.firstname} ${widget.lastname}", username: widget.username)
+            ProfilePicture(userData: widget.userData),
+            ProfileName(name: "${widget.userData['firstname']} ${widget.userData['lastname']}", username: widget.userData['username'])
           ]
         )
       )
@@ -43,42 +41,61 @@ class _CoverState extends State<Cover> {
 }
 
 class ProfilePicture extends StatelessWidget {
+  ProfilePicture({Key key, this.userData}): super(key: key);
+
+  final userData;
+
+  Widget buildChild(String profilepic) {
+    return Container(
+      constraints: BoxConstraints(
+          maxHeight: 120,
+          maxWidth: 120
+      ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(100)),
+          image:  DecorationImage(
+              image: profilepic.length > 0 ? CachedNetworkImageProvider(profilepic) : AssetImage('assets/defaultprofilepic.jpg')
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.2),
+                blurRadius: 8
+            )
+          ]
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    return ValueListenableBuilder(
-      valueListenable: UserState.getListenable(),
-      builder: (context, userBox, child) {
-        UserState userState = UserState.getState();
-        return FutureBuilder(
-            future: ApiManager.getProfilePicture(userState.username),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data != UserState.getProfilePic()) {
-                  UserState.setProfilePic(snapshot.data);
+    if (userData['id'] == UserState.getId()) {
+      return ValueListenableBuilder(
+          valueListenable: UserState.getListenable(),
+          builder: (context, userBox, child) {
+            UserState userState = UserState.getState();
+            return FutureBuilder(
+              future: ApiManager.getProfilePicture(userState.username),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data != UserState.getProfilePic()) {
+                    UserState.setProfilePic(snapshot.data);
+                  }
                 }
-              }
-              return Container(
-                constraints: BoxConstraints(
-                    maxHeight: 120,
-                    maxWidth: 120
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    image:  DecorationImage(
-                        image: userState.profilepic.length > 0 ? CachedNetworkImageProvider(userState.profilepic) : AssetImage('assets/defaultprofilepic.jpg')
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.2),
-                          blurRadius: 8
-                      )
-                    ]
-                ),
-              );
-            },
-        );
-      }
+                return buildChild(userState.profilepic);
+              },
+            );
+          }
+      );
+    }
+    return FutureBuilder(
+      future: ApiManager.getProfilePicture(userData['username']),
+      builder: (context, snapshot) {
+        String profilepic = '';
+        if (snapshot.hasData) {
+          profilepic = snapshot.data;
+        }
+        return buildChild(profilepic);
+      },
     );
   }
 }

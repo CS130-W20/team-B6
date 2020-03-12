@@ -60,7 +60,11 @@ class ApiManager {
   }
 
   static getCommentsFromUser(int userId) {
-    return getWithOptions('$DOMAIN/users/${UserState.getId()}/comments');
+    return getWithOptions('$DOMAIN/users/$userId/comments');
+  }
+  
+  static getFollowers(int userId) {
+    return getWithOptions('$DOMAIN/users/$userId/followers');
   }
 
   static postComment(int postId, String claim, String argument, bool agree,

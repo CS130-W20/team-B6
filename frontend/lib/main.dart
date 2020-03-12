@@ -46,6 +46,7 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
 
   bool userDataLoaded = false;
   bool userDataLoading = true;
+  var userData;
 
   @override
   void initState() {
@@ -58,10 +59,11 @@ class _OutlookState extends State<Outlook> with SingleTickerProviderStateMixin {
     final userDataResponse = await ApiManager.getUserData(UserState.getId());
 //    final profilePicResponse = await ApiManager.getProfilePicture(UserState.getUserName());
     if (userDataResponse.statusCode == 200) {
-      print(jsonDecode(userDataResponse.body));
-      UserState.fromJson(jsonDecode(userDataResponse.body));
+      var userDataBody = jsonDecode(userDataResponse.body);
+      UserState.fromJson(userDataBody);
 //      UserState.setProfilePic(profilePicResponse ? profilePicResponse : '');
       setState(() {
+        userData = userDataBody;
         userDataLoading = false;
         userDataLoaded = true;
       });
@@ -185,7 +187,15 @@ class MainLayout extends StatelessWidget {
       case 2:
         return PageResources(
             name: 'Your Profile',
-            widget: ProfilePage(),
+            widget: ProfilePage(
+              userData: {
+                "id": UserState.getId(),
+                "firstname": UserState.getFirstName(),
+                "lastname": UserState.getLastName(),
+                "username": UserState.getUserName(),
+                "description": UserState.getDescription()
+              }
+            ),
             actions: getProfileActions(context)
         );
     }
